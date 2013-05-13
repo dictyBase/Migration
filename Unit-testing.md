@@ -5,8 +5,6 @@ __Project:__ Work in [progress](https://github.com/dictyBase/Test-Chado)
 ## API for Test::Chado module
 + chado_schema
 
-    should load chado_schema.
-    
     should load chado schema.
 
     should have SQLite backend as default.
