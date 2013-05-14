@@ -6,7 +6,7 @@
 + Create subproject links if neccessary, however choose a name close to a one mentioned in __overhaul__ document.
 
 ## Projects
-* Database versioning
+* [Database versioning](/DB-versioning.md)
 * [Unit testing](/Unit-testing.md)
 * Data migration
 * Data layer
