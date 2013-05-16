@@ -77,6 +77,7 @@ under consideration..
 
 ## Support for DBIC-Fixtures
 + The default should be to load bundled [DBIC-Fixtures](https://metacpan.org/module/DBIx::Class::Fixtures). 
+    Currently implemented for SQLite backend.
 + The fallback should be the flat files.
 
 
