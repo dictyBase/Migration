@@ -2,7 +2,14 @@ A place for draft ideas, mostly yet to be implemented or being worked on.
 
 __Project:__ Work in [progress](https://github.com/dictyBase/Test-Chado)
 
+## Backend support
+
+* Sqlite. __Done__
+* Postgresql. __Ongoing__
+
 ## API for Test::Chado module
+__Done mostly, rest of done will be added as we go along__.
+
 + chado_schema
 
     should load chado schema.
@@ -66,6 +73,8 @@ __Project:__ Work in [progress](https://github.com/dictyBase/Test-Chado)
     ```part_of``` is the default relation
 
 ## Additional API
+__Will be developed as we go along with other project__
+
 It should be split into separate modules. For example, ```Test::Chado::Sequence``` should have additional __API__ for testing features,
 ```Test::Chado::Pub``` for publications, ```Test::Chado::Cvterm``` for cvterm and its associations etc. For the time being, following optional modules are
 under consideration..
@@ -77,15 +86,29 @@ under consideration..
 
 ## Support for DBIC-Fixtures
 + The default should be to load bundled [DBIC-Fixtures](https://metacpan.org/module/DBIx::Class::Fixtures). 
-    Currently implemented for SQLite backend.
 + The fallback should be the flat files.
+
+__Done for Sqlite__
 
 
 ## Loading custom fixtures
+__Will be developed as we go along with other project__
+
 + Should support both pre-made ```DBIC-Fixtures``` and loading from flat files.
+
+## Support for custom schema
+
+__Probably if needed later on__.
 
 ## Maintenance scripts
 + Update chado schema for various backends.
 + Update flat files.
-+ Update ```DBIC-Fixtures``` bundle.
++ Update ```DBIC-Fixtures``` bundle. __Done__
+
+## Documentation
+
+__Ongoing__
+
+* User docuemantion.
+* API documentation.
 
