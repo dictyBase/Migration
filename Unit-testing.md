@@ -7,9 +7,7 @@ __Project:__ Work in [progress](https://github.com/dictyBase/Test-Chado)
 * Sqlite. __Done__
 * Postgresql. __Ongoing__
 
-## API for Test::Chado module
-__Done mostly, rest of done will be added as we go along__.
-
+## API for Test::Chado module [Done]
 + chado_schema
 
     should load chado schema.
@@ -39,6 +37,10 @@ __Done mostly, rest of done will be added as we go along__.
 
     should accept ```--base-fixture``` parameter, similar to chado_schema.
 
+## API for Test::Chado::Common module [Done]
+
+This has been split to a separate module and all of them needs a schema argument.
+
 + has_cv
 
     should check for a cv present in underlying chado database.
@@ -52,7 +54,8 @@ __Done mostly, rest of done will be added as we go along__.
 
 + has_featureloc
 
-    ```has_feature``` is implied
+
+#### The following API are left for the time being.
 
 + has_reference_feature
 
@@ -72,9 +75,13 @@ __Done mostly, rest of done will be added as we go along__.
 
     ```part_of``` is the default relation
 
-## Additional API
-__Will be developed as we go along with other project__
 
+## Support for DBIC-Fixtures [Done]
++ The default should be to load bundled [DBIC-Fixtures](https://metacpan.org/module/DBIx::Class::Fixtures). 
+    Currently implemented for SQLite backend.
++ The fallback should be the flat files.
+
+## Additional API [Defered]
 It should be split into separate modules. For example, ```Test::Chado::Sequence``` should have additional __API__ for testing features,
 ```Test::Chado::Pub``` for publications, ```Test::Chado::Cvterm``` for cvterm and its associations etc. For the time being, following optional modules are
 under consideration..
@@ -91,9 +98,8 @@ under consideration..
 __Done for Sqlite__
 
 
-## Loading custom fixtures
-__Will be developed as we go along with other project__
 
+## Loading custom fixtures [Defered]
 + Should support both pre-made ```DBIC-Fixtures``` and loading from flat files.
 
 ## Support for custom schema
