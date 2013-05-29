@@ -9,6 +9,7 @@
 * [Database versioning](/DB-versioning.md)
 * [Unit testing](/Unit-testing.md)
 * Data migration
+   1. [Stock/Phenotype](Stock-Data-Migration.md) 
 * Data layer
 * Web apps
 * Batch scripts
