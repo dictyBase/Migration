@@ -1,6 +1,6 @@
 ## Database versioning
 
-### [Alembic]
+### Alembic
 
 #### References
 
@@ -29,7 +29,7 @@ pip install alembic
 
 #### Observations
 * To set a default value for a column (`sa.Column`) - `server_default=sa.sql.expression.text('false') # example for sa.Boolean`
-* `alter_column` not working with `sqlite3` 
+* `alter_column` not supported for `sqlite3` 
 
 #### Ideas
 * It is important for us to manage data along with the schema changes. So, it is worth considering to link data dumps with each migration/change on schema
