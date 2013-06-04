@@ -19,7 +19,6 @@ Usability | |
 Default values & Foriegn keys | |
 Constraints | |
 Alter datatypes | | 
---- | --- | ---
 Versioning ID | |
 
 Scoring based on following tasks:
@@ -36,19 +35,18 @@ Scoring based on following tasks:
 
 1. `Alembic`
 	* _Advantage_
-		1.
-		2.
+		1. _TODO_
+		2. _TODO_
 	* _Disadvantage_
-		1.
-		2.
+		1. _TODO_
+		2. _TODO_
 2. `App::Sqitch`
 	* _Advantage_
-		1.
-		2.
+		1. _TODO_
+		2. _TODO_
 	* _Disadvantage_
-		1.
-		2.
-
+		1. _TODO_
+		2. _TODO_
 
 ### Reference
 
@@ -72,6 +70,7 @@ pip install alembic
 
 #### Observations
 * To set a default value for a column (`sa.Column`)
+
 ```python
 server_default=sa.sql.expression.text('false') # example for sa.Boolean
 ```
