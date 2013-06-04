@@ -16,6 +16,11 @@ Feature | `Alembic` | `App::Sqitch`
 --- | --- | ---
 Documentation | 8 | 6 
 Usability | | 
+Default values & Foriegn keys | |
+Constraints | |
+Alter datatypes | | 
+--- | --- | ---
+Versioning ID | |
 
 Scoring based on following tasks:
 
@@ -26,11 +31,26 @@ Scoring based on following tasks:
 	* ~~Alter datatypes of columns in tables~~
 2. Handling data with schema migrations
 	* SQL data dump by the same ID as schema migration
-	*
 
 ### Inference
 
-### References
+1. `Alembic`
+	* _Advantage_
+		1.
+		2.
+	* _Disadvantage_
+		1.
+		2.
+2. `App::Sqitch`
+	* _Advantage_
+		1.
+		2.
+	* _Disadvantage_
+		1.
+		2.
+
+
+### Reference
 
 1. Alembic
 	1. [readthedocs](http://alembic.readthedocs.org/en/latest/index.html) 
@@ -51,7 +71,10 @@ pip install alembic
 ```
 
 #### Observations
-* To set a default value for a column (`sa.Column`) - `server_default=sa.sql.expression.text('false') # example for sa.Boolean`
+* To set a default value for a column (`sa.Column`)
+```python
+server_default=sa.sql.expression.text('false') # example for sa.Boolean
+```
 * `alter_column` not supported for `sqlite3` 
 
 #### Ideas
