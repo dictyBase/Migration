@@ -13,6 +13,11 @@ Project [page](https://github.com/dictyBase/Test-Chado)
   * Database and schema manager(CRUD)
   * Fixutre manager
   * Working test api.
+* Postgresion support
+  * Database and schema manager(CRUD)
+* Test::Postgresql support
+  * Database and schema manager(CRUD)
+  * Fixutre manager
 
 ## API for Test::Chado module
 * chado_schema
@@ -35,40 +40,26 @@ This has been split to a separate module and all of them needs a schema argument
 + The default should be to load bundled [DBIC-Fixtures](https://metacpan.org/module/DBIx::Class::Fixtures). 
 + The fallback should be the flat files.
 
-
-
-
-
+## Maintenance scripts
++ Update ```DBIC-Fixtures``` bundle. 
 
 
 #Working
 
-## Maintenance scripts
-+ Update chado schema for various backends.
-+ Update flat files.
-+ Update ```DBIC-Fixtures``` bundle. __Done__
-
 ## Documentation 
-
-* User docuemantion.
-* API documentation.
+* User docuemantion. (~ 2 days)
+* API documentation. (~ 1 day)
 
 ## Postgresql 
-* Postgresion support
-  * Database and schema manager(CRUD)
-* Test::Postgresql support
-  * Database and schema manager(CRUD)
-  * Fixutre manager
+* Support for schema namespace. __~ day and half__
 
 ## Loading custom fixtures
++ Preset ```DBIC-Fixtures``` __~ 1 day__
++ Loading from flat files. __~ 1 day__
 
-+ Preset ```DBIC-Fixtures``` 
-+ Loading from flat files.
-
-
-
-
-
+## Maintenance scripts
++ Update chado schema for various backends. __~ 1 day__
++ Update flat files. __~ 1 day__
 
 
 #Defered
