@@ -12,6 +12,11 @@
 
 ## What to expect from a tool?
 
+1. Less or NO dependence on ORMs or other external tools.
+2. Use of plain SQL statements for managing changes
+3. Being able to customize how the schema versions are stored  
+4. Ability to tag data dump with with each schema migration
+5. Better documentation, live development, active community
 
 ---
 
@@ -82,7 +87,7 @@ server_default=sa.sql.expression.text('false') # example for sa.Boolean
 	3. [`alembic` operations](https://alembic.readthedocs.org/en/latest/ops.html) 
 2. App::Sqitch
 	1. [sqitch.org](http://sqitch.org/)
-	2. Tutorials - [PostgreSQL](), [SQLite]() 
+	2. Tutorials - [PostgreSQL](https://metacpan.org/module/sqitchtutorial), [SQLite](https://metacpan.org/module/sqitchtutorial-sqlite) 
 	3. [MetaCPAN](https://metacpan.org/module/DWHEELER/App-Sqitch-0.972/lib/App/Sqitch.pm)
 
 ---
