@@ -1,5 +1,21 @@
-## Database versioning
+# Database versioning
 
+## Requirements
+
+1. Understand how Chado does schema versioning. Chado has a table named `chadoprops` 
+	* Figure out how each of the tools handle schema versions.
+		1. Alembic has a table named `alembic_version`
+		2. For `PostgreSQL`, `sqitch` creates a `schema` called `sqitch` which has 5 tables 
+2. Being able to use SQL statements for modifications. Less dependence on external tools. 
+
+---
+
+## What to expect from a tool?
+
+
+---
+
+## Evaluation
 ### Background
 1. Chado schema
 	* Schema is stable. 
@@ -8,7 +24,7 @@
 	* e.g - If we make changes on default schema today, and the schema changes tomorrow; we should be able to keep track of all changes
 3. __We are NOT doing data versioning, ONLY schema versioning__
 
-### Score
+### Ranking
 
 One evaluating, `alembic` amd `sqitch`;
 
@@ -48,7 +64,17 @@ Scoring based on following tasks:
 		1. _TODO_
 		2. _TODO_
 
-### Reference
+### Observations
+* To set a default value for a column (`sa.Column`)
+
+```python
+server_default=sa.sql.expression.text('false') # example for sa.Boolean
+```
+* `alter_column` not supported for `sqlite3` 
+
+--- 
+
+## Reference
 
 1. Alembic
 	1. [readthedocs](http://alembic.readthedocs.org/en/latest/index.html) 
@@ -56,7 +82,8 @@ Scoring based on following tasks:
 	3. [`alembic` operations](https://alembic.readthedocs.org/en/latest/ops.html) 
 2. App::Sqitch
 	1. [sqitch.org](http://sqitch.org/)
-	2. [MetaCPAN](https://metacpan.org/module/DWHEELER/App-Sqitch-0.972/lib/App/Sqitch.pm)
+	2. Tutorials - [PostgreSQL](), [SQLite]() 
+	3. [MetaCPAN](https://metacpan.org/module/DWHEELER/App-Sqitch-0.972/lib/App/Sqitch.pm)
 
 ---
 
@@ -67,14 +94,6 @@ To install, setup a sandboxed python environment using `pythonbrew` or `pyenv` a
 ```python
 pip install alembic
 ```
-
-#### Observations
-* To set a default value for a column (`sa.Column`)
-
-```python
-server_default=sa.sql.expression.text('false') # example for sa.Boolean
-```
-* `alter_column` not supported for `sqlite3` 
 
 #### Ideas
 * It is important for us to manage data along with the schema changes. So, it is worth considering to link data dumps with each migration/change on schema
