@@ -41,10 +41,11 @@ Default values & Foriegn keys | |
 Constraints | |
 Alter datatypes | | 
 Versioning ID | |
+__Total__ | | 
 
 Scoring based on following tasks:
 
-1. Simple migrations with SQLite/PostgreSQL
+1. Simple migrations with SQLite/PostgreSQL ~ (1 day | 06/05-06/06)
 	* ~~Tables with Foreign keys~~
 	* ~~Table columns with default values~~
 	* ~~Unique key constraints on fields~~
@@ -57,17 +58,15 @@ Scoring based on following tasks:
 1. `Alembic`
 	* _Advantage_
 		1. _TODO_
-		2. _TODO_
 	* _Disadvantage_
 		1. _TODO_
-		2. _TODO_
 2. `App::Sqitch`
 	* _Advantage_
-		1. _TODO_
-		2. _TODO_
+		1. All migrations are written in pure SQL
+		2. One migration can have other (previous) migration as a dependency. So a new migration with always deploy its dependency before it runs. 
+		3. Create `git` like tag for your set of migrations.
 	* _Disadvantage_
-		1. _TODO_
-		2. _TODO_
+		1. Revert and deploy happens from the @HEAD. Unlike alembic, there is no `base`, but only `head` 
 
 ### Observations
 * To set a default value for a column (`sa.Column`)
