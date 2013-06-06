@@ -52,18 +52,19 @@ Scoring based on following tasks:
 	* ~~Alter datatypes of columns in tables~~
 2. Handling data with schema migrations
 	* SQL data dump by the same ID as schema migration
+3. Manipulating how tools save schema versions
 
 ### Inference
 
 1. `Alembic`
 	* _Advantage_
-		1. _TODO_
+		1. Migrations can be written in SQL and also using sugar-coated interface 
 	* _Disadvantage_
-		1. _TODO_
+		1. Depends on `SQLAlchemy` (ORM in `Python`)
 2. `App::Sqitch`
 	* _Advantage_
 		1. All migrations are written in pure SQL
-		2. One migration can have other (previous) migration as a dependency. So a new migration with always deploy its dependency before it runs. 
+		2. One migration can have other (previous) migration as a dependency. So a new migration will always deploy its dependency before it runs. 
 		3. Create `git` like tag for your set of migrations.
 	* _Disadvantage_
 		1. Revert and deploy happens from the @HEAD. Unlike alembic, there is no `base`, but only `head` 
@@ -109,3 +110,4 @@ __Community discussions__
 1. [Thread on Stackoverflow](http://stackoverflow.com/questions/16066720/database-versioning-and-migration-techniques-for-schema-data)
 
 
+_Views, opinions, observations are personal and has nothing to do with anybody_
