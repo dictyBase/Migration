@@ -10,6 +10,16 @@
 
 ---
 
+## Background
+1. Chado schema
+	* Schema is stable. 
+	* Does not have default versioning system
+2. We will have to make changes to default schema. It should be possible for us to make changes upstream
+	* e.g - If we make changes on default schema today, and the schema changes tomorrow; we should be able to keep track of all changes
+3. __We are NOT doing data versioning, ONLY schema versioning__
+
+---
+
 ## What to expect from a tool?
 
 1. Less or NO dependence on ORMs or other external tools.
@@ -21,14 +31,6 @@
 ---
 
 ## Evaluation
-### Background
-1. Chado schema
-	* Schema is stable. 
-	* Does not have default versioning system
-2. We will have to make changes to default schema. It should be possible for us to make changes upstream
-	* e.g - If we make changes on default schema today, and the schema changes tomorrow; we should be able to keep track of all changes
-3. __We are NOT doing data versioning, ONLY schema versioning__
-
 ### Ranking
 
 One evaluating, `alembic` amd `sqitch`;
@@ -59,6 +61,7 @@ Scoring based on following tasks:
 1. `Alembic`
 	* _Advantage_
 		1. Migrations can be written in SQL and also using sugar-coated interface 
+		2. Start and end defined by `base` and `head`. Easy movement between the two using +/-
 	* _Disadvantage_
 		1. Depends on `SQLAlchemy` (ORM in `Python`)
 2. `App::Sqitch`
@@ -66,6 +69,8 @@ Scoring based on following tasks:
 		1. All migrations are written in pure SQL
 		2. One migration can have other (previous) migration as a dependency. So a new migration will always deploy its dependency before it runs. 
 		3. Create `git` like tag for your set of migrations.
+		4. NO ORM dependency
+		5. Ability to set global config `~/.sqitch/sqitch.conf`. Project specific customizations can be made in the project folder using `sqitch.conf`
 	* _Disadvantage_
 		1. Revert and deploy happens from the @HEAD. Unlike alembic, there is no `base`, but only `head` 
 
@@ -110,4 +115,4 @@ __Community discussions__
 1. [Thread on Stackoverflow](http://stackoverflow.com/questions/16066720/database-versioning-and-migration-techniques-for-schema-data)
 
 
-_Views, opinions, observations are personal and has nothing to do with anybody_
+* _Views, opinions, observations are personal and has nothing to do with anybody_
