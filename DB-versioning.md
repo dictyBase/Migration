@@ -30,6 +30,22 @@
 
 ---
 
+## Tasks
+
+* _This is work in progress. This section will keep changing_
+
+1. Simple migrations with SQLite/PostgreSQL ~ (1 day | 06/05-06/06)
+	* ~~Tables with Foreign keys~~
+	* ~~Table columns with default values~~
+	* ~~Unique key constraints on fields~~
+	* ~~Alter datatypes of columns in tables~~
+2. Handling data with schema migrations
+	* SQL data dump by the same ID as schema migration
+	* Add subcommand to the tool to load and dump data using the current schema version
+3. Manipulating how tools save schema versions
+
+---
+
 ## Evaluation
 ### Ranking
 
@@ -45,16 +61,7 @@ Alter datatypes | |
 Versioning ID | |
 __Total__ | | 
 
-Scoring based on following tasks:
-
-1. Simple migrations with SQLite/PostgreSQL ~ (1 day | 06/05-06/06)
-	* ~~Tables with Foreign keys~~
-	* ~~Table columns with default values~~
-	* ~~Unique key constraints on fields~~
-	* ~~Alter datatypes of columns in tables~~
-2. Handling data with schema migrations
-	* SQL data dump by the same ID as schema migration
-3. Manipulating how tools save schema versions
+Scoring based on [tasks](https://github.com/dictyBase/Migration-Docs/blob/0d34fe22e1df65c4f60d28a62eb68c591f22b20f/DB-versioning.md#tasks) mentioned above
 
 ### Inference
 
