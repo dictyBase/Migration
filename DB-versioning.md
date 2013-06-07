@@ -39,10 +39,10 @@
 	* ~~Table columns with default values~~
 	* ~~Unique key constraints on fields~~
 	* ~~Alter datatypes of columns in tables~~
-2. Handling data with schema migrations
+2. Handling data with schema migrations (experimentation) ~ (2 days | 06/07-06/10)
 	* SQL data dump by the same ID as schema migration
-	* Add subcommand to the tool to load and dump data using the current schema version
-3. Manipulating how tools save schema versions
+	* Add subcommand to the tool to load and dump data using the current schema version (later)
+3. Manipulating how tools save schema versions (experimentation) ~ (2 days | 06/07-06/10)
 
 ---
 
@@ -61,7 +61,7 @@ Alter datatypes | |
 Versioning ID | |
 __Total__ | | 
 
-Scoring based on [tasks](https://github.com/dictyBase/Migration-Docs/blob/0d34fe22e1df65c4f60d28a62eb68c591f22b20f/DB-versioning.md#tasks) mentioned above
+Scoring based on [tasks](https://github.com/dictyBase/Migration-Docs/blob/master/DB-versioning.md#tasks) mentioned above
 
 ### Inference
 
