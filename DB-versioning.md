@@ -20,6 +20,7 @@
 	* `Sqitch` usese a complete schema with 5 tables. See if it can be broken down.
 	* How well can these changes go with `chadoprops`?
 
+* Estimated finish June 21st, 2013
 ---
 
 ## Requirements
