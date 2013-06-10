@@ -1,5 +1,27 @@
 # Database versioning
 
+## Tasks
+
+* _This is work in progress. This section will keep changing_
+
+1. Simple migrations with SQLite/PostgreSQL ~ (1 day | 06/05-06/06)
+	* ~~Tables with Foreign keys~~
+	* ~~Table columns with default values~~
+	* ~~Unique key constraints on fields~~
+	* ~~Alter datatypes of columns in tables~~
+2. Handling data with schema migrations (experimentation) - __Expected functionality__
+	* SQL data dump by the same ID as schema migration
+	* Add subcommand to the tool to load and dump data using the current schema version (later) (06/10)
+		* Add `dump_data` and `load_data` commands. These command should use the tool API to pick up the version of schema (~ 1 day)
+		* For `Sqitch`, extend `App::Sqitch::Command` with your custom command. (~ 1 day)
+		* For `Alembic`, yet to try out how it works and how it can be extended
+3. Manipulating how tools save schema versions (experimentation/discussion) ~ (2-3 days)
+	* Customize what tables/schema is used for storing migration information.
+	* `Sqitch` usese a complete schema with 5 tables. See if it can be broken down.
+	* How well can these changes go with `chadoprops`?
+
+---
+
 ## Requirements
 
 1. Understand how Chado does schema versioning. Chado has a table named `chadoprops` 
@@ -27,22 +49,6 @@
 3. Being able to customize how the schema versions are stored  
 4. Ability to tag data dump with with each schema migration
 5. Better documentation, live development, active community
-
----
-
-## Tasks
-
-* _This is work in progress. This section will keep changing_
-
-1. Simple migrations with SQLite/PostgreSQL ~ (1 day | 06/05-06/06)
-	* ~~Tables with Foreign keys~~
-	* ~~Table columns with default values~~
-	* ~~Unique key constraints on fields~~
-	* ~~Alter datatypes of columns in tables~~
-2. Handling data with schema migrations (experimentation) ~ (2 days | 06/07-06/10)
-	* SQL data dump by the same ID as schema migration
-	* Add subcommand to the tool to load and dump data using the current schema version (later)
-3. Manipulating how tools save schema versions (experimentation) ~ (2 days | 06/07-06/10)
 
 ---
 
