@@ -14,6 +14,9 @@
 	* Add subcommand to the tool to load and dump data using the current schema version (later) (06/10)
 		* Add `dump_data` and `load_data` commands. These command should use the tool API to pick up the version of schema (~ 1 day)
 		* For `Sqitch`, extend `App::Sqitch::Command` with your custom command. (~ 1 day)
+			1. Get `status` id.
+			2. Data dump/load for each `status` id to filesystem
+			3. Handling data dump/load
 		* For `Alembic`, yet to try out how it works and how it can be extended (~ 2days)
 3. Manipulating how tools save schema versions (experimentation/discussion) ~ (6 days) (06/21)
 	* Customize what tables/schema is used for storing migration information.
@@ -21,6 +24,7 @@
 	* How well can these changes go with `chadoprops`?
 
 * Estimated finish June 21st, 2013
+
 ---
 
 ## Requirements
