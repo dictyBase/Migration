@@ -13,6 +13,9 @@
 	* SQL data dump by the same ID as schema migration
 	* Add subcommand to the tool to load and dump data using the current schema version (later) (06/10)
 		* Add `dump_data` and `load_data` commands. These command should use the tool API to pick up the version of schema (~ 1 day)
+			1. Ask in mailing list about custom namespace
+			2. Fix POD issue
+			3. Unit test for subcommand. Look App::Sqitch test
 		* For `Sqitch`, extend `App::Sqitch::Command` with your custom command. (~ 1 day)
 			1. Get `status` id.
 			2. Data dump/load for each `status` id to filesystem
