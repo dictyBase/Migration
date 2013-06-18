@@ -13,14 +13,14 @@
 	* SQL data dump by the same ID as schema migration
 	* Add subcommand to the tool to load and dump data using the current schema version (later) (06/10)
 		* Add `dump_data` and `load_data` commands. These command should use the tool API to pick up the version of schema (~ 1 day)
-			1. Ask in mailing list about custom namespace
+			1. ~~Ask in mailing list about custom namespace~~
 			2. Fix POD issue
 			3. Unit test for subcommand. Look App::Sqitch test
 		* For `Sqitch`, extend `App::Sqitch::Command` with your custom command. (~ 1 day)
 			1. Get `status` id.
 			2. Data dump/load for each `status` id to filesystem
 			3. Handling data dump/load
-		* For `Alembic`, yet to try out how it works and how it can be extended (~ 2days)
+		* ~~For `Alembic`, yet to try out how it works and how it can be extended (~ 2 days)~~ (NOT required)
 3. Manipulating how tools save schema versions (experimentation/discussion) ~ (6 days) (06/21)
 	* Customize what tables/schema is used for storing migration information.
 	* `Sqitch` usese a complete schema with 5 tables. See if it can be broken down.
@@ -34,7 +34,7 @@
 
 1. Understand how Chado does schema versioning. Chado has a table named `chadoprops` 
 	* Figure out how each of the tools handle schema versions.
-		1. Alembic has a table named `alembic_version`
+		1. ~~Alembic has a table named `alembic_version`~~
 		2. For `PostgreSQL`, `sqitch` creates a `schema` called `sqitch` which has 5 tables 
 2. Being able to use SQL statements for modifications. Less dependence on external tools. 
 
@@ -61,21 +61,6 @@
 ---
 
 ## Evaluation
-### Ranking
-
-One evaluating, `alembic` amd `sqitch`;
-
-Feature | `Alembic` | `App::Sqitch`
---- | --- | ---
-Documentation | 8 | 6 
-Usability | | 
-Default values & Foriegn keys | |
-Constraints | |
-Alter datatypes | | 
-Versioning ID | |
-__Total__ | | 
-
-Scoring based on [tasks](https://github.com/dictyBase/Migration-Docs/blob/master/DB-versioning.md#tasks) mentioned above
 
 ### Inference
 
