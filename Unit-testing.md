@@ -18,6 +18,7 @@ Project [page](https://github.com/dictyBase/Test-Chado)
 * Test::Postgresql support
   * Database and schema manager(CRUD)
   * Fixutre manager
+* Support for schema namespace. 
 
 ## API for Test::Chado module
 * chado_schema
@@ -35,6 +36,12 @@ This has been split to a separate module and all of them needs a schema argument
 * has_featureloc
 
 
+## Documentation 
+
+* User docuemantion.
+* API documentation.
+
+
 ## Support for DBIC-Fixtures
 
 + The default should be to load bundled [DBIC-Fixtures](https://metacpan.org/module/DBIx::Class::Fixtures). 
@@ -46,23 +53,15 @@ This has been split to a separate module and all of them needs a schema argument
 
 #Working
 
-## Documentation 
-* User docuemantion. (~ 2 days)
-* API documentation. (~ 1 day)
-
-## Postgresql 
-* Support for schema namespace. __~ day and half__
+#Defered
 
 ## Loading custom fixtures
-+ Preset ```DBIC-Fixtures``` __~ 1 day__
-+ Loading from flat files. __~ 1 day__
++ Preset ```DBIC-Fixtures``` __~ 3 days__
++ Loading from flat files. __~ 2 days__
 
 ## Maintenance scripts
 + Update chado schema for various backends. __~ 1 day__
 + Update flat files. __~ 1 day__
-
-
-#Defered
 
 ## API for Test::Chado::Common module
 
@@ -82,4 +81,5 @@ It should be split into separate modules. For example, ```Test::Chado::Sequence`
 * Test::Chado::Pub
 * Test::Chado::Stock
 
-
+## Misc
+Look in the gihub issue [tracker](https://github.com/dictyBase/Test-Chado/issues?state=open)
