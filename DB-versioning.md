@@ -9,10 +9,10 @@
 	* ~~Table columns with default values~~
 	* ~~Unique key constraints on fields~~
 	* ~~Alter datatypes of columns in tables~~
-2. Handling data with schema migrations (experimentation) - __Expected functionality__ (~ 3 days)
+2. Handling data with schema migrations (experimentation) - __Expected functionality__ (~ 7 days)
 	* SQL data dump by the same ID as schema migration
-	* Add subcommand to the tool to load and dump data using the current schema version (later) (06/10)
-		* Add `dump_data` and `load_data` commands. These command should use the tool API to pick up the version of schema (~ 1 day)
+	* Add subcommand to the tool to load and dump data using the current schema version (later) (06/21)
+		* Add `dump_data` and `load_data` commands. These command should use the tool API to pick up the version of schema
 			1. ~~Ask in mailing list about custom namespace~~
 			2. ~~Fix POD issue~~
 			3. Unit test for subcommand. Look App::Sqitch test
@@ -21,9 +21,9 @@
 			2. ~~Data dump/load for each `status` id to filesystem~~
 			3. ~~Handling data dump/load~~
 		* ~~For `Alembic`, yet to try out how it works and how it can be extended (~ 2 days)~~ (NOT required)
-3. Manipulating how tools save schema versions (experimentation/discussion) ~ (6 days) (06/21)
+3. Manipulating how tools save schema versions (experimentation/discussion) ~ (6 days) (06/28)
 	* Customize what tables/schema is used for storing migration information.
-	* `Sqitch` usese a complete schema with 5 tables. See if it can be broken down.
+	* `Sqitch` uses a complete schema with 5 tables. See if it can be broken down.
 	* How well can these changes go with `chadoprops`?
 4. User & code documentation
 
