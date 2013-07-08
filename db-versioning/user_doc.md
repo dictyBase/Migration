@@ -25,16 +25,22 @@ _* Note: You might want to increase `max_locks_per_transaction` for PostgreSQL, 
 
 ## [Chado](http://gmod.org/wiki/Chado_Tables)
 
-We are starting with Chado version 1.2. This is help us keep Chado under version control going forward.
+* We are starting with Chado version 1.1. This is help us keep Chado under version control going forward.
+* Versions of Chado so far: `1`, `1.1`, `1.11`, `1.2`, `1.21`, `1.22` & `1.23`
 
 The SQL for schema and changes can be obtained from [here](http://gmod.org/wiki/Chado_-_Getting_Started#Installation)
 
-1. To add changes related to Chado-1.2
+1. To add changes related to Chado-1.1
 
 ```shell
-sqitch add chado_1.2 -n 'Chado 1.2'
+sqitch add chado_1.1 -n 'Chado 1.1'
 ```
-	* This will create 3 files, `deploy/chado_1.2.sql`, `revert/chado-1.2.sql` & `verify/chado-1.2.sql`
-	* Update `deploy/chado-1.2.sql` with `1.2/default_schema.sql`. Write `DROP TABLE/SCHEMA` statements in `revert/chado-1.2.sql`.
+   * This will create 3 files, `deploy/chado_1.1.sql`, `revert/chado_1.1.sql` & `verify/chado_1.1.sql`
+   * Update `deploy/chado_1.1.sql` with `1.1/default_schema.sql`. Write `DROP TABLE/SCHEMA` statements in `revert/chado_1.1.sql`.
 
+2. Execute the changes
+
+```shell
+sqitch deploy
+```
 
