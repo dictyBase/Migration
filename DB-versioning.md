@@ -21,13 +21,19 @@
 			2. ~~Data dump/load for each `status` id to filesystem~~
 			3. ~~Handling data dump/load~~
 		* ~~For `Alembic`, yet to try out how it works and how it can be extended (~ 2 days)~~ (NOT required)
-3. Manipulating how tools save schema versions (experimentation/discussion) ~ (6 days) (06/28)
-	* Customize what tables/schema is used for storing migration information.
-	* `Sqitch` uses a complete schema with 5 tables. See if it can be broken down.
-	* How well can these changes go with `chadoprops`?
-4. User & code documentation
+3. Versioning Chado with sqitch
+	* Start with Chado version 1. Add `deploy` & `revert` changes going forward to latest Chado 
+	* Between changes `A-B-C`, what if `B` is to be taken out and not `A` & `C`? Would `git` help? How about `sqitch` itself?
+	* Have `deploy/revert SQL` along with `dump/load data` commands in a single repository; available for (git) checkout.
+4. Documentation
+	1. Code documentation
+		* Document `dump/load commands` for usage
+		* Write steps involved in Task 3 as code documentation
+	2. User documentation
+		* Setting up Perl environment for using this tool. `git-checkout` and getting started
+		* How to add new changes or revert to old ones?  
 
-* Estimated finish June 28st, 2013
+* Estimated finish July 10th, 2013
 
 ---
 
