@@ -10,6 +10,7 @@ These would be primarilly the additional information added during curation.
 ### Synonyms
 #### ETA(~1 day)
 * Export in a two columns tsv with GeneID and colon/command separated synonyms
+  * Integrate the export code in dicty gff3 exporter.
 
 ### Summary paragraph
 #### ETA(~3 days)
