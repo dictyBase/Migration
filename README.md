@@ -9,8 +9,18 @@
 * [Database versioning](/DB-versioning.md)
 * [Unit testing](/Unit-testing.md)
 * Data migration
-   1. [Stock/Phenotype](Stock-Data-Migration.md) 
-* Data layer
-* Web apps
-* Batch scripts
+   * Data Export from oracle
+     * [Gene models/annotations](Gene-models-export.md)
+     * [Stock/Phenotype](Stock-Data-Migration.md)
+   * Data Import in Postgresql
+     * [Gene models/annotations](Gene-models-import.md)
+     * [Ontologies](Ontology-import.md)
+     * [Literature](Literature-import.md)
+     * [Stock/Phenotype](Stock-Data-Migration.md) 
+* Backend data access
+* Frontend Web UI
+* Batch processing
+* Server setup
+* Software deployment
+* Misc
 * Third party tools
