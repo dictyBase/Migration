@@ -11,6 +11,7 @@
 * Data migration
    * Data Export from oracle
      * [Gene models/annotations](Gene-models-export.md)
+     * [Literature/annotations](Literature-annotations.md)
      * [Stock/Phenotype](Stock-Data-Migration.md)
    * Data Import in Postgresql
      * [Gene models/annotations](Gene-models-import.md)
