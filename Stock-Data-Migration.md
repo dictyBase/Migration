@@ -1,4 +1,21 @@
-### Stock/Phenotype data migration
+## Stock/Phenotype data migration
+
+### Exporting stock data
+
+* Export strain column corresponding to Chado schema
+* Export strain inventory
+* Export strain publications
+
+* Feature (linking)
+* Genotype
+* Phenotype
+
+
+### Importing data
+
+* Import strain characteristics ontology
+
+### References
 
 1. [Data Model(s)](https://github.com/dictyBase/Stock-Data-Migration/blob/develop/data/models/stock_inventory.md)
 2. [Data statistics](https://github.com/dictyBase/Stock-Data-Migration/blob/develop/data/stats.md)
