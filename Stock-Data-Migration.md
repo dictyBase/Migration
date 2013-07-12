@@ -1,19 +1,30 @@
-## Stock/Phenotype data migration
+## Stock/Phenotype data export/import
 
 ### Exporting stock data
 
-* Export strain column corresponding to Chado schema
+* Export strain data
+   * Columns exported `dbxref_id, organism_id, strain_name, dbs_id, strain_description, type_id (strain), is_obsolete (false)`
+	
 * Export strain inventory
+   * Columns exported `location, color, storage_date, no_of_vials, obtained_as, storage_comments (private_comment), other_comments_and_feedback (public_comment), stored_as`
+
 * Export strain publications
+   * Columns exported `strain_name, pubmed_id`
 
-* Feature (linking)
-* Genotype
-* Phenotype
+*  Export strain-feature (linking)
+   * Columns exported `strain_name, feature_id`
 
+* Export strain genotype
+   * Columns exported `strain_name, genotype`  
+
+* Export strain phenotype
+   * Columns exported `strain_name, phenotype`
 
 ### Importing data
 
 * Import strain characteristics ontology
+* Import strain inventory ontology
+* Import plasmid inventory ontology
 
 ### References
 
