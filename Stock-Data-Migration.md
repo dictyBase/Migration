@@ -2,29 +2,26 @@
 
 ### Exporting stock data
 
-* Export strain data
-   * Columns exported `dbxref_id, organism_id, strain_name, dbs_id, strain_description, type_id (strain), is_obsolete (false)`
+####  Exporting strain data ( ETA ~ 2 days )
+
+* Export strain data 
+   * Columns exported `dbs_id, dbxref_id, organism_id, strain_name, strain_description, type_id (strain), is_obsolete (false)`
 	
 * Export strain inventory
-   * Columns exported `location, color, storage_date, no_of_vials, obtained_as, storage_comments (private_comment), other_comments_and_feedback (public_comment), stored_as`
+   * Columns exported `dbs_id, location, color, storage_date, no_of_vials, obtained_as, storage_comments (private_comment), other_comments_and_feedback (public_comment), stored_as`
 
 * Export strain publications
-   * Columns exported `strain_name, pubmed_id`
+   * Columns exported `dbs_id, pubmed_id`
 
 *  Export strain-feature (linking)
-   * Columns exported `strain_name, feature_id`
+   * Columns exported `dbs_id, feature_id`
 
 * Export strain genotype
-   * Columns exported `strain_name, genotype`  
+   * Columns exported `dbs_id, strain_descriptor, genotype`
+   * Ref: [Strain details - _sadA-_](http://dictybase.org/db/cgi-bin/dictyBase/phenotype/strain_and_phenotype_details.pl?genotype_id=1516)
 
 * Export strain phenotype
-   * Columns exported `strain_name, phenotype`
-
-### Importing data
-
-* Import strain characteristics ontology
-* Import strain inventory ontology
-* Import plasmid inventory ontology
+   * Columns exported `dbs_id, phenotype`
 
 ### References
 
