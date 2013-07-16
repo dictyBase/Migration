@@ -1,10 +1,21 @@
 ## Export literature
 ### ETA ~3 days
 
-* Understand bibtex format. In fact, any of the popular export format would be acceptable.
-* Explore how to manage the transfer of dictybase publication keywords.
-* Export in bibtex format(or other alternate)
-  * Integrate it as chadopub2bibtex Modware-Loader export command.
+#### Understand bibtex format. In fact, any of the popular export format would be acceptable. __Done__
+#### Export in bibtex format
+##### Export all pubmed entries(7419 July 16th)
+* Check the entire export by importing them in jabref, mendeley and zotero etc. Have an idea about duplicates.
+* Export records for other genomes.
+* Entries without doi needs to identified, then gets their full text url using elink. In bibtex use url tag for export. Not __high priority__
+
+##### Export non-pubmed entries(4180)
+Redundant entries,need data cleaning. The approach would be to figure out, 
+* Redundant entries
+* In case of merge provide a remap.
+
+#### Explore how to manage the transfer of dictybase publication keywords.
+    
+    
 
 ## Export annotations
 ### ETA ~4 days
