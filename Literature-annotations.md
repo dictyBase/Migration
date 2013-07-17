@@ -6,6 +6,15 @@
 ##### Export all pubmed entries(7419 July 16th)
 * Check the entire export by importing them in jabref, mendeley and zotero etc. Skip duplicates, however keep a note about them.
 * Export records for other genomes.
+    Here we only export those entries that are present in dicty database.
+
+    ```sql
+      SELECT uniquename FROM dpur_chado.pub 
+        where pub.pubplace = 'PUBMED'
+        minus
+      SELECT uniquename FROM cgm_chado.pub
+       where pub.pubplace = 'PUBMED'
+     ```
 * Entries without doi needs to identified, then gets their full text url using elink. In bibtex use url tag for export. Not __high priority__
 
 ##### Export non-pubmed entries(4180)
