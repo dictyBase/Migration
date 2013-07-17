@@ -1,27 +1,31 @@
-## Stock/Phenotype data export/import
+## Stock data export/import
 
-### Exporting stock data
+### Export stock data 
+_ETA ~ 2 days (07/15 - 07/17)_
 
-####  Exporting strain data ( ETA ~ 2 days )
+####  Export strain data 
 
-* Export strain data 
-   * Columns exported `dbs_id, dbxref_id, organism_id, strain_name, strain_description, type_id (strain), is_obsolete (false)`
-	
-* Export strain inventory
-   * Columns exported `dbs_id, location, color, storage_date, no_of_vials, obtained_as, storage_comments (private_comment), other_comments_and_feedback (public_comment), stored_as`
+| Data | Columns | Chado table (target) | Comments |
+| --- | --- | --- | --- |
+| strain | `dbs_id`, `dbxref_id`, `species`, `strain_name`, `strain_description` | `stock` | **Handle `organisms` which do not have genomes, but only strains** |
+| inventory | `dbs_id`, `location`, `color`, `storage_date`, `no_of_vials`, `obtained_as`, storage_comments (`private_comment`), other_comments_and_feedback (`public_comment`), `stored_as` | `stockprop` | |
+| publications | `dbs_id`, `pubmed_id` | `stock_pub` | There are references other than PubMed | |
+| genes | `dbs_id`, `dbxref.accession` (gene_id) | `stock_dbxref` | |
+| genotype | `dbs_id`, `strain_descriptor` (strain_name), `genotype` | `stock_genotype` | [Example][1] |
+| phenotype | `dbs_id`, `phenotype` (cvterm_name) | `stock_cvterm` | Get `strain.phenotype terms` mapped to `phenotype ontology terms`. Strip terms that are `genotype` or `strain_characteristics` |
+| characteristics | `dbs_id`, `cvterm_name` | `stock_cvterm` | |
 
-* Export strain publications
-   * Columns exported `dbs_id, pubmed_id`
+####  Export plasmid data
 
-*  Export strain-feature (linking)
-   * Columns exported `dbs_id, feature_id`
+| Data | Columns | Chado table (target) | Comments |
+| --- | --- | --- | --- |
+| plasmid | `plasmid_id`, `name`, `description` | `stock` | Consider generating a `dbp_id` (DBP0000234) |
+| inventory | `plasmid_id`, `location`, `color`, `storage_date`, `no_of_vials`, `obtained_as`, storage_comments (`private_comment`), other_comments_and_feedback (`public_comment`), `stored_as` | `stockprop` | |
+| publications | `plasmid_id`, `pubmed_id` | `stock_pub` | There are references other than PubMed |
+| genes | `plasmid_id`, `dbxref.accession` (gene_id) | `stock_dbxref` | |
+| genbank | `plasmid_id`, `genbank_accession_number` | `stock_dbxref` | |
 
-* Export strain genotype
-   * Columns exported `dbs_id, strain_descriptor, genotype`
-   * Ref: [Strain details - _sadA-_](http://dictybase.org/db/cgi-bin/dictyBase/phenotype/strain_and_phenotype_details.pl?genotype_id=1516)
-
-* Export strain phenotype
-   * Columns exported `dbs_id, phenotype`
+[1]: http://dictybase.org/db/cgi-bin/dictyBase/phenotype/strain_and_phenotype_details.pl?genotype_id=1516
 
 ### References
 
