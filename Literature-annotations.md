@@ -1,12 +1,13 @@
 ## Export literature
 ### ETA ~3 days
 
-#### Understand bibtex format. In fact, any of the popular export format would be acceptable. __Done__
+#### Understand bibtex format. In fact, any of the popular export format would be acceptable. __Completed__
 #### Export in bibtex format
 ##### Export all pubmed entries(7419 July 16th)
-* Check the entire export by importing them in jabref, mendeley and zotero etc. Skip duplicates, however keep a note about them.
+* Check the entire export by importing them in jabref, mendeley and zotero etc. 
+  Skip duplicates, however keep a note about them. __Completed__
 * Export records for other genomes.
-    Here we only export those entries that are present in dicty database.
+    Here we only export those entries that are present in dicty database. __Completed__
 
     ```sql
       SELECT uniquename FROM dpur_chado.pub 
