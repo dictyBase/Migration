@@ -26,6 +26,14 @@ This will be primarilly list of genes tied to publications.
   * Figure out type of data/columns needed for export. It should depend on storage model.
 * Export curation assignment.
   * Figure out kind of export format it requires.
+* Export date created
 
 As usual, try to add a Modware-Loader export command for every tsv/alternate export.
+
+
+## Note
+If possible include the annotations in the bib file itself. For example,
+* Date created: __timestamp__ 
+* Keywords: __keywords__
+* Still not sure about GeneID and curator assignments.
 
