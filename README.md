@@ -25,3 +25,6 @@
 * Software deployment
 * Misc
 * Third party tools
+ 
+## Important note
+Support for non-ascii characters for all projects
