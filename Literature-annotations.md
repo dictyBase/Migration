@@ -4,7 +4,7 @@
 #### Understand bibtex format. In fact, any of the popular export format would be acceptable. __Done__
 #### Export in bibtex format
 ##### Export all pubmed entries(7419 July 16th)
-* Check the entire export by importing them in jabref, mendeley and zotero etc. Have an idea about duplicates.
+* Check the entire export by importing them in jabref, mendeley and zotero etc. Skip duplicates, however keep a note about them.
 * Export records for other genomes.
 * Entries without doi needs to identified, then gets their full text url using elink. In bibtex use url tag for export. Not __high priority__
 
