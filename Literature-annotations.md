@@ -1,9 +1,15 @@
 ## Export literature
-### ETA ~3 days
 
-#### Understand bibtex format. In fact, any of the popular export format would be acceptable. __Completed__
-#### Export in bibtex format
-##### Export all pubmed entries(7419 July 16th)
+__ETA__: ~3 days
+Running: 4 days
+
+### Export in bibtex format
+
+#### Understand bibtex format. 
+
+In fact, any of the popular export format would be acceptable. __Completed__
+
+#### Export all pubmed entries(7419 July 16th)
 * Check the entire export by importing them in jabref, mendeley and zotero etc. 
   Skip duplicates, however keep a note about them. __Completed__
 
@@ -11,8 +17,9 @@
 $_> modware-export chadopub2bib [--options]
 ```
 
-* Export records for other genomes.
-    Here we only export those entries that are present in dicty database. __Completed__
+* Export records for other genomes. __Completed__
+
+   Here we get a list of unique pubmed ids from dictygenomes database and then convert them into bibtex.
 
     ```sql
       SELECT uniquename FROM dpur_chado.pub 
@@ -22,7 +29,6 @@ $_> modware-export chadopub2bib [--options]
        where pub.pubplace = 'PUBMED'
      ```
    
-   Here we get a list of unique pubmed ids from dictygenomes database and then convert them into bibtex.
 
 ```perl
 $_> modware-transform pub2bib [--options]
@@ -31,7 +37,7 @@ $_> modware-transform pub2bib [--options]
 
 * Entries without doi needs to identified, then gets their full text url using elink. In bibtex use url tag for export. Not __high priority__
 
-##### Export non-pubmed entries(4180)
+#### Export non-pubmed entries(4180)
 
 Redundant entries,need data cleaning. The approach would be to figure out, 
 
@@ -40,8 +46,9 @@ Redundant entries,need data cleaning. The approach would be to figure out,
 
 #### Explore how to manage the transfer of dictybase publication keywords.
     
-### Note
+
 If possible include the annotations in the bib file itself. For example,
+
 * Date created: __timestamp__ 
 * Keywords: __keywords__
 * Still not sure about GeneID and curator assignments.
@@ -49,7 +56,9 @@ If possible include the annotations in the bib file itself. For example,
     
 
 ## Export annotations
-### ETA ~4 days
+
+__ETA__ ~4 days
+
 This will be primarilly list of genes tied to publications. 
 
 * Export a two column tsv with pubmed id and dictybase GeneID.
