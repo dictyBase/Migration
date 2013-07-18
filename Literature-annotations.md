@@ -44,7 +44,8 @@ Redundant entries,need data cleaning. The approach would be to figure out,
 * Redundant entries
 * In case of merge provide a remap.
 
-Some analysis below,
+
+__First analysis__
 
 
 ```sql
