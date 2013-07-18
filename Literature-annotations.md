@@ -40,6 +40,12 @@ Redundant entries,need data cleaning. The approach would be to figure out,
 
 #### Explore how to manage the transfer of dictybase publication keywords.
     
+### Note
+If possible include the annotations in the bib file itself. For example,
+* Date created: __timestamp__ 
+* Keywords: __keywords__
+* Still not sure about GeneID and curator assignments.
+
     
 
 ## Export annotations
@@ -56,9 +62,4 @@ This will be primarilly list of genes tied to publications.
 As usual, try to add a Modware-Loader export command for every tsv/alternate export.
 
 
-## Note
-If possible include the annotations in the bib file itself. For example,
-* Date created: __timestamp__ 
-* Keywords: __keywords__
-* Still not sure about GeneID and curator assignments.
 
