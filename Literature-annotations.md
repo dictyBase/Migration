@@ -39,7 +39,6 @@ $_> modware-transform pub2bib [--options]
 
 #### Export non-pubmed entries(4180)
 
-Redundant entries,need data cleaning. 
 
 __Redundant entries__
 
