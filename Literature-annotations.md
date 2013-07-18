@@ -44,8 +44,51 @@ Redundant entries,need data cleaning. The approach would be to figure out,
 * Redundant entries
 * In case of merge provide a remap.
 
+Some analysis below,
+
+
+```sql
+
+WITH redpub AS
+  (SELECT count(pub_id) counter,
+      to_nchar(title) title
+      FROM pub
+      WHERE pubplace != 'PUBMED'
+      GROUP BY to_nchar(title)
+      HAVING COUNT(pub_id) > 1
+      ORDER BY COUNT(pub_id) DESC
+  ),
+  topredpub AS (
+     SELECT * from redpub where rownum = 1
+  )
+  SELECT * from topredpub
+```
+
+The above will retrieve top entry(602 rows) with identical __title.__ Now,the one ```sql statement``` below would get the features associated with one of them.
+
+```sql
+
+SELECT feature.name,feature.uniquename,cvterm.name FROM feature
+  JOIN feature_pub fpub ON fpub.feature_id = feature.feature_id
+  JOIN 
+    (select pub.pub_id,pub.title,pubauthor.surname from pub,pubauthor,topredpub
+     WHERE topredpub.title = to_nchar(pub.title)
+     AND pubauthor.pub_id = pub.pub_id
+     AND rownum = 1
+    ) pentry ON pentry.pub_id = fpub.pub_id
+  JOIN cvterm ON cvterm.cvterm_id = feature.type_id
+
+```
+
+It turns out to be Genbank entries where each of them associated with a unique publication with identical title. On further spot checking, few entries actually do have their own pubmed entry.
+So, the next steps would be ....
+
+* Get list of features and retrieve their pubmed entries(if any) and output a list that are not present in dicty pubmed list.
+* Feed that list to append to the existing bibtex output.
+* Also produce a list(Genbank format) without pubmed ids.
+
+
 #### Explore how to manage the transfer of dictybase publication keywords.
-    
 
 If possible include the annotations in the bib file itself. For example,
 
