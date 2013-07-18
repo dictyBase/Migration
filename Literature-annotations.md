@@ -39,13 +39,22 @@ $_> modware-transform pub2bib [--options]
 
 #### Export non-pubmed entries(4180)
 
-Redundant entries,need data cleaning. The approach would be to figure out, 
+Redundant entries,need data cleaning. 
 
-* Redundant entries
-* In case of merge provide a remap.
+__Redundant entries__
+
+| Non-pubmed source | Entries |
+| --- | --- |
+|    Hideko   |   1  |
+| Curator |  20 |
+| GO_REF | 40 |
+| GENBANK | 1576 |
+| ENDNOTE | 2535 |
+
+__Remap__
 
 
-__First analysis__
+__Some analysis__
 
 
 ```sql
