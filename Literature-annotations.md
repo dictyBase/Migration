@@ -6,6 +6,11 @@
 ##### Export all pubmed entries(7419 July 16th)
 * Check the entire export by importing them in jabref, mendeley and zotero etc. 
   Skip duplicates, however keep a note about them. __Completed__
+
+```perl
+$_> modware-export chadopub2bib [--options]
+```
+
 * Export records for other genomes.
     Here we only export those entries that are present in dicty database. __Completed__
 
@@ -16,10 +21,20 @@
       SELECT uniquename FROM cgm_chado.pub
        where pub.pubplace = 'PUBMED'
      ```
+   
+   Here we get a list of unique pubmed ids from dictygenomes database and then convert them into bibtex.
+
+```perl
+$_> modware-transform pub2bib [--options]
+```
+
+
 * Entries without doi needs to identified, then gets their full text url using elink. In bibtex use url tag for export. Not __high priority__
 
 ##### Export non-pubmed entries(4180)
+
 Redundant entries,need data cleaning. The approach would be to figure out, 
+
 * Redundant entries
 * In case of merge provide a remap.
 
