@@ -50,6 +50,16 @@ __Redundant entries__
 | GENBANK | 1576 |
 | ENDNOTE | 2535 |
 
+
+* modware-loader script to export bibtex. The export also include the timestamp.
+
+```shell
+$_> modware-export dictynonpub2bib [..options]
+```
+
+* Write another script to update all __GENBANK__ entries, preferably update if it has a pubmed link. Then rerun the ```modware-export``` script.
+
+
 __Remap__
 
 
@@ -89,24 +99,14 @@ SELECT feature.name,feature.uniquename,cvterm.name FROM feature
 
 ```
 
-It turns out to be Genbank entries where each of them associated with a unique publication with identical title. On further spot checking, few entries actually do have their own pubmed entry.
-So, the next steps would be ....
-
-* Get list of features and retrieve their pubmed entries(if any) and output a list that are not present in dicty pubmed list.
-* Feed that list to append to the existing bibtex output.
-* Also produce a list(Genbank format) without pubmed ids.
 
 
 #### Explore how to manage the transfer of dictybase publication keywords.
 
-If possible include the annotations in the bib file itself. For example,
-
-* Date created: __timestamp__ 
-* Keywords: __keywords__
-* Still not sure about GeneID and curator assignments.
+* Parse the bib entries(with pubmed ids) and add timestamp and keywords from the database.
+* Use tsv for GeneID and curator assignments.
 
     
-
 ## Export annotations
 
 __ETA__ ~4 days
