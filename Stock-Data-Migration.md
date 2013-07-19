@@ -1,7 +1,7 @@
 ## Stock data export/import
 
 ### Export stock data 
-_ETA ~ 2 days (07/15 - 07/17)_
+_ETA ~ 4 days (07/15 - 07/19)_
 
 ####  Export strain data 
 
@@ -14,6 +14,20 @@ _ETA ~ 2 days (07/15 - 07/17)_
 | genotype | `dbs_id`, `strain_descriptor` (strain_name), `genotype` | `stock_genotype` | [Example][1] |
 | phenotype | `dbs_id`, `phenotype` (cvterm_name) | `stock_cvterm` | Get `strain.phenotype terms` mapped to `phenotype ontology terms`. Strip terms that are `genotype` or `strain_characteristics` |
 | characteristics | `dbs_id`, `cvterm_name` | `stock_cvterm` | |
+
+* There are 3 types of references for each strain & plasmid.
+   * `internal_db_id` has some custom IDs of the form **d9867**. 87 entries with no PubMed reference for strains.
+   * `other_references` also has IDs of the form **d[0-9]{4}**. 23 entries with no PubMed reference for strains. 
+   * Export above 2 IDs to one separate file with DBS_ID 
+
+* The `strain.phenotype` is currently free text, comma separated. It is a combination of strain characteristics, genotype and phenotypes.
+   * Strip all the genotype & strain characteristic terms. Export DBS_ID & just the phenotype (non genotype & non strain charcateristic terms).
+   * Map these exported phenotype terms to __dicty phenotype ontology__
+
+** *Discussion* **
+* Storing organism information
+   * What if *discoideum AX4* is resequenced? How do we distinguish current *AX4* genome from the new one?
+   * What if we have genomes from 2 strains for a particular species and there is no sub-species?
 
 ####  Export plasmid data
 
