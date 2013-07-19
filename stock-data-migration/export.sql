@@ -1,5 +1,5 @@
 /* Strain */
-SELECT d.dbxref_id, sc.species, sc.strain_name, d.accession, sc.strain_description, 'strain', 'FALSE'
+SELECT d.accession, sc.species, sc.strain_name,  sc.strain_description
 FROM CGM_DDB.stock_center sc
 JOIN CGM_CHADO.dbxref d ON d.dbxref_id = sc.dbxref_id;
 
@@ -8,7 +8,7 @@ SELECT sci.location, sci.color, sci.storage_date, sci.no_of_vials, sci.obtained_
 FROM CGM_DDB.stock_center_inventory sci;
 
 /* Strain publications */
-SELECT sc.strain_name, sc.pubmedid
+SELECT sc.strain_name, sc.pubmedid, sc.internal_db_id, sc.other_references
 FROM CGM_DDB.stock_center sc;
 
 /* Strain genotype */
