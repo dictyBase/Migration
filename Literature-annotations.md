@@ -10,14 +10,14 @@ Running: 4 days
 In fact, any of the popular export format would be acceptable. __Completed__
 
 #### Export all pubmed entries(7419 July 16th)
-* Check the entire export by importing them in jabref, mendeley and zotero etc. 
-  Skip duplicates, however keep a note about them. __Completed__
+* Check the entire export by importing them in jabref, mendeley and zotero etc. __Completed__
 
 ```perl
 $_> modware-export chadopub2bib [--options]
 ```
+* Parse the bib entries and add timestamp from the database.
 
-* Export records for other genomes. __Completed__
+* Export records for other genomes. They don't have timestamps. __Completed__
 
    Here we get a list of unique pubmed ids from dictygenomes database and then convert them into bibtex.
 
@@ -33,11 +33,26 @@ $_> modware-export chadopub2bib [--options]
 ```perl
 $_> modware-transform pub2bib [--options]
 ```
+  
+  These entries are currently kept as a shared data in ```modware-loader``` distribution.
 
-
-* Entries without doi needs to identified, then gets their full text url using elink. In bibtex use url tag for export. Not __high priority__
 
 #### Export non-pubmed entries(4180)
+
+
+* modware-loader script to export bibtex. The export also include the timestamp. __Completed__.
+
+```shell
+$_> modware-export dictynonpub2bib [..options]
+```
+
+* Identical export for other genomes. __Completed__.
+
+
+
+### Notes during export
+
+* Duplicate pubmed annotations, load either in mendeley client of jabref.
 
 
 __Redundant entries__
@@ -51,11 +66,6 @@ __Redundant entries__
 | ENDNOTE | 2535 |
 
 
-* modware-loader script to export bibtex. The export also include the timestamp.
-
-```shell
-$_> modware-export dictynonpub2bib [..options]
-```
 
 * Write another script to update all __GENBANK__ entries, preferably update if it has a pubmed link. Then rerun the ```modware-export``` script.
 
@@ -100,12 +110,6 @@ SELECT feature.name,feature.uniquename,cvterm.name FROM feature
 ```
 
 
-
-#### Explore how to manage the transfer of dictybase publication keywords.
-
-* Parse the bib entries(with pubmed ids) and add timestamp and keywords from the database.
-* Use tsv for GeneID and curator assignments.
-
     
 ## Export annotations
 
@@ -113,12 +117,11 @@ __ETA__ ~4 days
 
 This will be primarilly list of genes tied to publications. 
 
-* Export a two column tsv with pubmed id and dictybase GeneID.
+* Export a two column tsv with pubmed id, dictybase GeneID and keywords(comma separated).
 * Export list of curated/not curated literature
   * Figure out type of data/columns needed for export. It should depend on storage model.
 * Export curation assignment.
   * Figure out kind of export format it requires.
-* Export date created
 
 As usual, try to add a Modware-Loader export command for every tsv/alternate export.
 
