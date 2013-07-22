@@ -12,7 +12,7 @@ _ETA ~ 4 days (07/15 - 07/19)_
 | ~~publications~~ | `dbs_id`, `pubmed_id` & `dbs_id`, `internal_db_id` | 5133 & 331 | `stock_pub` | Completed on 07/19 | 
 | ~~genes~~ | `dbs_id`, `dbxref.accession` (gene_id) | 1498 | `stock_dbxref` | Completed on 07/17 |
 | ~~genotype~~ | `dbs_id`, `strain_descriptor` (strain_name), `genotype` | 2657 | `stock_genotype` | [Example][1]. Completed on 07/17 |
-| phenotype | `dbs_id`, `phenotype` (cvterm_name) | | `stock_cvterm` | Work in progress... |
+| phenotype | `dbs_id`, `phenotype` (cvterm_name) | | `stock_cvterm` | Completed on 07/22 |
 | ~~characteristics~~ | `dbs_id`, `cvterm_name` | 17168 | `stock_cvterm` | Completed on 07/17 |
 
 ```perl
