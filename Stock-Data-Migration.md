@@ -2,16 +2,14 @@
 
 ### Index
 
-1. [Export stock data](https://github.com/dictyBase/Migration-Docs/edit/master/Stock-Data-Migration.md#export-stock-data)
-   1. [Export strain data](https://github.com/dictyBase/Migration-Docs/edit/master/Stock-Data-Migration.md#export-strain-data)
-   2. [Export plasmid data](https://github.com/dictyBase/Migration-Docs/edit/master/Stock-Data-Migration.md#export-plasmid-data)
-2. [Import stock data](https://github.com/dictyBase/Migration-Docs/edit/master/Stock-Data-Migration.md#import-stock-data)
-   1. [Import strain data](https://github.com/dictyBase/Migration-Docs/edit/master/Stock-Data-Migration.md#import-strain-data)
-      * [Data model](https://github.com/dictyBase/Migration-Docs/edit/master/Stock-Data-Migration.md#data-model)
-   2. [Import plasmid data](https://github.com/dictyBase/Migration-Docs/edit/master/Stock-Data-Migration.md#import-plasmid-data)
-      * [Data model](https://github.com/dictyBase/Migration-Docs/edit/master/Stock-Data-Migration.md#data-model-1)
-3. [Discussions](https://github.com/dictyBase/Migration-Docs/edit/master/Stock-Data-Migration.md#discussion)
-4. [References](https://github.com/dictyBase/Migration-Docs/edit/master/Stock-Data-Migration.md#references)
+1. [Export stock data](https://github.com/dictyBase/Migration-Docs/blob/master/Stock-Data-Migration.md#export-stock-data)
+   1. [Export strain data](https://github.com/dictyBase/Migration-Docs/blob/master/Stock-Data-Migration.md#export-strain-data)
+   2. [Export plasmid data](https://github.com/dictyBase/Migration-Docs/blob/master/Stock-Data-Migration.md#export-plasmid-data)
+2. [Import stock data](https://github.com/dictyBase/Migration-Docs/blob/master/Stock-Data-Migration.md#import-stock-data)
+   1. [Import strain data](https://github.com/dictyBase/Migration-Docs/blob/master/Stock-Data-Migration.md#import-strain-data)
+   2. [Import plasmid data](https://github.com/dictyBase/Migration-Docs/blob/master/Stock-Data-Migration.md#import-plasmid-data)
+3. [Discussions](https://github.com/dictyBase/Migration-Docs/blob/master/Stock-Data-Migration.md#discussion)
+4. [References](https://github.com/dictyBase/Migration-Docs/blob/master/Stock-Data-Migration.md#references)
 
 ### Export stock data 
 _ETA ~ ~~4 days (07/15 - 07/22)~~_
