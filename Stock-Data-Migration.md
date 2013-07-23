@@ -1,7 +1,20 @@
 ## Stock data export/import
 
+### Index
+
+1. [Export stock data](https://github.com/dictyBase/Migration-Docs/edit/master/Stock-Data-Migration.md#export-stock-data)
+   1. [Export strain data](https://github.com/dictyBase/Migration-Docs/edit/master/Stock-Data-Migration.md#export-strain-data)
+   2. [Export plasmid data](https://github.com/dictyBase/Migration-Docs/edit/master/Stock-Data-Migration.md#export-plasmid-data)
+2. [Import stock data](https://github.com/dictyBase/Migration-Docs/edit/master/Stock-Data-Migration.md#import-stock-data)
+   1. [Import strain data](https://github.com/dictyBase/Migration-Docs/edit/master/Stock-Data-Migration.md#import-strain-data)
+      * [Data model](https://github.com/dictyBase/Migration-Docs/edit/master/Stock-Data-Migration.md#data-model)
+   2. [Import plasmid data](https://github.com/dictyBase/Migration-Docs/edit/master/Stock-Data-Migration.md#import-plasmid-data)
+      * [Data model](https://github.com/dictyBase/Migration-Docs/edit/master/Stock-Data-Migration.md#data-model-1)
+3. [Discussions](https://github.com/dictyBase/Migration-Docs/edit/master/Stock-Data-Migration.md#discussion)
+4. [References](https://github.com/dictyBase/Migration-Docs/edit/master/Stock-Data-Migration.md#references)
+
 ### Export stock data 
-_ETA ~ 4 days (07/15 - 07/19)_
+_ETA ~ ~~4 days (07/15 - 07/22)~~_
 
 ####  Export strain data 
 
@@ -12,7 +25,7 @@ _ETA ~ 4 days (07/15 - 07/19)_
 | ~~publications~~ | `dbs_id`, `pubmed_id` & `dbs_id`, `internal_db_id` | 5133 & 331 | `stock_pub` | Completed on 07/19 | 
 | ~~genes~~ | `dbs_id`, `dbxref.accession` (gene_id) | 1498 | `stock_dbxref` | Completed on 07/17 |
 | ~~genotype~~ | `dbs_id`, `strain_descriptor` (strain_name), `genotype` | 2657 | `stock_genotype` | [Example][1]. Completed on 07/17 |
-| phenotype | `dbs_id`, `phenotype` (cvterm_name) | | `stock_cvterm` | Completed on 07/22 |
+| ~~phenotype~~ | `dbs_id`, `phenotype` (cvterm_name) | 627 | `stock_cvterm` | Completed on 07/22 |
 | ~~characteristics~~ | `dbs_id`, `cvterm_name` | 17168 | `stock_cvterm` | Completed on 07/17 |
 
 ```perl
@@ -44,7 +57,18 @@ $_> modware-dump dictyplasmid -c plasmid-dump.yaml # This will dump all data
 $_> modware-dump dictyplasmid -c plasmid-dump.yaml --data genbank,genes # Specific exports
 ```
 
-#### Discussion
+### Import stock data
+
+#### Import strain data
+_ETA ~ 3 days (07/23 - 07/25)_
+
+##### Data model 
+
+#### Import plasmid data
+
+##### Data model 
+
+### Discussion
 * Storing organism information
    * What if *discoideum AX4* is resequenced? How do we distinguish current *AX4* genome from the new one?
    * What if we have genomes from 2 strains for a particular species and there is no sub-species?
