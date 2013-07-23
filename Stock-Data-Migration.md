@@ -12,7 +12,7 @@
 4. [References](https://github.com/dictyBase/Migration-Docs/blob/master/Stock-Data-Migration.md#references)
 
 ### Export stock data 
-_ETA ~ ~~4 days (07/15 - 07/22)~~_
+_ETA ~ ~~6 days (07/15 - 07/22)~~. Estimated 3 days_
 
 ####  Export strain data 
 
@@ -57,14 +57,32 @@ $_> modware-dump dictyplasmid -c plasmid-dump.yaml --data genbank,genes # Specif
 
 ### Import stock data
 
+* Create ontology with `cv.name` = 'dicty_stockcenter'
+   * Cvterm belonging to the above `cv` will have `cvterm.name` = [strain, plasmid]
+   
+**Notes**:
+* Use `dbxref` only if an external unique identifier is present. DBS_ID is an internal identifier
+
 #### Import strain data
 _ETA ~ 3 days (07/23 - 07/25)_
 
-##### Data model 
+* `stock` and `feature` (genes) are linked through `stock -> stock_genotype -> genotype -> feature_genotype -> feature`
+* `DBS_ID` goes to `stock.uniuqename` and **NOT** to `dbxref.accession`
+* 'Genetic Modification' & 'Mutagenesis Method' will be saved in `stockprop`
+   * 'Genetic Modification' & 'Mutagenesis Method' will be `cvterm.name` under `cv.name` = 'dicty_stockcenter'
+* 'Parental strain' & 'Strain Plasmid'
+   * Data will go to `stock_relationship`
+   * Look in `relationship_ontology` for terms like `parent_of` & `related_to`
+   * Parental strain's `stock_id` will be `object_id` with `type_id` like `parent_of`
+   * Plasmid's (linked to strain) `stock_id`  will be `subject_id` with `type_id` like `related_to`
 
 #### Import plasmid data
 
-##### Data model 
+* Plasmid sequence & map images
+   * Get sequence & images from existing files
+   * Data goes to `stockprop` with `type_id` as `sequence` & `image` (maybe).
+   * Image saved as binary blob
+
 
 ### Discussion
 * Storing organism information
