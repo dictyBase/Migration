@@ -78,13 +78,19 @@ _ETA ~ 3 days (07/23 - 07/25)_
 * Figure out SQL for strain phenotypes displayed on the web; [example](http://dictybase.org/db/cgi-bin/dictyBase/phenotype/strain_and_phenotype_details.pl?genotype_id=1516)
 
 ```sql
-SELECT DISTINCT sc.strain_name, d.accession dbs_id, ct.name phenotype, g.genotype_id, p.phenotype_id, p.observable_id
+SELECT sc.strain_name, d.accession dbs_id, f.uniquename gene_symbol, d2.accession gene_id, ct.name phenotype
+/* p.value, g.genotype_id, p.phenotype_id, p.observable_id */
 FROM CGM_DDB.stock_center sc
 JOIN CGM_CHADO.dbxref d ON d.dbxref_id = sc.dbxref_id
 JOIN CGM_CHADO.genotype g ON g.uniquename = d.accession
 JOIN CGM_CHADO.phenstatement pst ON pst.genotype_id = g.genotype_id
 JOIN CGM_CHADO.phenotype p ON p.phenotype_id = pst.phenotype_id
 JOIN CGM_CHADO.cvterm ct ON ct.cvterm_id = p.observable_id
+/* */
+JOIN CGM_CHADO.feature_genotype fg ON fg.genotype_id = g.genotype_id
+JOIN CGM_CHADO.feature f ON f.feature_id = fg.feature_id
+JOIN CGM_CHADO.dbxref d2 ON d2.dbxref_id = f.dbxref_id
+/* */
 WHERE g.genotype_id IN (1630, 1516)
 AND sc.strain_name IN ('vasP-', 'sadA-')
 ORDER BY sc.strain_name, d.accession;
