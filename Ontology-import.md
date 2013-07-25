@@ -5,6 +5,9 @@ The current project is to get a fully working version with Pg backend.
 ## Core data
 
 * Get a working version with postgresql identical to the one we have now for ```oracle``` and ```sqlite```.
+
+  1. Write the temp table sql statements to a file and load it from there.
+
 * Write unit tests for those pieces.
 * Implement rest of the model both for ```sqlite``` and ```postgresql```.
 
