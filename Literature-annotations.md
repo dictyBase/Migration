@@ -1,7 +1,19 @@
 ## Export literature
 
+### Synopsis
+
+```shell
+$_> modware-export chadopub2bib [--options] | modware-update dictybib [--options ]-o dictypub.bib
+$_> cat share/genomespub.txt | modware-transform pub2bib [--options] -o dictygenomespub.bib
+
+$_> modware-export dictynonpub2bib [--options] -o dictynonpub.bib
+$_> modware-export dictynonpub2bib [--options] -o dictygenomesnonpub.bib
+
+$_> modware-export dictypubannotation [--options] -o dictypubannotation.csv
+```
+
 __ETA__: ~3 days
-Running: 4 days
+__Completed__: 6 days
 
 ### Export in bibtex format
 
@@ -114,16 +126,11 @@ SELECT feature.name,feature.uniquename,cvterm.name FROM feature
 ## Export annotations
 
 __ETA__ ~4 days
+__Completed__: 1 day
 
-This will be primarilly list of genes tied to publications. 
+* Export a  four columns csv with pubmed id, dictybase GeneID , curator assignment, date and keywords(colon separated).
 
-* Export a two column tsv with pubmed id, dictybase GeneID and keywords(comma separated).
-* Export list of curated/not curated literature
-  * Figure out type of data/columns needed for export. It should depend on storage model.
-* Export curation assignment.
-  * Figure out kind of export format it requires.
-
-As usual, try to add a Modware-Loader export command for every tsv/alternate export.
-
-
+```perl
+$_> modware-export dictypubannotation [options .....]
+```
 
