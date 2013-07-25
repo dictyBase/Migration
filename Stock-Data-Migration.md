@@ -2,29 +2,33 @@
 
 ### Index
 
-1. [Export stock data](https://github.com/dictyBase/Migration-Docs/blob/master/Stock-Data-Migration.md#export-stock-data)
+1. [Discussions](https://github.com/dictyBase/Migration-Docs/blob/master/Stock-Data-Migration.md#discussion)
+2. [Export stock data](https://github.com/dictyBase/Migration-Docs/blob/master/Stock-Data-Migration.md#export-stock-data)
    1. [Export strain data](https://github.com/dictyBase/Migration-Docs/blob/master/Stock-Data-Migration.md#export-strain-data)
    2. [Export plasmid data](https://github.com/dictyBase/Migration-Docs/blob/master/Stock-Data-Migration.md#export-plasmid-data)
-2. [Import stock data](https://github.com/dictyBase/Migration-Docs/blob/master/Stock-Data-Migration.md#import-stock-data)
+3. [Import stock data](https://github.com/dictyBase/Migration-Docs/blob/master/Stock-Data-Migration.md#import-stock-data)
    1. [Import strain data](https://github.com/dictyBase/Migration-Docs/blob/master/Stock-Data-Migration.md#import-strain-data)
    2. [Import plasmid data](https://github.com/dictyBase/Migration-Docs/blob/master/Stock-Data-Migration.md#import-plasmid-data)
-3. [Discussions](https://github.com/dictyBase/Migration-Docs/blob/master/Stock-Data-Migration.md#discussion)
 4. [References](https://github.com/dictyBase/Migration-Docs/blob/master/Stock-Data-Migration.md#references)
 
-### Discussion | Things to know
+### Discussion
 * Storing organism information
    * What if *discoideum AX4* is resequenced? How do we distinguish current *AX4* genome from the new one?
    * What if we have genomes from 2 strains for a particular species and there is no sub-species?
 * Should we generate **DBP_IDs** for plasmids (like DBS_IDs for strains)?
 
-* Genotype currently **NOT** used for linking genes to strains.
-* Find out how many strain-gene links have an associated genotype.
-* Plasmid are linked to genes based on **sequence**
-* **Figure out how environment ontology is used (strain-phenotype)**
-* **Get plasmid sequence files & convert to GenBank format**
-* Plasmids do NOT have an organism.
-   * From plasmid-gene link find out an organism for the one's that do have.
 * From the legacy strain data `obtained_as`, `keywords` & `phenotype` will be GONE !
+* Genotype:
+   * Genotype currently **NOT** used for linking genes to strains.
+   * The order of comma separated genotypes is important. For example, one genotype is `axeA2,axeB2,axeC2,ptnA-[PTEN-BSR],bsR`
+   * Find out how many strain-gene links have an associated genotype.
+* Plasmid:
+   * Plasmid are linked to genes based on **sequence**
+   * **Get plasmid sequence files & convert to GenBank format**
+   * Plasmids do NOT have an organism.
+      * From plasmid-gene link find out an organism for the one's that do have.
+* Phenotype:
+   * **Figure out how environment ontology is used (strain-phenotype)**
 
 ### Export stock data 
 _ETA ~ ~~6 days (07/15 - 07/22)~~. Estimated 3 days_
