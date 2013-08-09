@@ -47,11 +47,11 @@ $_> modware-dump dictyplasmid -c plasmid-dump.yaml --data genbank,genes # Specif
    * ~~Should we generate **DBP_IDs** for plasmids (like DBS_IDs for strains)? **YES**~~
 * Phenotype:
    * **Figure out how environment ontology is used (strain-phenotype)**
+   * ~~Figure out SQL for strain phenotypes displayed on the web; [example](http://dictybase.org/db/cgi-bin/dictyBase/phenotype/strain_and_phenotype_details.pl?genotype_id=1516)~~
 * Strain
    * The `strain.phenotype` is currently free text, comma separated. It is a combination of strain characteristics, genotype and phenotypes.
-      * Strip all the genotype & strain characteristic terms. Export DBS_ID & just the phenotype (non genotype & non strain charcateristic terms).
+      * ~~Strip all the genotype & strain characteristic terms. Export DBS_ID & just the phenotype (non genotype & non strain charcateristic terms)~~
       * Map these exported phenotype terms to __dicty phenotype ontology__
-* Figure out SQL for strain phenotypes displayed on the web; [example](http://dictybase.org/db/cgi-bin/dictyBase/phenotype/strain_and_phenotype_details.pl?genotype_id=1516)
 
 
 __ETA ~ ~~6 days (07/15 - 07/22)~~. Estimated 3 days__
