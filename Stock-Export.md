@@ -62,7 +62,7 @@ __ETA ~ ~~6 days (07/15 - 07/22)~~. Estimated 3 days__
 | --- | --- | --- | --- | --- |
 | ~~strain~~ | `dbs_id`, `dbxref_id`, `species`, `strain_name`, `strain_description` | 5610 |  `stock` | Completed on 07/17 |
 | ~~inventory~~ | `dbs_id`, `location`, `color`, `storage_date`, `no_of_vials`, `obtained_as`, storage_comments (`private_comment`), other_comments_and_feedback (`public_comment`), `stored_as` | 2400 | `stockprop` | Completed on 07/17 |
-| ~~publications~~ | `dbs_id`, `pubmed_id` & `dbs_id`, `internal_db_id` | 5147 & 331 | `stock_pub` | Completed on 07/19 | 
+| ~~publications~~ | `dbs_id`, `pubmed_id` & `dbs_id`, `internal_db_id` | 5147 & 331 | `stock_pub` | Completed on 07/19. [Franke References in BibTeX](https://www.dropbox.com/s/ihn3n9zaz2w6r0u/dicty_refs_feb2012.bib) | 
 | ~~genes~~ | `dbs_id`, `dbxref.accession` (gene_id) | 1498 | `stock_genotype` | Completed on 07/17. `stock_genotype -> feature_genotype -> feature`. |
 | ~~genotype~~ | `dbs_id`, `genotype` (comma separated) | 387 | `stock_genotype` | [Example][1]. Completed on 07/17. Redo export. |
 | ~~phenotype~~ | `dbs_id`, `phenotype` (cvterm_name) | 6703 | | Completed on 07/22. |
