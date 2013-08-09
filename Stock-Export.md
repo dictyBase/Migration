@@ -14,11 +14,21 @@ $_> modware-dump dictyplasmid -c plasmid-dump.yaml --data genbank,genes # Specif
 
 ### [SQL Statements](https://github.com/dictyBase/Migration-Docs/blob/master/stock-data-migration/export.md)
 
+### Data NOT export
+* Strain
+   * `strain_type`, `keywords`, `obtained_from`, `strain_verification`, `obtained_on`
+   * **Strain Inventory** - `stored_from`, `date_of_viability_test`, `viability_test_results`, `viability_test_performed_by`, `date_transferred_to_ln`, `date_of_strain_plating`, `plating_results`, `strain_verification`, `created_by`, `date_created`, `stored_by`, `date_modified`
+* Plasmid
+   * `obtained_on`, `obtained_as`, `keywords`, `created_by`, `date_created`, `date_modified` 
+   * **Plasmid Inventory** - `test_date`, `verification`, `stored_by`, `created_by`, `date_created`, `date_modified` 
+
+
 ### Discussion
 * Storing organism information
    * What if *discoideum AX4* is resequenced? How do we distinguish current *AX4* genome from the new one?
    * What if we have genomes from 2 strains for a particular species and there is no sub-species?
    
+* **How to deal with Stock Orders?**
 * From the legacy strain data `obtained_as`, `keywords` & `phenotype` will be GONE !
 * There are 3 types of references for each strain & plasmid.
    * `internal_db_id` has some custom IDs of the form **d[0-9]{4}**. 87 entries with no PubMed reference for strains.
@@ -58,6 +68,7 @@ __ETA ~ ~~6 days (07/15 - 07/22)~~. Estimated 3 days__
 | ~~phenotype~~ | `dbs_id`, `phenotype` (cvterm_name) | | | Completed on 07/22. |
 | ~~characteristics~~ | `dbs_id`, `cvterm_name` | 17168 | `stock_cvterm` | Completed on 07/17 |
 | ~~props~~ (synonyms, genetic modifications, mutagenesis methods) | `dbs_id`, `type`, `value` | | `stockprop` |  |
+| plasmid | `dbs_id`, `dbp_id|plasmid_name` | | |  |
 
 ###  Export plasmid data
 
@@ -70,6 +81,8 @@ __ETA ~ ~~6 days (07/15 - 07/22)~~. Estimated 3 days__
 | ~~genbank~~ | `plasmid_id`, `genbank_accession_number` | | `stock_dbxref` | Completed on 07/17 |
 | ~~sequence~~ | | | | Completed on 08/01 |
 | images | | | | Work in progress... |
+| props (synonym, depositor) |`dbp_id`, `type`, `value` | | `stockprop` | Work in progress... |
+
 
 [1]: http://dictybase.org/db/cgi-bin/dictyBase/phenotype/strain_and_phenotype_details.pl?genotype_id=1516
 
