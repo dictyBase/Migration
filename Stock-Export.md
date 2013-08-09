@@ -14,12 +14,12 @@ $_> modware-dump dictyplasmid -c plasmid-dump.yaml --data genbank,genes # Specif
 
 ### [SQL Statements](https://github.com/dictyBase/Migration-Docs/blob/master/stock-data-migration/export.md)
 
-### Data NOT export
+### Data NOT exported
 * Strain
    * `strain_type`, `keywords`, `obtained_from`, `strain_verification`, `obtained_on`
    * **Strain Inventory** - `stored_from`, `date_of_viability_test`, `viability_test_results`, `viability_test_performed_by`, `date_transferred_to_ln`, `date_of_strain_plating`, `plating_results`, `strain_verification`, `created_by`, `date_created`, `stored_by`, `date_modified`
 * Plasmid
-   * `obtained_on`, `obtained_as`, `keywords`, `created_by`, `date_created`, `date_modified` 
+   * `obtained_on`, `obtained_as`, `created_by`, `date_created`, `date_modified` 
    * **Plasmid Inventory** - `test_date`, `verification`, `stored_by`, `created_by`, `date_created`, `date_modified` 
 
 
@@ -69,7 +69,7 @@ __ETA ~ ~~6 days (07/15 - 07/22)~~. Estimated 3 days__
 | ~~characteristics~~ | `dbs_id`, `cvterm_name` | 17203 | `stock_cvterm` | Completed on 07/17 |
 | ~~props~~ (synonyms, genetic modifications, mutagenesis methods) | `dbs_id`, `type`, `value` | 13926 | `stockprop` | Completed |
 | ~~parent~~ | `dbs_id`, `parent_dbs_id` | 15198 | `stock_relationship` | Completed |
-| plasmid | `dbs_id`, `dbp_id|plasmid_name` | | |  |
+| ~~plasmid~~ | `dbs_id`, `dbp_id OR plasmid_name` | 4325 | `stock_relationship` | Completed |
 
 ###  Export plasmid data
 
@@ -80,9 +80,9 @@ __ETA ~ ~~6 days (07/15 - 07/22)~~. Estimated 3 days__
 | ~~publications~~ | `plasmid_id`, `pubmed_id` | 566 | `stock_pub` | Completed on 07/19 |
 | ~~genes~~ | `plasmid_id`, `dbxref.accession` (gene_id) | 533 | | Completed on 07/17 |
 | ~~genbank~~ | `plasmid_id`, `genbank_accession_number` | 50 | `stock_dbxref` | Completed on 07/17 |
-| ~~sequence~~ | | 163 | | Completed on 08/01 |
+| ~~sequence~~ | | 168 | | Completed on 08/01 |
 | images | | | | Work in progress... |
-| props (synonym, depositor) |`dbp_id`, `type`, `value` | | `stockprop` | Work in progress... |
+| props (synonym, depositor, keywords) |`dbp_id`, `type`, `value` | | `stockprop` | Work in progress... |
 
 
 [1]: http://dictybase.org/db/cgi-bin/dictyBase/phenotype/strain_and_phenotype_details.pl?genotype_id=1516
