@@ -4,12 +4,13 @@
 
 ```perl
 # Export strain data
-$_> modware-dump dictystrain -c strain-dump.yaml --output_dir <folder-to-export-data> # This will dump all data
-$_> modware-dump dictystrain -c strain-yaml --data genotype,inventory,genes,publications,phenotype,props # Specific exports
+$_> modware-dump dictystrain -c strain_export.yaml --output_dir <folder-to-export-data> # This will dump all data
+$_> modware-dump dictystrain -c strain_export.yaml --data genotype --data inventory --data genes --data publications # Specific exports
 
 # Export plasmid data
-$_> modware-dump dictyplasmid -c plasmid-dump.yaml --output_dir <folder-to-export-data> --sequence # This will dump all data
-$_> modware-dump dictyplasmid -c plasmid-dump.yaml --data genbank,genes # Specific exports
+$_> modware-dump dictyplasmid -c plasmid_export.yaml --output_dir <folder-to-export-data> # This will dump all data
+$_> modware-dump dictyplasmid -c plasmid_export.yaml --data genbank --data genes # Specific exports
+$_> modware-dump dictyplasmid -c plasmid_export.yaml --sequence # Export plasmid sequences in FastA/GenBank
 ```
 
 ### [SQL Statements](https://github.com/dictyBase/Migration-Docs/blob/master/stock-data-migration/export.md)
@@ -67,7 +68,7 @@ __ETA ~ ~~6 days (07/15 - 07/22)~~. Estimated 3 days__
 | ~~genotype~~ | `dbs_id`, `genotype` (comma separated) | 387 | `stock_genotype` | [Example][1]. Completed on 07/17. Redo export. |
 | ~~phenotype~~ | `dbs_id`, `phenotype` (cvterm_name) | 6703 | | Completed on 07/22. |
 | ~~characteristics~~ | `dbs_id`, `cvterm_name` | 17203 | `stock_cvterm` | Completed on 07/17 |
-| ~~props~~ (synonyms, genetic modifications, mutagenesis methods) | `dbs_id`, `type`, `value` | 13926 | `stockprop` | Completed |
+| ~~props (synonyms, genetic modifications, mutagenesis methods)~~ | `dbs_id`, `type`, `value` | 13926 | `stockprop` | Completed |
 | ~~parent~~ | `dbs_id`, `parent_dbs_id` | 15198 | `stock_relationship` | Completed |
 | ~~plasmid~~ | `dbs_id`, `dbp_id OR plasmid_name` | 4325 | `stock_relationship` | Completed |
 
@@ -82,7 +83,7 @@ __ETA ~ ~~6 days (07/15 - 07/22)~~. Estimated 3 days__
 | ~~genbank~~ | `plasmid_id`, `genbank_accession_number` | 50 | `stock_dbxref` | Completed on 07/17 |
 | ~~sequence~~ | | 168 | | Completed on 08/01 |
 | images | | | | Work in progress... |
-| props (synonym, depositor, keywords) |`dbp_id`, `type`, `value` | | `stockprop` | Work in progress... |
+| ~~props (synonym, depositor, keywords)~~ |`dbp_id`, `type`, `value` | | `stockprop` | Work in progress... |
 
 
 [1]: http://dictybase.org/db/cgi-bin/dictyBase/phenotype/strain_and_phenotype_details.pl?genotype_id=1516
