@@ -24,12 +24,17 @@
    * ~~See if use of UUID will be possible~~ It generates a alpha-numeric string of the form 8-4-4-12 characters
 
 ### Import strain data
-* Phenotype data model
+####  Phenotype data model
    * The observation from expression of genotype is phenotype. Attributes observed can be affected by the environment
       * `genotype -> phenotype <- environment`
    * `dicty_environment` ontology will be loaded in `Cv::Cvterm`. However, which ever environment terms are associated with phenotype will also be duplicated in the `environment` table.
    * `dicty_assay` ontology is loaded in `Cv::Cvterm` and used in `Phenotype::Phenotype`. `dicty_assay` has nothing to do with `Mage::Assay`.  
-   * ![Dicty Phenotype Data Model](stock-data-migration/images/dicty_phenotype.png)
+   ![Dicty Phenotype Data Model](stock-data-migration/images/dicty_phenotype.png)
+
+   * **Questions?**
+      1. What `type_id` should be used in `phenstatement`?
+	  2. When is `environment` linked to `cv` through `environment_cvterm`?
+
 
 ### Import plasmid data
 
