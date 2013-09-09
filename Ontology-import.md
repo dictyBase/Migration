@@ -6,14 +6,15 @@ The current project is to get a fully working version with Pg backend.
 
 * Get a working version with postgresql identical to the one we have now for ```oracle``` and ```sqlite```.
 
-  1. Write the temp table sql statements to a file and load it from there.  __Done__
-  2. Load alt id.
-  3. Load relationship properties.
-  4. Load dbxrefs.
+  * Write the temp table sql statements to a file and load it from there.  __Done__
+  * Load alt id.
+  * Load relationship properties.
+  * Load dbxrefs.
 
 ### Common tasks for all steps.
 * Implement model both for ```sqlite``` and ```postgresql```.
 * Write unit tests for those pieces.
+    At this point, implementing unit testing with dual backends requires API changes in __Test::Chado__ module.
 * Write sql model(ER diagram) and documentation.
 * Write code documentation(optional)
 
