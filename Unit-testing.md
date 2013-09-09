@@ -1,4 +1,8 @@
 Project [page](https://github.com/dictyBase/Test-Chado)
+Issue [tracker](https://github.com/dictyBase/Test-Chado/issues?state=open)
+
+#Note
+All the discussion, bugs, issues etc is now getting tracked from its issue tracker. This page is officially __retired__ and only stays as __archive__.
 
 
 # Done
