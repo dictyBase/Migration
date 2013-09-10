@@ -14,9 +14,7 @@ $_> modware-dump dictyplasmid -c plasmid_export.yaml --sequence # Export plasmid
 ```
 
 ### [SQL Statements](https://github.com/dictyBase/Migration-Docs/blob/master/stock-data-migration/export.md)
-### [Discussions](https://github.com/dictyBase/Migration-Docs/blob/master/stock-data-migration/discussions.md)
-
-
+### [Discussions](https://github.com/dictyBase/Migration-Docs/blob/master/stock-data-migration/discussions.md#stock-data-export-discussions)
 ### Old References
 
 1. [Data Model(s)](https://github.com/dictyBase/Stock-Data-Migration/blob/develop/data/models/stock_inventory.md)

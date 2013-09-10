@@ -5,14 +5,15 @@
 ```perl
 modware-import dictystrain2chado -c strain_import.yaml -i strain_strain.txt 
 modware-import dictystrain2chado -c strain_import.yaml -i strain_strain.txt --prune --mock_pubs 
+modware-import dictystrain2chado -c strain_import.yaml -i strain_strain.txt --data inventory --data genotype 
 
 modware-import dictystrain2chado -c plasmid_import.yaml -i plasmid_plasmid.txt 
 ```
 
 ### [Data Model](https://github.com/dictyBase/Migration-Docs/blob/master/stock-data-migration/import.md)
-### [Discussions](https://github.com/dictyBase/Migration-Docs/blob/master/stock-data-migration/discussions.md)
-
+### [Discussions](https://github.com/dictyBase/Migration-Docs/blob/master/stock-data-migration/discussions.md#stock-data-import-discussions)
 ### Import strain data
+
 ####  Phenotype data model
    * The observation from expression of genotype is phenotype. Attributes observed can be affected by the environment
       * `genotype -> phenotype <- environment`
