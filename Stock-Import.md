@@ -3,12 +3,19 @@
 ### Synopsis
 
 ```perl
-modware-import dictystrain2chado -c strain_import.yaml -i strain_strain.txt 
-modware-import dictystrain2chado -c strain_import.yaml -i strain_strain.txt --prune --mock_pubs 
-modware-import dictystrain2chado -c strain_import.yaml -i strain_strain.txt --data inventory --data genotype 
+modware-import dictyplasmid2chado2 -c plasmid_import.yaml 
+modware-import dictyplasmid2chado2 -c plasmid_import.yaml --data inventory --data props # For specific imports 
 
-modware-import dictystrain2chado -c plasmid_import.yaml -i plasmid_plasmid.txt 
+modware-import dictystrain2chado2 -c strain_import.yaml 
+modware-import dictystrain2chado2 -c strain_import.yaml --prune --mock_pubs # Options to prune or mock publications 
+modware-import dictystrain2chado2 -c strain_import.yaml --data inventory --data genotype # For specific imports 
+
 ```
+
+#### Deferred
+
+1. GenBank/FastA sequence imports for plasmids & plasmid-gene link
+2. Strain-gene link
 
 ### [Data Model](https://github.com/dictyBase/Migration-Docs/blob/master/stock-data-migration/import.md)
 ### [Discussions](https://github.com/dictyBase/Migration-Docs/blob/master/stock-data-migration/discussions.md#stock-data-import-discussions)
@@ -19,6 +26,7 @@ modware-import dictystrain2chado -c plasmid_import.yaml -i plasmid_plasmid.txt
       * `genotype -> phenotype <- environment`
 	  * [`uniquename` should be a unique identifier (randomly generated)](https://github.com/dictyBase/Modware-Loader/issues/80)
    * Phenotype notes 
+      * Look-up `phenotypeprop` table from Chado svn
       * `attr_id` - Look for something in PATO or OBO foundry that can nicely explain a note
 	  * `value` - This will be the phenotype note for the above `attr_id (cvterm_id)`
    * `dicty_environment` ontology will be loaded in `Cv::Cvterm`. However, which ever environment terms are associated with phenotype will also be duplicated in the `environment` table.
@@ -30,4 +38,4 @@ modware-import dictystrain2chado -c plasmid_import.yaml -i plasmid_plasmid.txt
 * Plasmid map images
    * ~~Get images from existing files~~
    * Data goes to `stockprop` with `type_id` as `plasmid map` (maybe).
-   * Image saved as binary blob
+   * ~~Image saved as binary blob~~
