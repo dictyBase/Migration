@@ -7,15 +7,15 @@
    * ~~Ask for data from Sol Genomics.~~ *on their contact form (Aug 15, 2013)* 
       * Understand how tomato is modelled for phenotypes
    * Study & understand [Chado Phenotype Module at FlyBase](http://gmod.org/wiki/Chado_Phenotype_Module_at_FlyBase)
-* [Random generation of unique ID for stock](https://github.com/dictyBase/Modware-Loader/issues/80)
+* [~~Random generation of unique ID for stock~~](https://github.com/dictyBase/Modware-Loader/issues/80) [`8c04c786c`](https://github.com/dictyBase/Modware-Loader/commit/8c04c786c4888d66950812b17cabef043e821a77)
    * Understand how we randomly generate DBS IDs for `strain` in Oracle
    * Look for similar functionality in PostgreSQL. Investigate deep. Have sample code !
       * `SELECT md5(random()::text);`
    * ~~See if use of UUID will be possible~~ It generates a alpha-numeric string of the form 8-4-4-12 characters
 * `Cv` namespaces, when unknown. What is the default? 
-   * [What `type_id` should be used in `phenstatement`?](http://gmod.827538.n3.nabble.com/About-type-id-in-phenstatement-td4036285.html)
+   * [~~What `type_id` should be used in `phenstatement`?~~](http://gmod.827538.n3.nabble.com/About-type-id-in-phenstatement-td4036285.html). Currently using *observation* (as in, observed phenotype)
    * When is `environment` linked to `cv` through `environment_cvterm`?
-   * What `cvterm` can be used for phenotype notes? Look up ontologies on OBO Foundry. Also look for terms in PATO
+   * ~~What `cvterm` can be used for phenotype notes? Look up ontologies on OBO Foundry. Also look for terms in PATO.~~ Currently using *curator note*, under `{ cv => dicty_stockcenter }`
 
 # Stock Data Export Discussions
 
