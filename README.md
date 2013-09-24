@@ -15,6 +15,7 @@
      * [Stock/Phenotype](Stock-Export.md)
    * Data Import in Postgresql
      * [Gene models/annotations](Gene-models-import.md)
+	 * [GAF](GAF-Import.md)
      * [Ontologies](Ontology-import.md)
      * [Literature](Literature-import.md)
      * [Stock/Phenotype](Stock-Import.md) 
