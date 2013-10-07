@@ -8,9 +8,11 @@ __Note:__There will be a need for exporting faked intron gene models, however it
 These would be primarilly the additional information added during curation.
 
 ### Synonyms
-#### ETA(~1 day)
-* Export in a two columns tsv with GeneID and colon/command separated synonyms
-  * Integrate the export code in dicty gff3 exporter.
+#### ETA(~1 day). Took (~3 days)
+* ~~Export in a two columns tsv with GeneID and colon/command separated synonyms~~
+* Integrate the export code in dicty gff3 exporter.
+   * Add `read_synonym` & `write_synonym` events to current event driven data exporter
+   * `write_synonym` happens as a part of `write_synonym` to avoid duplication
 
 ### Summary paragraph
 #### ETA(~3 days)
@@ -22,3 +24,4 @@ These would be primarilly the additional information added during curation.
   * Get a list of xml tags and their possible markdown markup.
   * Convert the original file to a two columns tsv.
 
+* Consider the option of exporting paragraphs as an attribute of GFF3
