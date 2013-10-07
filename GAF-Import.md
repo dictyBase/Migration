@@ -28,4 +28,7 @@ Ref: [Design of Loader](https://github.com/dictyBase/Modware-Loader/issues/92)
 
 ## Discussions
 
-1. [Mailing list discussion on modeling Column 16](http://generic-model-organism-system-database.450254.n5.nabble.com/Storing-GO-annotation-extensions-in-Chado-td4564896.html)
+* [Mailing list discussion on modeling Column 16](http://generic-model-organism-system-database.450254.n5.nabble.com/Storing-GO-annotation-extensions-in-Chado-td4564896.html)
+
+* Provide proper curator information to Tony
+* Making GPAD/GPI/GAF compatible. Import one format, export another.
