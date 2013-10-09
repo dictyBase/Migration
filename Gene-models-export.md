@@ -16,12 +16,12 @@ These would be primarilly the additional information added during curation.
 
 ### Summary paragraph
 #### ETA(~3 days)
-* Export a  threee columns tsv with GeneID, paragraph text and curator name.
-  *  __Note:__Export user name(string) instead of database id.
-  * As an alternate export a file for each user/curator.
+* Export a three columns tsv with GeneID, paragraph text and curator name.
+  *  __Note:__ Export user name(string) instead of database id.
+  * ~~As an alternate export a file for each user/curator~~ Exporting curator names as a column in output file. Can be separated too !
 
-* Convert xml to markdown text.
-  * Get a list of xml tags and their possible markdown markup.
-  * Convert the original file to a two columns tsv.
+* Convert xml to mediawiki.
+  * ~~Get a list of xml tags and their possible markdown markup~~ Using HTML::WikiConverter.
+  * Convert the original file to a ~~two~~ three columns tsv.
 
-* Consider the option of exporting paragraphs as an attribute of GFF3
+* ~~Consider the option of exporting paragraphs as an attribute of GFF3~~ Text too long. Also can have punctuations.
