@@ -23,6 +23,6 @@ These would be primarilly the additional information added during curation.
 * Convert summary to mediawiki.
   * ~~Get a list of xml tags and their possible markdown markup~~ Using HTML::WikiConverter.
   * Convert the original file to a ~~two~~ three columns tsv.
-  * As the summary is neither XML nor HTML, added <html> tags to the clean formatted summary and then ran it through `html2wiki`
+  * As the summary is neither XML nor HTML, added `<html>...</html>` tags to the clean formatted summary and then ran it through `html2wiki`
 
 * ~~Consider the option of exporting paragraphs as an attribute of GFF3~~ Text too long. Also can have punctuations.
