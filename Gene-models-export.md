@@ -15,13 +15,14 @@ These would be primarilly the additional information added during curation.
    * `write_synonym` happens as a part of `write_synonym` to avoid duplication
 
 ### Summary paragraph
-#### ETA(~3 days)
+#### ETA (~3 days). Took (~3 days)
 * Export a three columns tsv with GeneID, paragraph text and curator name.
   *  __Note:__ Export user name(string) instead of database id.
   * ~~As an alternate export a file for each user/curator~~ Exporting curator names as a column in output file. Can be separated too !
 
-* Convert xml to mediawiki.
+* Convert summary to mediawiki.
   * ~~Get a list of xml tags and their possible markdown markup~~ Using HTML::WikiConverter.
   * Convert the original file to a ~~two~~ three columns tsv.
+  * As the summary is neither XML nor HTML, added <html> tags to the clean formatted summary and then ran it through `html2wiki`
 
 * ~~Consider the option of exporting paragraphs as an attribute of GFF3~~ Text too long. Also can have punctuations.
