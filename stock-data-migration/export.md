@@ -8,8 +8,10 @@ JOIN CGM_CHADO.dbxref d ON d.dbxref_id = sc.dbxref_id;
 ```
 ```sql
 /* Strain inventory */
-SELECT sci.location, sci.color, sci.storage_date, sci.no_of_vials, sci.obtained_as, sci.storage_comments private_comment, sci.other_comments_and_feedback public_comment,sci.stored_as
-FROM CGM_DDB.stock_center_inventory sci;
+SELECT d.accession, sci.location, sci.color, sci.no_of_vials, sci.obtained_as, sci.stored_as, sci.storage_date, sci.storage_comments private_comment, sci.other_comments_and_feedback public_comment
+FROM CGM_DDB.stock_center_inventory sci
+JOIN CGM_DDB.stock_center sc ON sc.id = sci.strain_id
+JOIN CGM_CHADO.dbxref d ON d.dbxref_id = sc.dbxref_id;
 ```
 ```sql
 /* Strain publications */
@@ -50,6 +52,12 @@ SELECT id, name, description
 FROM CGM_DDB.plasmid;
 ```
 ```sql
+/* Plasmid inventory */
+SELECT p.id, pi.location, pi.color, pi.stored_as, pi.storage_date, pi.other_comments_and_feedback public_comment
+FROM CGM_DDB.plasmid_inventory pi
+JOIN CGM_DDB.plasmid p ON p.id = pi.plasmid_id;
+```
+```sql
 /* Plasmid gene link */
 SELECT DISTINCT p.id plasmid_id, d.accession gene_id
 FROM plasmid_gene_link pgl
@@ -65,42 +73,17 @@ WHERE genbank_accession_number IS NOT NULL;
 ```
 ---
 ```sql
-SELECT sc.strain_name, d.accession dbs_id, f.uniquename gene_symbol, d2.accession gene_id, ct.name phenotype
-/* p.value, g.genotype_id, p.phenotype_id, p.observable_id */
-FROM CGM_DDB.stock_center sc
-JOIN CGM_CHADO.dbxref d ON d.dbxref_id = sc.dbxref_id
-JOIN CGM_CHADO.genotype g ON g.uniquename = d.accession
-
-JOIN CGM_CHADO.phenstatement pst ON pst.genotype_id = g.genotype_id
-JOIN CGM_CHADO.phenotype p ON p.phenotype_id = pst.phenotype_id
-JOIN CGM_CHADO.cvterm ct ON ct.cvterm_id = p.observable_id
-
-JOIN CGM_CHADO.feature_genotype fg ON fg.genotype_id = g.genotype_id
-JOIN CGM_CHADO.feature f ON f.feature_id = fg.feature_id
-JOIN CGM_CHADO.dbxref d2 ON d2.dbxref_id = f.dbxref_id
-
-WHERE g.genotype_id IN (1630, 1516)
-AND sc.strain_name IN ('vasP-', 'sadA-')
-ORDER BY sc.strain_name, d.accession;
-```
-OR
-```sql
-SELECT DISTINCT sc.strain_name, d.accession dbs_id, f.uniquename gene_symbol, d2.accession gene_id, ct.name phenotype
-/* p.value, g.genotype_id, p.phenotype_id, p.observable_id */
-FROM CGM_DDB.strain_gene_link sgl
-JOIN CGM_DDB.stock_center sc ON sc.id = sgl.strain_id
-JOIN CGM_CHADO.dbxref d ON d.dbxref_id = sc.dbxref_id
-JOIN CGM_CHADO.feature_genotype fg ON fg.feature_id = sgl.feature_id
-
-JOIN CGM_CHADO.phenstatement pst ON pst.genotype_id = fg.genotype_id
-JOIN CGM_CHADO.phenotype p ON p.phenotype_id = pst.phenotype_id
-JOIN CGM_CHADO.cvterm ct ON ct.cvterm_id = p.observable_id
-
-JOIN CGM_CHADO.feature f ON f.feature_id = fg.feature_id
-JOIN CGM_CHADO.dbxref d2 ON d2.dbxref_id = f.dbxref_id
-
-WHERE fg.genotype_id IN (1630, 1516)
-AND sc.strain_name IN ('vasP-', 'sadA-')
-ORDER BY sc.strain_name, d.accession;
+/* Phenotype */
+SELECT g.uniquename dbs_id, phen.name phenotype, env.name environment, assay.name assay, pub.uniquename pmid, p.value phenotype_note
+FROM phenstatement pst
+LEFT JOIN genotype g on g.genotype_id = pst.genotype_id
+LEFT JOIN cvterm env on env.cvterm_id = pst.environment_id
+LEFT JOIN cv env_cv on env_cv.cv_id = env.cv_id
+LEFT JOIN phenotype p on p.phenotype_id = pst.phenotype_id
+LEFT JOIN cvterm phen on phen.cvterm_id = p.observable_id
+LEFT JOIN cvterm assay on assay.cvterm_id = p.assay_id
+LEFT JOIN cv assay_cv on assay_cv.cv_id = assay.cv_id
+LEFT JOIN pub on pub.pub_id = pst.pub_id
+ORDER BY g.uniquename, pub.uniquename, phen.name;
 ```
 ---
