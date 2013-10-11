@@ -13,6 +13,7 @@ These would be primarilly the additional information added during curation.
 * Integrate the export code in dicty gff3 exporter.
    * Add `read_synonym` & `write_synonym` events to current event driven data exporter
    * `write_synonym` happens as a part of `write_synonym` to avoid duplication
+   * Added [`test`](https://github.com/dictyBase/Modware-Loader/commit/6bb3f32a6c7f22abcc6226fc1f4ea51e64f40a42). Broken as of Oct 11, 2013
 
 ### Summary paragraph
 #### ETA (~3 days). Took (~3 days)
@@ -26,3 +27,9 @@ These would be primarilly the additional information added during curation.
   * As the summary is neither XML nor HTML, added `<html>...</html>` tags to the clean formatted summary and then ran it through `html2wiki`
 
 * ~~Consider the option of exporting paragraphs as an attribute of GFF3~~ Text too long. Also can have punctuations.
+
+#### Synopsis
+
+```perl
+modware-export chado2genesummary -c config.yaml -o gene_summart.tsv
+```
