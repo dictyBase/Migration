@@ -27,9 +27,9 @@
    * Model for plasmid sequence import
    * Import GenBank & FastA
 * Add perlcritic to your code workflow - [`~/.perlcriticrc`](https://github.com/ypandit/dot-files/blob/master/perl/perlcriticrc)
-* Clean up modware-loader issue tracker. There are tons of issues floating
-  there, if they are not supposed to be completed now, change their label or
-  delete those labels, take some actions.
+* Clean up modware-loader issue tracker. There are tons of issues floating there, if they are not supposed to be completed now, change their label or delete those labels, take some actions.
+   * 12 issues closed (added comments, links & [moved few to migration-docs](https://github.com/dictyBase/Migration-Docs/issues))
+   * Added label `gaf2chado` for GAF related tasks. This will be handled in the coming weeks
 * Staging loader for gene ontology annotations data. Remember the
   module/class should be independent of data format(GAF/GPAD), it should work
   irrespective of the flat file source.
