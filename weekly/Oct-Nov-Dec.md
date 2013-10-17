@@ -23,13 +23,17 @@
 * Chado sql building script for Chado-Sqitch.
    * Create `deploy, revert` scripts for Sqitch from Chado SVN modules checkout - [``]()
 * Export gene models (Was migrate gene summary).
-* Import plasmid sequence.
+   * Export private curator notes
+   * Export colleagues-genes association
+   * Handle multiple notes. e.g. [dhkM]()
+* Import plasmid sequence [`7483dcd`](https://github.com/dictyBase/Modware-Loader/blob/7483dcdaa5ffc4090d5999524004b9e3a90c62c0/lib/Modware/Import/Stock/PlasmidImporter.pm#L296), [docs](https://github.com/dictyBase/dictybase.github.com/blob/64639a36ef101a9c2ad6d6dd44206eb9ecf21fcc/source/stock-data-import/index.markdown)
    * Model for plasmid sequence import
    * Import GenBank & FastA
+* Import genes associated with plasmids [`3240011`](https://github.com/dictyBase/Modware-Loader/blob/3240011842834470ffb5ca42d3165233bd98e536/lib/Modware/Import/Stock/PlasmidImporter.pm#L397)
 * Add perlcritic to your code workflow - [`~/.perlcriticrc`](https://github.com/ypandit/dot-files/blob/master/perl/perlcriticrc)
 * Clean up modware-loader issue tracker. There are tons of issues floating there, if they are not supposed to be completed now, change their label or delete those labels, take some actions.
    * 12 issues closed (added comments, links & [moved few to migration-docs](https://github.com/dictyBase/Migration-Docs/issues))
-   * Added label `gaf2chado` for GAF related tasks. This will be handled in the coming weeks
+   * Added label [`gaf2chado`](https://github.com/dictyBase/Modware-Loader/issues?labels=gaf2chado&page=1&state=open) for GAF related tasks. This will be handled in the coming weeks
 * Staging loader for gene ontology annotations data. Remember the
   module/class should be independent of data format(GAF/GPAD), it should work
   irrespective of the flat file source.
