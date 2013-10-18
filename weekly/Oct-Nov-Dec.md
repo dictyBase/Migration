@@ -19,7 +19,7 @@
 
 # 14th - 18th Oct
 * Write docs about using Modware-Loader to do stock center data migration. Put it as a documentation in our dictybase [blog](http://dictybase.github.io/pages/documentation/)
-   * Documentation on stock data import commands - [``]()
+   * Documentation on stock data import commands - [`edba90c`](https://github.com/dictyBase/dictybase.github.com/blob/edba90c701e2faead111a17dfab8a74543072427/source/stock-data-import/index.markdown)
 * Chado sql building script for Chado-Sqitch.
    * Create `deploy` script for Sqitch from Chado SVN modules checkout - [`095e44d`](https://github.com/dictyBase/Chado-Sqitch/blob/095e44d13a153f95964c9ce3dcbf9545fc33d67d/maint/chado_nofuncs_noviews.pl). Not-working [`#3`](https://github.com/dictyBase/Chado-Sqitch/issues/3)
    * Create `revert` script to reverse the above `deploy`
