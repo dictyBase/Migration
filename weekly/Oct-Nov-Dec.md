@@ -21,7 +21,8 @@
 * Write docs about using Modware-Loader to do stock center data migration. Put it as a documentation in our dictybase [blog](http://dictybase.github.io/pages/documentation/)
    * Documentation on stock data import commands - [``]()
 * Chado sql building script for Chado-Sqitch.
-   * Create `deploy, revert` scripts for Sqitch from Chado SVN modules checkout - [``]()
+   * Create `deploy` script for Sqitch from Chado SVN modules checkout - [`095e44d`](https://github.com/dictyBase/Chado-Sqitch/blob/095e44d13a153f95964c9ce3dcbf9545fc33d67d/maint/chado_nofuncs_noviews.pl). Not-working [`#3`](https://github.com/dictyBase/Chado-Sqitch/issues/3)
+   * Create `revert` script to reverse the above `deploy`
 * Export gene models (Was migrate gene summary).
    * Export private curator notes
    * Export colleagues-genes association
