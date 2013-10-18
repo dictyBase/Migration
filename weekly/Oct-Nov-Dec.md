@@ -44,7 +44,18 @@
   - At the end build should pass in CI
 
 # 21th - 25th Oct
-* Staging loader for gene ontology annotations data(contd.)
+* Export gene models (Was migrate gene summary).
+   * Export private curator notes
+   * Export colleagues-genes association
+   * Handle multiple notes. e.g. [dhkM]()
+* Chado sql building script for Chado-Sqitch.
+   * Fix `deploy` script [dependency issue](https://github.com/dictyBase/Chado-Sqitch/issues/3) 
+   * Create `revert` script to reverse the above `deploy`
+* Staging loader for gene ontology annotations data. Remember the module/class should be independent of data format(GAF/GPAD), it should work irrespective of the flat file source.
+  - The code should completed with unit tests(~95% coverage) 
+  - Support for two backends
+  - Complete API docs in POD
+  - At the end build should pass in CI
 
 # 28th - 1 Nov
 * Chado loader for gene ontology annotations data. The expectation is identical to staging loader.
