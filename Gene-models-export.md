@@ -28,6 +28,11 @@ These would be primarilly the additional information added during curation.
 
 * ~~Consider the option of exporting paragraphs as an attribute of GFF3~~ Text too long. Also can have punctuations.
 
+* More annotations to be exported
+   * Export private curator notes
+   * Export colleagues-genes association
+   * Handle multiple notes. e.g. [dhkM]()
+
 #### Synopsis
 
 ```perl

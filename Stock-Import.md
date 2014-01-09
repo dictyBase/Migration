@@ -3,18 +3,20 @@
 ### Synopsis
 
 ```perl
-modware-import dictyplasmid2chado2 -c plasmid_import.yaml 
-modware-import dictyplasmid2chado2 -c plasmid_import.yaml --data inventory --data props # For specific imports 
+modware-import dictyplasmid2chado -c plasmid_import.yaml 
+modware-import dictyplasmid2chado -c plasmid_import.yaml --mock_pubs --prune 
+modware-import dictyplasmid2chado -c plasmid_import.yaml --data inventory --data props # For specific imports 
+modware-import dictyplasmid2chado -c plasmid_import.yaml --seq_data_dir <path-to-folder> # Path tol folder with GanBank/FastA sequences
 
-modware-import dictystrain2chado2 -c strain_import.yaml 
-modware-import dictystrain2chado2 -c strain_import.yaml --prune --mock_pubs # Options to prune or mock publications 
-modware-import dictystrain2chado2 -c strain_import.yaml --data inventory --data genotype # For specific imports 
-
+modware-import dictystrain2chado -c strain_import.yaml 
+modware-import dictystrain2chado -c strain_import.yaml --prune --mock_pubs # Options to prune or mock publications 
+modware-import dictystrain2chado -c strain_import.yaml --data inventory --data genotype # For specific imports 
+modware-import dictystrain2chado -c strain_import.yaml --dsc_phenotypes <path-to-file> # Path to file with corrected DSC phenotypes 
 ```
 
 #### Deferred
 
-1. GenBank/FastA sequence imports for plasmids & plasmid-gene link
+1. ~~GenBank/FastA sequence imports for plasmids & plasmid-gene link~~ [`#106`](https://github.com/dictyBase/Modware-Loader/pull/106)
 2. Strain-gene link
 
 ### [Data Model](https://github.com/dictyBase/Migration-Docs/blob/master/stock-data-migration/import.md)
