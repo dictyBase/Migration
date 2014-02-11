@@ -9,6 +9,28 @@ modware-load dictygaf2chado -c config.yaml -i gene_association.dictyBase -l log/
 ## Tasks
 
 * Understand OBO-loader for software design
+
+### Mapping GPAD columns to chado tables
+
+GPAD columns                | Chado mapping---------------------------------------------------------------------------------
+----------------------------| -------------
+ 1 (DB)                     |  None(ignored)
+ 2 (DB_Object_id)           |  feature.uniquename/feature.dbxref -> feature_cvterm.feature_id 
+ 3 (Qualifier)              |  feature.cvtermprop[value => qualifier] -> cvterm(qualifier) -> cv(gene_ontology_association)
+ 4 (GO ID)                  |  cvterm.name(dbxref.accession) -> feature_cvterm.cvterm_id 
+ 5 (DB_References)          |  first one feature_cvterm.pub_id. The rest of them goes through feature_cvterm_pub
+ 6 (Ev code)                |  feature_cvtermprop[value => 1] -> cvterm(Full name of evidence code) -> cv(eco)
+ 7 (With/From)              |  feature_cvtermprop[value => with/form]  -> cvterm(with) -> cv(gene_ontology_association)
+ 8 (Taxon id)               |  None(ignored)
+ 9 (Date)                   |  feature_cvtermprop[value => date]  -> cvterm(date) -> cv(gene_ontology_association)
+ 10 (Assigned_by)           |  feature_cvtermprop[value => assigned_by]  -> cvterm(source) -> cv(gene_ontology_association)
+ 11 (Annotation Extension)  |  Yet to be modeled
+ 12 (Annotation Properties) |  None, ignored at this point, however could have curator assignment which have to be stored
+                            |    outside of chado schema
+
+
+
+
 * Consider using temp tables and pure SQL for loading. [No *prune*](https://github.com/dictyBase/Modware-Loader/issues/41) everytime
 * [Model Column 16](https://github.com/dictyBase/Modware-Loader/issues/21)
 * [Unit tests](https://github.com/dictyBase/Modware-Loader/issues/38)
