@@ -12,7 +12,7 @@ modware-load dictygaf2chado -c config.yaml -i gene_association.dictyBase -l log/
 
 ### Mapping GPAD columns to chado tables
 
-GPAD columns                | Chado mapping---------------------------------------------------------------------------------
+GPAD columns                | Chado mapping
 ----------------------------| -------------
  1 (DB)                     |  None(ignored)
  2 (DB_Object_id)           |  feature.uniquename/feature.dbxref -> feature_cvterm.feature_id 
@@ -25,8 +25,7 @@ GPAD columns                | Chado mapping-------------------------------------
  9 (Date)                   |  feature_cvtermprop[value => date]  -> cvterm(date) -> cv(gene_ontology_association)
  10 (Assigned_by)           |  feature_cvtermprop[value => assigned_by]  -> cvterm(source) -> cv(gene_ontology_association)
  11 (Annotation Extension)  |  Yet to be modeled
- 12 (Annotation Properties) |  None, ignored at this point, however could have curator assignment which have to be stored
-                            |    outside of chado schema
+ 12 (Annotation Properties) |  None, ignored at this point, however could have curator assignment which have to be stored outside of chado schema
 
 
 
