@@ -8,13 +8,17 @@
 The plugins would manipulate data loader by GFF3 loader which is beyond the scope of the loader.
 
 ### Misc
-* Loading organism information to populate organism table in chado. However how do we __model strains__ and __resequenced strains__.
-* Loading taxonomy from NCBI at least rooted at _amoebozoa._ (~ 2 weeks).
+* [Specification](https://github.com/dictyBase/Migration-Docs/issues/5) for pre and post-processing. 
+* Loading taxonomy from NCBI at least rooted at _amoebozoa._ (~ 2 weeks). **Could be skipped now**
+
+#### Generate EST alignments for available species. 
+* Experiment and figure out the tool to use for alignments.
+* Generate standard GFF3 output of alignments(using Target tag) and load it through GFF3 loader.
+
 
 
 ### Genomes to be loaded.
-* _D.discoideum_. It does involve loading multiple GFF3 files in order. Loading the EST alignments 
-    has to be skipped. New EST alignments needs to be generated.
+* *D.discoideum:* It does involve loading multiple GFF3 in order.
 * Genomes for other dictyostelids. It should one or two files per genomes. Other genomes should be loaded first.
 
 #### Synopsis
