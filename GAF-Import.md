@@ -12,8 +12,8 @@ modware-load dictygaf2chado -c config.yaml -i gene_association.dictyBase -l log/
 
 ### Mapping GPAD columns to chado tables
 
-GPAD columns|Value|         | Chado mapping
-----------------------------| -------------
+GPAD columns|Value|         Chado mapping
+----------------------------|--------------
  1 (DB)            |1         |  None(ignored)
  2 **(DB_Object_id)**  |1        |  feature.uniquename/feature.dbxref -> feature_cvterm.feature_id 
  3 (Qualifier)     |>=1         |  feature.cvtermprop[value => qualifier] -> cvterm(qualifier) -> cv(gene_ontology_association)
