@@ -52,3 +52,5 @@ Support for non-ascii characters for all projects
 * Run the import script.
 * Install and configure sqldeveloper(if you haven't already) and then do a cursory check of both dicty and dicty_legacy schema.
   Prefereably run a count statement.,
+
+**Note:** Consult [bcwiki](http://bcwiki.bioinformatics.northwestern.edu/bcwiki/index.php/Importing_exporting_Oracle_10g_production_DB) for details.
