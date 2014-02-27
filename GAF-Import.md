@@ -46,8 +46,8 @@ curl -o gene_association.dictyBase http://www.ebi.ac.uk/QuickGO/GAnnotation\?for
 
 It will be written in ```golang```.
 
-* [] A [clone](https://github.com/dictyBase/testchado) of perl (Test::Chado)[https://github.com/dictyBase/Test-Chado] module in golang.
-* [] A gpad loader written in golang.
+* A [clone](https://github.com/dictyBase/testchado) of perl (Test::Chado)[https://github.com/dictyBase/Test-Chado] module in golang.
+* A gpad loader written in golang.
 
 ## Software Design
 
