@@ -2,9 +2,20 @@
 
 ## Synopsis
 
-```perl
-modware-load dictygaf2chado -c config.yaml -i gene_association.dictyBase -l log/gaf_load.log
-```
+
+
+## Progress
+### GPAD Importer
+
+It will be written in ```golang```.
+
+* A [clone](https://github.com/dictyBase/testchado) of perl [Test::Chado](https://github.com/dictyBase/Test-Chado) module in golang.
+* [Command line application](https://github.com/dictyBase/gochado/issues/1) for loading  GPAD file.
+
+### GPAD Exporter
+
+### GPI Exporter
+
 
 ## Tasks
 
@@ -37,11 +48,12 @@ GPAD columns | Value   |         Chado mapping
 
 ## Data
 
-* GAF will be available from EBI-GOA (QuickGO) 
+* GPAD will be available from EBI-GOA (QuickGO) 
 
 ```bash
-curl -o gene_association.dictyBase http://www.ebi.ac.uk/QuickGO/GAnnotation\?format\=gaf\&db\=dictyBase\&limit\=-1
+curl -o gene_association.dictyBase http://www.ebi.ac.uk/QuickGO/GAnnotation\?format\=gpad\&db\=dictyBase\&limit\=-1
 ```
+
 
 ## Software Design
 

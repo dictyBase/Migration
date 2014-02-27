@@ -1,5 +1,7 @@
 #Entry point for overhaul project
 
+## David jump in
++ 
 ## Conventions
 + The project should link to mostly work in progress documentation, finished one is also acceptable.
 + The link could be internal markdown or external.
@@ -54,3 +56,8 @@ Support for non-ascii characters for all projects
   Prefereably run a count statement.,
 
 **Note:** Consult [bcwiki](http://bcwiki.bioinformatics.northwestern.edu/bcwiki/index.php/Importing_exporting_Oracle_10g_production_DB) for details.
+
+
+### Server migration from 10g to 11g
+Progress is logged [here](https://github.com/dictyBase/Migration-Docs/issues/9)
+
