@@ -1,6 +1,12 @@
 ## Stock data import
+
+### Time
+@biodavijm starts on 6 Mar 2014
+
 ## Description of the project
-Let's see if this work, because I don't believe, I need to see.
+Export the stock data from Oracle, and import it into PostgreSQL.
+
+Most of the stock data is located in Legacy.
 
 ### Synopsis
 
