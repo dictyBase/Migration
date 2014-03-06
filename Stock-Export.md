@@ -1,8 +1,10 @@
 ## Stock data export
 
-## Description
+### Times
+@biodavidjm starts on 6 Mar 2014
 
-I have no idea about it.
+### Description
+Exporting the data from Oracle
 
 ###Synopsis
 
