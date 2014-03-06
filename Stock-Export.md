@@ -3,6 +3,10 @@
 ### Times
 @biodavidjm starts on 6 Mar 2014
 
+Estimated finishing time
+An expert should finish in 2.5 days
+I expect to finish in 30 days (6 Apr 2014)
+
 ### Description
 Exporting the data from Oracle
 
