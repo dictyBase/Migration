@@ -10,6 +10,9 @@ I expect to finish in 30 days (6 Apr 2014)
 ### Description
 Exporting the data from Oracle
 
+
+_Initial steps_ 
+***
 ###Synopsis
 
 ```perl
@@ -34,3 +37,15 @@ $_> modware-dump dictyplasmid -c plasmid_export.yaml --sequence # Export plasmid
 1. [Data Model(s)](https://github.com/dictyBase/Stock-Data-Migration/blob/develop/data/models/stock_inventory.md)
 2. [Data statistics](https://github.com/dictyBase/Stock-Data-Migration/blob/develop/data/stats.md)
 3. [Data migrated so far](https://github.com/dictyBase/Stock-Data-Migration/issues/3)
+
+***
+_end of initial steps_
+
+**@biodavidjm on Stock Import**
+
+Weekly review progress
+
+### Week March 10 to 15
+* Revised previous work (see above) and related projects
+* Basic installations and concepts
+  *  Sqitch (cpanm)
