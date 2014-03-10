@@ -46,6 +46,7 @@ _end of initial steps_
 Weekly review progress
 
 ### Week March 10 to 15
+* Install [Modware Loader Development](https://github.com/dictyBase/Modware-Loader/wiki/Modware-Loader-Development)
 * Revised previous work (see above) and related projects
-* Basic installations and concepts
+* Other basic installations and concepts
   *  Sqitch (cpanm)
