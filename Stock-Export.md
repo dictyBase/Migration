@@ -46,7 +46,28 @@ _end of initial steps_
 Weekly review progress
 
 ### Week March 10 to 15
-* Install [Modware Loader Development](https://github.com/dictyBase/Modware-Loader/wiki/Modware-Loader-Development)
+* Install [Modware Loader Development](https://github.com/dictyBase/Modware-Loader/wiki/Modware-Loader-Development) (pending)
 * Revised previous work (see above) and related projects
-* Other basic installations and concepts
+  * Studying "[Export Gene Models](https://github.com/dictyBase/Migration-Docs/blob/master/Gene-models-export.md)", which points directly to [Exporting D.discoideum Annotations in GFF3 Format](http://dictybase.github.io/blog/2013/03/06/exporting-discoideum-annotations/) 
+* Actual installations:
+  *  Modware-loader
+  
+     ``sudo cpanm -n  git://github.com/dictyBase/Modware-Loader.git``
+     
+     		Successfully installed Modware-Loader-v1.6.0.
+     		64 distributions installed
+     		
+     ``Modware-Loader`` (modware, modware-dump, modware-export, modware-import, modware-load, modware-transform  modware-update) requires the installation of additional modules to properly run. After running one by one and checking the errors associate to the missed modules, I installed the followings:
+     
+     ``sudo cpanm String::CamelCase``
+     
+     ``sudo cpanm DateTime::Format::Strptime``
+     
+     ``sudo cpanm -n  git://github.com/dictyBase/BioPortal-WebService.git``
+     
+     ``sudo cpanm BibTeX::Parser``
+     
+     After these installations, all the modware programs run without errors
+ 
+     
   *  Sqitch (cpanm)
