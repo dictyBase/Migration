@@ -46,10 +46,11 @@ _end of initial steps_
 Weekly review progress
 
 ### Week March 10 to 15
-* Install [Modware Loader Development](https://github.com/dictyBase/Modware-Loader/wiki/Modware-Loader-Development) (pending)
+
 * Revised previous work (see above) and related projects
   * Studying "[Export Gene Models](https://github.com/dictyBase/Migration-Docs/blob/master/Gene-models-export.md)", which points directly to [Exporting D.discoideum Annotations in GFF3 Format](http://dictybase.github.io/blog/2013/03/06/exporting-discoideum-annotations/) 
-* Actual installations:
+* Installations:
+  *  Sqitch (cpanm)
   *  Modware-loader
   
      ``sudo cpanm -n  git://github.com/dictyBase/Modware-Loader.git``
@@ -69,5 +70,4 @@ Weekly review progress
      
      After these installations, all the modware programs run without errors
  
-     
-  *  Sqitch (cpanm)
+
