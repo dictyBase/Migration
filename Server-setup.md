@@ -19,11 +19,12 @@
 * We buy and manage hardware.
 
 # Hybrid hosting
-Cloud style with colocated ? Is it possible ?
+Cloud style with colocated ? Is it possible ? openstack ?
 Any other possiblity ?
 
 
 # Server hardware configurations
+
 ## Production
 ## Application server
 * 8 cores
@@ -44,6 +45,7 @@ Half of the requirement compared to prod, probably don't need that much of stora
 * Could dictybase get pool of hard drive space and manage them as required ?
 * If the above not true, how do we add hard drive space ?
 * How a complete server failure is managed ?
+* Could dictyBase chosse its own postgresql layout ?
 * Do we need a separate database backup server for offsite data storage ? If so what configuration ?
 
 ## Logging/Monitoring server
