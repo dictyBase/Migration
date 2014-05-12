@@ -43,11 +43,11 @@ _end of initial steps_
 
 Weekly review progress
 
-### Week March 10 to 15
+### How To use this module
 
 * Revised previous work (see above) and related projects
   * Studying "[Export Gene Models](https://github.com/dictyBase/Migration-Docs/blob/master/Gene-models-export.md)", which points directly to [Exporting D.discoideum Annotations in GFF3 Format](http://dictybase.github.io/blog/2013/03/06/exporting-discoideum-annotations/) 
-* Installations:
+* Required Installations:
   *  Sqitch (cpanm)
   *  Modware-loader
   
@@ -68,4 +68,21 @@ Weekly review progress
      
      After these installations, all the modware programs run without errors
  
+* Run the files as mentioned above, i.e.,
 
+	```
+	modware-dump dictystrain -c configuration.yaml
+	modware-dump dictyplasmid -c configuration.yaml
+	```
+	and example of configuration file (configuration.yaml):
+	
+	```
+	## -- Yaml configuration file for modware-dump
+	  dsn: "dbi:Oracle:host=dicty-blablabla.edu;sid=orcl;port=1521"
+	  user: "USER"
+	  password: "PASSWORD"
+	  legacy_dsn: "dbi:host=dicty-blablabla.edu;sid=orcl;port=1521"
+	  legacy_user: "USER"
+	  legacy_password: "PASS"
+	```
+	

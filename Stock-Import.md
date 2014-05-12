@@ -1,12 +1,11 @@
-## Stock data import
+# Stock data import
 
-### Time
 
-## Description of the project
+## Short summary
 Once the stock data is exported from Oracle, it will be imported into PostgreSQL.
 
 
-### Synopsis
+## Synopsis
 
 ```perl
 modware-import dictyplasmid2chado -c plasmid_import.yaml 
@@ -19,6 +18,12 @@ modware-import dictystrain2chado -c strain_import.yaml --prune --mock_pubs # Opt
 modware-import dictystrain2chado -c strain_import.yaml --data inventory --data genotype # For specific imports 
 modware-import dictystrain2chado -c strain_import.yaml --dsc_phenotypes <path-to-file> # Path to file with corrected DSC phenotypes 
 ```
+
+## Description of the project
+Long description of the project.
+
+
+
 
 #### Deferred
 
@@ -47,3 +52,4 @@ modware-import dictystrain2chado -c strain_import.yaml --dsc_phenotypes <path-to
    * ~~Get images from existing files~~
    * Data goes to `stockprop` with `type_id` as `plasmid map` (maybe).
    * ~~Image saved as binary blob~~
+   
