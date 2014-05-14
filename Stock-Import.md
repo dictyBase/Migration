@@ -66,23 +66,18 @@ CHADO has a module designed to store information about stock collections in a la
 **Therefore, the goals should be, not only to import our stock data into this module, but also to identify what it is necessary to accommodate the Dicty Stock Center needs and implement the corresponding modifications to the chado stock module.**
 
 
-## What tasks need to be finished?
+## What tasks remain to be finished?
 
-- Data Model (SQL) to import stock data (strain, plasmid). [This document](https://github.com/dictyBase/Migration-Docs/blob/master/stock-data-migration/import.md) contains previous discussions about the data model.
-- 
-
+* Define the Data Model
 
 
+## Data Model
+Data Model (SQL) to import stock data (strain, plasmid). 
+
+* [This document](https://github.com/dictyBase/Migration-Docs/blob/master/stock-data-migration/import.md) contains discussions about the data model. 
+* [This other document also contains discussions](https://github.com/dictyBase/Migration-Docs/blob/master/stock-data-migration/discussions.md#stock-data-import-discussions) for both import and export stock data.
 
 
-## Deferred 
-(by Yogesh)
-
-1. ~~GenBank/FastA sequence imports for plasmids & plasmid-gene link~~ [`#106`](https://github.com/dictyBase/Modware-Loader/pull/106)
-2. Strain-gene link
-
-### 
-### [Discussions](https://github.com/dictyBase/Migration-Docs/blob/master/stock-data-migration/discussions.md#stock-data-import-discussions)
 ### Import strain data
 
 ####  Phenotype data model
@@ -104,3 +99,9 @@ CHADO has a module designed to store information about stock collections in a la
    * Data goes to `stockprop` with `type_id` as `plasmid map` (maybe).
    * ~~Image saved as binary blob~~
    
+
+## Deferred 
+(by Yogesh)
+
+1. ~~GenBank/FastA sequence imports for plasmids & plasmid-gene link~~ [`#106`](https://github.com/dictyBase/Modware-Loader/pull/106)
+2. Strain-gene link
