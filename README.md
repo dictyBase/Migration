@@ -1,7 +1,6 @@
 #Entry point for overhaul project
 
-## David jump in
-+ 
+ 
 ## Conventions
 + The project should link to mostly work in progress documentation, finished one is also acceptable.
 + The link could be internal markdown or external.
@@ -52,11 +51,15 @@ Support for non-ascii characters for all projects
 * Mount ts-nubic using samba/cifs filesystem.
 * Copy the zipped dump(done above).
 * (Alternatively: connect from the mac on ts-nubic (smb://IP/folder/), and then scp the files to /dicty/DATADUMP/ on nubic-vm)
-* Run the import script.
+* Run the import script (./import_oradump.sh )
 * Install and configure sqldeveloper(if you haven't already) and then do a cursory check of both dicty and dicty_legacy schema.
   Prefereably run a count statement.,
 
 **Note:** Consult [bcwiki](http://bcwiki.bioinformatics.northwestern.edu/bcwiki/index.php/Importing_exporting_Oracle_10g_production_DB) for details.
+
+### Sync last update
+
+	* 12 May 2014 (test and developers)
 
 
 ### Server migration from 10g to 11g
