@@ -52,3 +52,10 @@ Half of the requirement compared to prod, probably don't need that much of stora
 * Is there something exist in NUBIC we could use ?
     What stack ? How do we use them ?
 * If not do we need a separate server ? What configuration ?
+
+# Hard disk space issue
+## Production
+What's been done ?
+
+## Blast server
+What's been done ?
