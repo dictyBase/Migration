@@ -32,7 +32,7 @@ The **Dicty Stock Center** is a central repository for _Dictyostelium discoideum
 - GFP-labeled strains for cell biology
 - plasmid catalog
 
-All this information has to be available through the dictybase. Under the current old non-CHADO schema, there are a few tables directly related to the stock center. The tables and respective columns are:
+All this information has to be available through the dictybase. Under the current schema, there are a few tables directly related to the stock center. The tables and respective columns are:
 
 - stock_center = id, strain_name, strain_description, strain_comments, created_by, pubmedid, obtained_on, species, date_created, other_references, genotype, systematic_name, phenotype, plasmid, dbxref_id, obtained_from, obtained_as, mutant_type, strain_verification, internal_db_id, mutagenesis_method, genotype_id, strain_type, parental_strain, date_modified, is_available.e.
 - stock_center_inventory = id, strain_id, created_by, date_created, viability_test_results, date_modified, date_transferrrd_to_ln, obtained_as, no_of_vials, stored_as, location, date_of_strain_plating, plating_results, stored_by, viability_test_performed_by, date_of_viability_test, other_comments_and_feedback, storage_date, stored_from, strain_verification, color, storage_comments
@@ -55,7 +55,7 @@ CHADO includes several stock-related tables:
 - stockprop
 - stockprop_pub
 
-**The goal of the project is to import the data available from the old schema into the CHADO schema. Therefore, a basic understanding of the principles behind the CHADO schema is mandatory.**
+**The scope of the project is to import the stock data available from the Oracle database into the CHADO schema. Therefore, a basic understanding of the principles behind the CHADO schema is mandatory.**
 
 CHADO has a module designed to store information about stock collections in a laboratory. As it is described in the stock module gmod wiki...
 
@@ -68,7 +68,7 @@ CHADO has a module designed to store information about stock collections in a la
 
 ## What tasks remain to be finished?
 
-* Define the Data Model
+* Review the Data Model
 
 
 ## Data Model
