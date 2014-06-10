@@ -59,6 +59,7 @@ Support for non-ascii characters for all projects
 
 ### Sync last update
 
+	* 9 June 2014 (test and developers)
 	* 12 May 2014 (test and developers)
 
 
