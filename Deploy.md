@@ -36,7 +36,8 @@ The following softwares should be present in every server.
 * Every application should reside in a git repository, should have a defined
   ```Dockerfile``` to package the application.  The will be a ```fig.yaml```
   file to build and run the container using
-  [fig](http://www.fig.sh/index.html). 
+  [fig](http://www.fig.sh/index.html). Here is an
+  [setup](http://blog.docker.com/2014/08/orchestrating-docker-containers-in-production-using-fig/).
 * The application will be pushed via git over ssh to server.
   [Gitreceive](https://github.com/progrium/gitreceive) will trigger
   post-receive script in the server and use server side
