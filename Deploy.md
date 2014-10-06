@@ -7,6 +7,26 @@
   [encrypted](http://www.consul.io/docs/agent/encryption.html) for inter server
   consul cluster.
 
+## Container practices for orchestration
+* There will be primarilly two types of containers, data and application. The
+  data containers will provide docker volumes to share data. The application
+  will only run the application and will be build using data containers for
+  sharing or accessing data.
+* The data containers should provide the following standard volumes for
+  managing data ...
+ * __/config__: For managing configuration files.
+ * __/data__: For any kind of data.
+ * __/secret__: For having any kind of credentials.
+* The data containers will be built from a ```busybox``` image, the one
+  [here](https://registry.hub.docker.com/u/progrium/busybox://registry.hub.docker.com/u/progrium/busybox/)
+  seems to be suitable.
+* The application containers will either use a standard ubuntu/centos/debian
+  image, haven't zeroed on one yet though.
+
+The ideas are inspired from [here](https://github.com/radial/docss://github.com/radial/docs)
+
+
+
 # Server setup
 The following softwares should be present in every server.
 
