@@ -1,2 +1,5 @@
 *gliffy
 *png
+.env
+html/
+node_modules/
