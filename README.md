@@ -22,7 +22,15 @@
     * Support for data with non-ascii characters in postgresql.
 * [Importing](Import-analysis.md) data from analysis.
 * Backend data access
+    * Specification
+    * Software implementation
 * Frontend Web UI
+    * [Homepage/Header/Footer and static pages](Homepage-header-footer.md).
+    * Gene page.
+    * Literature and ontology.
+    * Stock center/genotype/phenotype.
+    * Blast.
+    * Search.
 * Batch processing
 * Server setup
 * Software deployment
