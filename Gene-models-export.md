@@ -12,6 +12,8 @@ modware-export chado2genesummary -c config.yaml -o gene_summart.tsv
 ```
 
 ## Left
+### Deleted gene models
+Tracked [here](https://github.com/dictyBase/Modware-Loader/issues/129)
 ### Fake intron gene model
 There will be a need for exporting faked intron gene models, however it will be done after its data model in chado have been finalized.
 Tracked [here](https://github.com/dictyBase/Modware-Loader/issues/123).
