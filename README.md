@@ -20,6 +20,7 @@
     * [Literature](Literature-import.md)
     * [Stock/Phenotype](Stock-Import.md) 
     * Support for data with non-ascii characters in postgresql.
+* [Importing](Import-analysis.md) data from analysis.
 * Backend data access
 * Frontend Web UI
 * Batch processing
