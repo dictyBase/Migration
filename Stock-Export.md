@@ -1,6 +1,6 @@
 # Phenotype/Genotype/Stock center data export
 
-##Synopsis
+##Completed
 ### Strain
 ```perl
 $_> modware-dump dictystrain -c strain_export.yaml --output_dir <folder-to-export-data> # This will dump all data
@@ -15,8 +15,11 @@ $_> modware-dump dictyplasmid -c plasmid_export.yaml --sequence # Export plasmid
 ```
 
 
-## Description
-Exporting the phenotype, genotype and stock center data from oracle. Additional notes and information are below.
+## Left
+### Stock orders
+
+
+## Additional information
 
 * [SQL Statements](https://github.com/dictyBase/Migration-Docs/blob/master/stock-data-migration/export.md)
 * [Discussions](https://github.com/dictyBase/Migration-Docs/blob/master/stock-data-migration/discussions.md#stock-data-export-discussions)
@@ -25,4 +28,3 @@ Exporting the phenotype, genotype and stock center data from oracle. Additional 
 * [Data migrated so far](https://github.com/dictyBase/Stock-Data-Migration/issues/3)
 
 
-## Stock orders
