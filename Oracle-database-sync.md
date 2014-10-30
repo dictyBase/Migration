@@ -23,6 +23,7 @@
 
 # Sync last update
 
+	* 30 October 2014 (test and developers)
 	* 17 October 2014 (test and developers. Password updated)
 	* 8 September 2014 (test and developers)
 	* 11 August 2014 (developers)
