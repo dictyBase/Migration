@@ -26,7 +26,7 @@
     * Software implementation
 * Frontend Web UI
     * [Homepage/Header/Footer and static pages](Homepage-header-footer.md).
-    * Gene page.
+    * [Gene page](Genepage.md)
     * Literature and ontology.
     * Stock center/genotype/phenotype.
     * Blast.
