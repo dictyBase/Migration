@@ -22,7 +22,10 @@
 **Note:** Consult [bcwiki](http://bcwiki.bioinformatics.northwestern.edu/bcwiki/index.php/Importing_exporting_Oracle_10g_production_DB) for details.
 
 # Sync last update
-
+	
+	* 12 January 2015 (both)
+	* 8 December 2014 (both)
+	* 10 November 2014 (both)
 	* 30 October 2014 (test and developers)
 	* 17 October 2014 (test and developers. Password updated)
 	* 8 September 2014 (test and developers)
