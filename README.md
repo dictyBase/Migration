@@ -36,6 +36,11 @@
 * [Software deployment](Deploy.md)
 * Misc
 * Third party tools
+
+## Data dependencies and current migration status
+
+![data_dependency](https://cloud.githubusercontent.com/assets/48740/6073492/b3ac845e-ad74-11e4-9a2e-268ba0fdea6e.png)
+
  
 # Oracle database refresh
 The instuctions for database refresh is [here](Oracle-database-sync.md)
