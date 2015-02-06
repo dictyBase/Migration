@@ -41,6 +41,12 @@
 
 ![data_dependency](https://cloud.githubusercontent.com/assets/48740/6073492/b3ac845e-ad74-11e4-9a2e-268ba0fdea6e.png)
 
+
+#### Colors
+* Green: Completed
+* Red: Incomplete
+* Gradient: Partially complete
+
  
 # Oracle database refresh
 The instuctions for database refresh is [here](Oracle-database-sync.md)
