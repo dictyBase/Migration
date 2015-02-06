@@ -37,12 +37,6 @@
 * Misc
 * Third party tools
  
-## Refreshing Oracle databases
-The developer databases needs to be synced/refreshed occasionally for running
-migration tasks on latest production database state. This step is to ensure the
-reproducibility of migration softwares. Since the data models in Oracle
-database remains unchanged(immutable), it is only new data gets appeneded.  So,
-the software is expected to run the same way irrespective of data updates.
-
+# Oracle database refresh
 The instuctions for database refresh is [here](Oracle-database-sync.md)
 
