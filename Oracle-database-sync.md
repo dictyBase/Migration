@@ -31,6 +31,7 @@ the software is expected to run the same way irrespective of data updates.
 
 # Sync last update
 	
+	* 9 Feb 2015 (both)
 	* 12 January 2015 (both)
 	* 8 December 2014 (both)
 	* 10 November 2014 (both)
