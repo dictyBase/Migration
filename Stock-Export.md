@@ -14,10 +14,12 @@ $_> modware-dump dictyplasmid -c plasmid_export.yaml --data genbank --data genes
 $_> modware-dump dictyplasmid -c plasmid_export.yaml --sequence # Export plasmid sequences in FastA/GenBank
 ```
 
-
-## Left
 ### Stock orders
-
+(_Under revision: branch `modware-loader/feature/export-stock-orders-pro` needs to be merged to master_)
+```perl
+$_> modware-export stockordersstrains -c config-legacy.yaml -o filename.csv
+$_> modware-export stockordersplasmids -c config-legacy.yaml -o filename.csv
+```
 
 ## Additional information
 

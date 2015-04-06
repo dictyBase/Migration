@@ -87,3 +87,36 @@ LEFT JOIN pub on pub.pub_id = pst.pub_id
 ORDER BY g.uniquename, pub.uniquename, phen.name;
 ```
 ---
+```sql
+/* Stock Center Orders (Plasmids) */
+SELECT so.stock_order_id order_id, so.order_date, plasmid.id, plasmid.name, colleague.colleague_no, colleague.first_name, colleague.last_name, email.email
+FROM cgm_ddb.plasmid
+JOIN cgm_ddb.stock_item_order sio on
+(
+  plasmid.id=sio.item_id
+  and
+  plasmid.name=sio.item
+)
+JOIN cgm_ddb.stock_order so on sio.order_id=so.stock_order_id
+LEFT JOIN cgm_ddb.colleague on colleague.colleague_no=so.colleague_id
+LEFT JOIN cgm_ddb.coll_email coe on coe.colleague_no=colleague.colleague_no
+LEFT JOIN cgm_ddb.email on email.email_no=coe.email_no;
+```
+---
+```sql
+
+/* Stock Center Orders (Strains) */
+SELECT so.stock_order_id order_id, so.order_date, sc.id id, sc.strain_name name, colleague.colleague_no, colleague.first_name, colleague.last_name, email.email
+FROM cgm_ddb.stock_center sc
+JOIN cgm_ddb.stock_item_order sio on
+(
+  sc.id=sio.item_id
+  AND
+  sc.strain_name=sio.item
+)
+JOIN cgm_ddb.stock_order so on sio.order_id=so.stock_order_id
+LEFT JOIN cgm_ddb.colleague on colleague.colleague_no=so.colleague_id
+LEFT JOIN cgm_ddb.coll_email coe on coe.colleague_no=colleague.colleague_no
+LEFT JOIN cgm_ddb.email on email.email_no=coe.email_no;
+
+```
