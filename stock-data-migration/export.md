@@ -90,21 +90,44 @@ JOIN CGM_CHADO.dbxref d ON d.dbxref_id = sc.dbxref_id
 JOIN CGM_CHADO.cvterm ct ON ct.cvterm_id = scc.cvterm_id;
 ```
 
+#### Modware-loader exported files
+
+`perl -Ilib bin/modware-dump dictystrain -c config-legacy.yaml -d data/`
+
+```shell
+With SQL
+      wc file
+   19297 strain_characteristics.tsv
+    1498 strain_genes.tsv
+    6063 strain_genotype.tsv
+    2468 strain_inventory.tsv
+    7742 strain_phenotype.tsv
+    6063 strain_strain.tsv
+
+    5988 strain_publications.tsv (5448 unique DB_ids)
+    1949 strain_publications_no_pubmed.tsv (1304 unique DB_ids)
+
+WITHOUT SQL
+   15317 strain_parent.tsv
+    4626 strain_plasmid.tsv
+   15098 strain_props.tsv
+```
+
 ## PLASMIDS
 
 ```sql
-/* Plasmid (747) */
+/* Plasmid (747) -> plasmid_plasmid.tsv (747)*/
 SELECT id, name, description
 FROM CGM_DDB.plasmid;
 ```
 ```sql
-/* Plasmid inventory (835) */
+/* Plasmid inventory (835) -> plasmid_inventory.tsv (835)*/
 SELECT p.id, pi.location, pi.color, pi.stored_as, pi.storage_date, pi.other_comments_and_feedback public_comment
 FROM CGM_DDB.plasmid_inventory pi
 JOIN CGM_DDB.plasmid p ON p.id = pi.plasmid_id;
 ```
 ```sql
-/* Plasmid gene link (531) */
+/* Plasmid gene link (531) -> plasmid_genes.tsv (531)*/
 SELECT DISTINCT p.id plasmid_id, d.accession gene_id
 FROM plasmid_gene_link pgl
 JOIN CGM_DDB.plasmid p ON p.id = pgl.plasmid_id
@@ -112,11 +135,30 @@ JOIN CGM_CHADO.feature f ON f.feature_id = pgl.feature_id
 JOIN CGM_CHADO.dbxref d ON d.dbxref_id = f.dbxref_id;
 ```
 ```sql
-/* Plasmid - GenBank accession number (50) */
+/* Plasmid - GenBank accession number (50) -> plasmid_genbank.tsv (50) */
 SELECT id, genbank_accession_number
 FROM CGM_DDB.plasmid
 WHERE genbank_accession_number IS NOT NULL;
 ```
+#### Modware-loader exported files
+
+`perl -Ilib bin/modware-dump dictyplasmid -c config-legacy.yaml -d data/`
+
+```shell
+With SQL
+      wc file
+      50  plasmid_genbank.tsv
+     531  plasmid_genes.tsv
+     835  plasmid_inventory.tsv
+     747  plasmid_plasmid.tsv
+
+WITHOUT SQL
+     3663  plasmid_props.tsv
+     655  plasmid_publications.tsv
+     456  plasmid_publications_no_pubmed.tsv  
+```
+
+## Stock Orders
 
 ```sql
 /* Stock Center Orders - Plasmids (1978) */
@@ -148,28 +190,4 @@ JOIN cgm_ddb.stock_order so on sio.order_id=so.stock_order_id
 LEFT JOIN cgm_ddb.colleague on colleague.colleague_no=so.colleague_id
 LEFT JOIN cgm_ddb.coll_email coe on coe.colleague_no=colleague.colleague_no
 LEFT JOIN cgm_ddb.email on email.email_no=coe.email_no;
-```
-
-# Modware-loader exported files
-
-`perl -Ilib bin/modware-dump dictystrain -c config-legacy.yaml -d data/`
-
-```shell
-With SQL
-      wc file
-   19297 strain_characteristics.tsv
-    1498 strain_genes.tsv
-    6063 strain_genotype.tsv
-    2468 strain_inventory.tsv
-    7742 strain_phenotype.tsv
-    6063 strain_strain.tsv
-
-    5988 strain_publications.tsv (5448 unique DB_ids)
-    1949 strain_publications_no_pubmed.tsv (1304 unique DB_ids)
-
-WITHOUT SQL
-   15317 strain_parent.tsv
-    4626 strain_plasmid.tsv
-   15098 strain_props.tsv
-
 ```
