@@ -5,21 +5,28 @@ EXPORT
 (`+` counts added on Apr 2015)
 
 ## STRAINS
+
+- 6063 records in the `stock_center` table, with both unique `ID` and `DBXREF_ID`
+- 5594 unique `stock_name`
+
 ```sql
-/* Strain (6063) -> strain_strain.tsv */
-SELECT d.accession, sc.species, sc.strain_name,  sc.strain_description
+/* Strain (6063) -> strain_strain.tsv (6063) */
+SELECT d.accession, sc.species, sc.strain_name, sc.strain_description
 FROM CGM_DDB.stock_center sc
 JOIN CGM_CHADO.dbxref d ON d.dbxref_id = sc.dbxref_id;
 ```
+
 ```sql
-/* Strain inventory (2468) -> strain_inventory.tsv */
+/* Strain inventory (2468) -> strain_inventory.tsv (2468) */
 SELECT d.accession, sci.location, sci.color, sci.no_of_vials, sci.obtained_as, sci.stored_as, sci.storage_date, sci.storage_comments private_comment, sci.other_comments_and_feedback public_comment
 FROM CGM_DDB.stock_center_inventory sci
 JOIN CGM_DDB.stock_center sc ON sc.id = sci.strain_id
 JOIN CGM_CHADO.dbxref d ON d.dbxref_id = sc.dbxref_id;
 ```
+***Comment***: 2468 inventory records, but there exist 1970 unique DBS_ID (which means that 498 records in the inventory are duplicates)
 
-#### TO VERIFIED
+
+#### TO VERIFY
 ---
 ```sql
 /* Strain publications (6063) -> strain_publications.tsv(5988), strain_publications_no_pubmed.tsv(1949) */
@@ -190,6 +197,23 @@ GROUP BY NAME
 ORDER BY REDUNDANT DESC
 ```
 
+###### `plasmid_props.tsv`
+It contains data for each plasmid of `depositor`, `synonymn`, and `keywords`, each of them in any line (3663). The specifics are:
+
+- In file: 744 unique IDs
+- In database: 747 plasmids
+  + 726 have depositor
+  + 506 have synonymn
+  + 706 keywords
+  + 477 have the three of them
+  + 3 don't have the three of them
+
+Conclusion: The file seems to be right.
+
+```sql
+SELECT depositor, synonymn, keywords 
+FROM plasmid
+```
 
 ## Stock Orders
 
