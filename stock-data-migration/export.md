@@ -23,25 +23,26 @@ FROM CGM_DDB.stock_center_inventory sci
 JOIN CGM_DDB.stock_center sc ON sc.id = sci.strain_id
 JOIN CGM_CHADO.dbxref d ON d.dbxref_id = sc.dbxref_id;
 ```
-***Comment***: 2468 inventory records, but there exist 1970 unique DBS_ID (which means that 498 records in the inventory are duplicates)
+***Strain inventory notes***: 2468 inventory records, but there exist 1970 unique DBS_ID (which means that 498 records in the inventory are duplicates)
 
 
-#### TO VERIFY
 ---
 ```sql
 /* Strain publications (6063) -> strain_publications.tsv(5988), strain_publications_no_pubmed.tsv(1949) */
 SELECT sc.strain_name, sc.pubmedid, sc.internal_db_id, sc.other_references
 FROM CGM_DDB.stock_center sc;
 ```
-***Possible conflict***: In the database there are pubmed references for a maximum of 4,523 strains in the pubmedid column, which means that 1,540 do not have one.
-- strain_publications.tsv
+***Strain publications notes***: 
+- Database: 4,523 strains have pubmed references in the pubmedid column, which means that 1,540 do not have one.
+
+- Exported to file `strain_publications.tsv`
   + 5988 annotations
   + 5448 unique DB_IDs (with a reference)
-  + 1076 unique references
-    * For example, the publication with PubmedID:17659086 is 2258 times
+  + 1076 unique references (many duplications)
+    * For example, the publication with PubmedID:17659086 appears 2258 times
 
 ```sql
-/* Helpful SQL to check for pubmed 
+/* Helpful SQL to explore bibliography */
 SELECT sc.strain_name, sc.pubmedid, sc.internal_db_id, sc.other_references
 FROM CGM_DDB.stock_center sc
 WHERE sc.pubmedid is null AND (sc.OTHER_REFERENCES is not null AND REGEXP_LIKE(OTHER_REFERENCES, '^(d[0-9]{4}/)'))
@@ -64,7 +65,7 @@ SELECT sc.strain_name, sc.phenotype
 FROM CGM_DDB.stock_center sc;
 ```
 
-***Possible conflict***: there are 1425 strains with phenotypes annotated in the database. However, the file `strain_phenotype.tsv` has 4,254 unique DB_ids, which means that strain phenotypes come from the following statement: 
+***Strain phenotype possible conflict***: there are 1425 strains with phenotypes annotated in the database. However, the file `strain_phenotype.tsv` has 4,254 unique DB_ids, which means that strain phenotypes come from the following statement: 
 
 ```sql
 /* Phenotype (7742) -> strain_phenotype.tsv */
@@ -86,7 +87,7 @@ The question is: what is the relationship between this statement and the dicty s
 ---
 
 ```sql
-/* Strain gene link (1498) -> strain_genes.tsv */
+/* Strain gene link (1498) -> strain_genes.tsv (1498) */
 SELECT DISTINCT d.accession strain_id, d2.accession gene_id
 FROM CGM_DDB.strain_gene_link sgl
 JOIN CGM_DDB.stock_center sc ON sc.id = sgl.strain_id
@@ -94,8 +95,9 @@ JOIN CGM_CHADO.dbxref d ON d.dbxref_id = sc.dbxref_id
 JOIN CGM_CHADO.feature f ON f.feature_id = sgl.feature_id
 JOIN CGM_CHADO.dbxref d2 ON d2.dbxref_id = f.dbxref_id;
 ```
+
 ```sql
-/* Strain characteristics (19297) -> strain_characteristics.tsv*/
+/* Strain characteristics (19297) -> strain_characteristics.tsv (19297)*/
 SELECT DISTINCT d.accession, ct.name
 FROM CGM_DDB.strain_char_cvterm scc
 JOIN CGM_DDB.stock_center sc ON sc.id = scc.strain_id
@@ -133,12 +135,14 @@ WITHOUT SQL
 SELECT id, name, description
 FROM CGM_DDB.plasmid;
 ```
+
 ```sql
 /* Plasmid inventory (835) -> plasmid_inventory.tsv (835)*/
 SELECT p.id, pi.location, pi.color, pi.stored_as, pi.storage_date, pi.other_comments_and_feedback public_comment
 FROM CGM_DDB.plasmid p
 JOIN CGM_DDB.plasmid_inventory pi ON p.id = pi.plasmid_id;
 ```
+
 ```sql
 /* Plasmid gene link (531) -> plasmid_genes.tsv (531)*/
 SELECT DISTINCT p.id plasmid_id, d.accession gene_id
@@ -147,12 +151,14 @@ JOIN CGM_DDB.plasmid p ON p.id = pgl.plasmid_id
 JOIN CGM_CHADO.feature f ON f.feature_id = pgl.feature_id
 JOIN CGM_CHADO.dbxref d ON d.dbxref_id = f.dbxref_id;
 ```
+
 ```sql
 /* Plasmid - GenBank accession number (50) -> plasmid_genbank.tsv (50) */
 SELECT id, genbank_accession_number
 FROM CGM_DDB.plasmid
 WHERE genbank_accession_number IS NOT NULL;
 ```
+
 #### Modware-loader exported files
 
 `perl -Ilib bin/modware-dump dictyplasmid -c config-legacy.yaml -d data/`
