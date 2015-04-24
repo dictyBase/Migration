@@ -20,9 +20,9 @@ modware-import dictyplasmid2chado -c plasmid_import.yaml --data inventory --data
 modware-import dictyplasmid2chado -c plasmid_import.yaml --seq_data_dir <path-to-folder> # Path tol folder with GanBank/FastA sequences
 ```
 ## Leftover
-###Strain-gene link
+### Strain-gene link
 ### Stock orders
-###Plasmid map images
+### Plasmid map images
 
 ## Additional information/notes
 Its [here](Stock-Import-notes.md)
