@@ -121,7 +121,19 @@ LEFT JOIN pub on pub.pub_id = pst.pub_id
 ORDER BY g.uniquename, pub.uniquename, phen.name;
 ```
 
-The question is: what is the relationship between this statement and the dicty stock center?
+The statement is basically exporting the table PHENSTATEMENT (7742 elements), which is a linking table expressing the relationship between genotype, environment, and phenotype.
+
+The questions are: 
+* what is the relationship between the statement and the dicty stock center? Response: there is no direct relationship. It is just a list of phenotypes what we need to export. 
+
+* Are these JOINs really necessary? 
+
+```sql
+LEFT JOIN cv env_cv on env_cv.cv_id = env.cv_id
+LEFT JOIN cv assay_cv on assay_cv.cv_id = assay.cv_id
+```
+
+Response: I don't think so. Or at least, it does not affect the results of the SELECT statement.
 
 ---
 
