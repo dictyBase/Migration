@@ -214,6 +214,7 @@ JOIN CGM_DDB.plasmid_inventory pi ON p.id = pi.plasmid_id;
 
 ```sql
 /* Plasmid gene link (531) -> plasmid_genes.tsv (531)*/
+/* It also connects the FEATURE table indirectly */
 SELECT DISTINCT p.id plasmid_id, d.accession gene_id
 FROM plasmid_gene_link pgl
 JOIN CGM_DDB.plasmid p ON p.id = pgl.plasmid_id

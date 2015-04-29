@@ -1,7 +1,7 @@
 STOCK_CENTER EXPORT
 ===
 
-Check the file [`export_validation`] for an analysis of the SQL statements found in this file.
+Check the file [`export_validation`](export_validation.md) for the analysis of the SQL statements found in this file.
 
 ```sql
 /* Strain (6063) -> strain_strain.tsv (6063) */
@@ -50,18 +50,11 @@ SELECT g.uniquename dbs_id, phen.name phenotype, env.name environment, assay.nam
 FROM phenstatement pst
 LEFT JOIN genotype g on g.genotype_id = pst.genotype_id
 LEFT JOIN cvterm env on env.cvterm_id = pst.environment_id
-LEFT JOIN cv env_cv on env_cv.cv_id = env.cv_id
 LEFT JOIN phenotype p on p.phenotype_id = pst.phenotype_id
 LEFT JOIN cvterm phen on phen.cvterm_id = p.observable_id
 LEFT JOIN cvterm assay on assay.cvterm_id = p.assay_id
-LEFT JOIN cv assay_cv on assay_cv.cv_id = assay.cv_id
 LEFT JOIN pub on pub.pub_id = pst.pub_id
 ORDER BY g.uniquename, pub.uniquename, phen.name;
-```
-
-```sql
-LEFT JOIN cv env_cv on env_cv.cv_id = env.cv_id
-LEFT JOIN cv assay_cv on assay_cv.cv_id = assay.cv_id
 ```
 
 ```sql
