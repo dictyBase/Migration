@@ -1,9 +1,9 @@
 Stock Export: Data Validation
 ===
 
-Data validation to ensure that the data exported using `modware` is the same as the data retrieve from the database using SQL statements. The analysis is based on the counts of both the files and sql outputs.
+The following analysis was performed to ensure that the data exported using `modware-loader` is the same as the data retrieve from the database using `SQL` statements. The analysis is based on the counts of both the files and sql outputs.
 
-The database snapshot used was `dictyfull_20150309.zip`. As consequence, a different snapshot might get different counts than those summarized here.
+The database snapshot used was `dictyfull_20150309.zip`. A different snapshot might get different counts than those summarized here.
 
 The tables used to build the queries are summarized in the following figure:
 
@@ -104,7 +104,7 @@ FROM CGM_DDB.stock_center sc;
 
 ---
 
-***Strain phenotype possible conflict***: there are 1425 strains with phenotypes annotated in the database. However, the file `strain_phenotype.tsv` has 4,254 unique DB_ids, which means that strain phenotypes come from the following statement: 
+***Strain phenotype notes***: there are 1425 strains with phenotypes annotated in the database. However, the file `strain_phenotype.tsv` has 4,254 unique DB_ids, which means that strain phenotypes come from the following statement: 
 
 ```sql
 /* Phenotype (7742) -> strain_phenotype.tsv */
@@ -121,10 +121,12 @@ LEFT JOIN pub on pub.pub_id = pst.pub_id
 ORDER BY g.uniquename, pub.uniquename, phen.name;
 ```
 
-The statement is basically exporting the table PHENSTATEMENT (7742 elements), which is a linking table expressing the relationship between genotype, environment, and phenotype.
+The statement is basically exporting the table `PHENSTATEMENT` (7742 elements), which is a linking table expressing the relationship between genotype, environment, and phenotype.
 
 The questions are: 
-* what is the relationship between the statement and the dicty stock center? Response: there is no direct relationship. It is just a list of phenotypes what we need to export. 
+* what is the relationship between the statement and the dicty stock center? 
+
+Response: there is no direct relationship. It is just a list of phenotypes what we need to export. 
 
 * Are these JOINs really necessary? 
 
@@ -133,7 +135,7 @@ LEFT JOIN cv env_cv on env_cv.cv_id = env.cv_id
 LEFT JOIN cv assay_cv on assay_cv.cv_id = assay.cv_id
 ```
 
-Response: I don't think so. Or at least, it does not affect the results of the SELECT statement.
+Response: They don't. They will be further removed.
 
 ---
 
@@ -156,6 +158,24 @@ JOIN CGM_CHADO.dbxref d ON d.dbxref_id = sc.dbxref_id
 JOIN CGM_CHADO.cvterm ct ON ct.cvterm_id = scc.cvterm_id;
 ```
 
+***Strain - Feature relationship***
+
+The connection between `strains` and the `feature` table can be inferred from the `strain_genes.tsv` file.
+
+Summary: the connection between strains, i.e. `stock_center` (6063 ids, 5594 distinct `strain_names`) and the table `feature` is through the table `strain_gene_link` (1498 with 1318 `strain_ids` and 525 `feature_id`, i.e., a strain might have many `feature_id` associated. In addition, a `feature_id` might have many strains associated). 
+
+Although the table `stock_center` has a column `dbxref_id` that links to the table `dbxref`, and it could lead you to think that could be used to link it to the `feature` table, it is not possible because those `dbxref_id` coming from `stock_center` do not have a connection to the `feature` table. That's why the table `strain_gene_link` is necessary. 
+
+```sql
+SELECT  d.accession, d2.accession gene_id, f.UNIQUENAME
+FROM CGM_DDB.stock_center sc
+JOIN CGM_DDB.strain_gene_link sgl ON sc.id = sgl.strain_id
+JOIN CGM_CHADO.dbxref d ON d.dbxref_id = sc.dbxref_id
+JOIN CGM_CHADO.feature f ON f.feature_id = sgl.feature_id
+JOIN CGM_CHADO.dbxref d2 ON d2.dbxref_id = f.dbxref_id
+```
+
+Output: 1498 records. 
 
 
 ## PLASMIDS
@@ -261,7 +281,7 @@ FROM plasmid
 ## Stock Orders
 
 ```sql
-/* Stock Center Orders - Plasmids (1978) */
+/* Stock Center Orders(1978) - Plasmids (1978) */
 SELECT so.stock_order_id order_id, so.order_date, plasmid.id, plasmid.name, colleague.colleague_no, colleague.first_name, colleague.last_name, email.email
 FROM cgm_ddb.plasmid
 JOIN cgm_ddb.stock_item_order sio on
@@ -277,7 +297,7 @@ LEFT JOIN cgm_ddb.email on email.email_no=coe.email_no;
 ```
 
 ```sql
-/* Stock Center Orders - Strains (3132) */
+/* Stock Center Orders(3132) - Strains (3132) */
 SELECT so.stock_order_id order_id, so.order_date, sc.id id, sc.strain_name name, colleague.colleague_no, colleague.first_name, colleague.last_name, email.email
 FROM cgm_ddb.stock_center sc
 JOIN cgm_ddb.stock_item_order sio on

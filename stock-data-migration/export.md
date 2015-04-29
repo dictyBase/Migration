@@ -1,13 +1,7 @@
-EXPORT
+STOCK_CENTER EXPORT
 ===
 
-# SQL for stock data export
-(`+` counts added on Apr 2015)
-
-## STRAINS
-
-- 6063 records in the `stock_center` table, with both unique `ID` and `DBXREF_ID`
-- 5594 unique `stock_name`
+Check the file [`export_validation`] for an analysis of the SQL statements found in this file.
 
 ```sql
 /* Strain (6063) -> strain_strain.tsv (6063) */
@@ -23,23 +17,12 @@ FROM CGM_DDB.stock_center_inventory sci
 JOIN CGM_DDB.stock_center sc ON sc.id = sci.strain_id
 JOIN CGM_CHADO.dbxref d ON d.dbxref_id = sc.dbxref_id;
 ```
-***Strain inventory notes***: 2468 inventory records, but there exist 1970 unique DBS_ID (which means that 498 records in the inventory are duplicates)
 
-
----
 ```sql
 /* Strain publications (6063) -> strain_publications.tsv(5988), strain_publications_no_pubmed.tsv(1949) */
 SELECT sc.strain_name, sc.pubmedid, sc.internal_db_id, sc.other_references
 FROM CGM_DDB.stock_center sc;
 ```
-***Strain publications notes***: 
-- Database: 4,523 strains have pubmed references in the pubmedid column, which means that 1,540 do not have one.
-
-- Exported to file `strain_publications.tsv`
-  + 5988 annotations
-  + 5448 unique DB_IDs (with a reference)
-  + 1076 unique references (many duplications)
-    * For example, the publication with PubmedID:17659086 appears 2258 times
 
 ```sql
 /* Helpful SQL to explore bibliography */
@@ -47,7 +30,6 @@ SELECT sc.strain_name, sc.pubmedid, sc.internal_db_id, sc.other_references
 FROM CGM_DDB.stock_center sc
 WHERE sc.pubmedid is null AND (sc.OTHER_REFERENCES is not null AND REGEXP_LIKE(OTHER_REFERENCES, '^(d[0-9]{4}/)'))
 ```
----
 
 ```sql
 /* Strain genotype (6063) -> strain_genotype.tsv */
@@ -56,16 +38,11 @@ FROM CGM_DDB.stock_center sc
 JOIN CGM_CHADO.dbxref d ON d.dbxref_id = sc.dbxref_id;
 ```
 
----
-
-#### TO VERIFIED
 ```sql
 /* Strain phenotype (6063) -> strain_phenotype.tsv (7742) */
 SELECT sc.strain_name, sc.phenotype
 FROM CGM_DDB.stock_center sc;
 ```
-
-***Strain phenotype possible conflict***: there are 1425 strains with phenotypes annotated in the database. However, the file `strain_phenotype.tsv` has 4,254 unique DB_ids, which means that strain phenotypes come from the following statement: 
 
 ```sql
 /* Phenotype (7742) -> strain_phenotype.tsv */
@@ -82,9 +59,10 @@ LEFT JOIN pub on pub.pub_id = pst.pub_id
 ORDER BY g.uniquename, pub.uniquename, phen.name;
 ```
 
-The question is: what is the relationship between this statement and the dicty stock center?
-
----
+```sql
+LEFT JOIN cv env_cv on env_cv.cv_id = env.cv_id
+LEFT JOIN cv assay_cv on assay_cv.cv_id = assay.cv_id
+```
 
 ```sql
 /* Strain gene link (1498) -> strain_genes.tsv (1498) */
@@ -105,30 +83,14 @@ JOIN CGM_CHADO.dbxref d ON d.dbxref_id = sc.dbxref_id
 JOIN CGM_CHADO.cvterm ct ON ct.cvterm_id = scc.cvterm_id;
 ```
 
-#### Modware-loader exported files
-
-`perl -Ilib bin/modware-dump dictystrain -c config-legacy.yaml -d data/`
-
-```shell
-With SQL
-      wc file
-   19297 strain_characteristics.tsv
-    1498 strain_genes.tsv
-    6063 strain_genotype.tsv
-    2468 strain_inventory.tsv
-    7742 strain_phenotype.tsv
-    6063 strain_strain.tsv
-
-    5988 strain_publications.tsv (5448 unique DB_ids)
-    1949 strain_publications_no_pubmed.tsv (1304 unique DB_ids)
-
-WITHOUT SQL
-   15317 strain_parent.tsv
-    4626 strain_plasmid.tsv
-   15098 strain_props.tsv
+```sql
+SELECT  d.accession, d2.accession gene_id, f.UNIQUENAME
+FROM CGM_DDB.stock_center sc
+JOIN CGM_DDB.strain_gene_link sgl ON sc.id = sgl.strain_id
+JOIN CGM_CHADO.dbxref d ON d.dbxref_id = sc.dbxref_id
+JOIN CGM_CHADO.feature f ON f.feature_id = sgl.feature_id
+JOIN CGM_CHADO.dbxref d2 ON d2.dbxref_id = f.dbxref_id
 ```
-
-## PLASMIDS
 
 ```sql
 /* Plasmid (747) -> plasmid_plasmid.tsv (747)*/
@@ -159,78 +121,8 @@ FROM CGM_DDB.plasmid
 WHERE genbank_accession_number IS NOT NULL;
 ```
 
-#### Modware-loader exported files
-
-`perl -Ilib bin/modware-dump dictyplasmid -c config-legacy.yaml -d data/`
-
-```shell
-With SQL
-      wc file
-      50  plasmid_genbank.tsv
-     531  plasmid_genes.tsv
-     835  plasmid_inventory.tsv
-     747  plasmid_plasmid.tsv
-
-WITHOUT SQL
-     3663  plasmid_props.tsv
-     655  plasmid_publications.tsv
-     456  plasmid_publications_no_pubmed.tsv  
-```
-
-#### SQL for those without SQL statements (`publications, publications_no_pubmed, props`)
-
-###### `plasmid_publications` (pubmedid)
-
-***In file***
-- 655 Number of publications in file
-- 554 unique DBP_ID in file
-
-***In database***
-
-- 747 plasmids
-  + 727 unique names (17 `names` are redundant)
-  + 549 with pubmedids
-  + 198 non pubmeids, with (9) nulls and  (189) has `spaces` in the pubmedid field.
-    * 179 are non-redundant (an example of redundant plasmid with `spaces` is: `pDDB_G0295493-REMI`.
-
 ```sql
-SELECT name
-FROM CGM_DDB.plasmid
-WHERE PUBMEDID IS NULL or
-REGEXP_LIKE(pubmedid, '^ +$')
-```
-
-```sql
-SELECT name, COUNT(*) AS REDUNDANT
-FROM CGM_DDB.plasmid
-WHERE PUBMEDID IS NULL or
-REGEXP_LIKE(pubmedid, '^ +$')
-GROUP BY NAME
-ORDER BY REDUNDANT DESC
-```
-
-###### `plasmid_props.tsv`
-It contains data for each plasmid of `depositor`, `synonymn`, and `keywords`, each of them in any line (3663). The specifics are:
-
-- In file: 744 unique IDs
-- In database: 747 plasmids
-  + 726 have depositor
-  + 506 have synonymn
-  + 706 keywords
-  + 477 have the three of them
-  + 3 don't have the three of them
-
-Conclusion: The file seems to be right.
-
-```sql
-SELECT depositor, synonymn, keywords 
-FROM plasmid
-```
-
-## Stock Orders
-
-```sql
-/* Stock Center Orders - Plasmids (1978) */
+/* Stock Center Orders(1978) - Plasmids (1978) */
 SELECT so.stock_order_id order_id, so.order_date, plasmid.id, plasmid.name, colleague.colleague_no, colleague.first_name, colleague.last_name, email.email
 FROM cgm_ddb.plasmid
 JOIN cgm_ddb.stock_item_order sio on
@@ -246,7 +138,7 @@ LEFT JOIN cgm_ddb.email on email.email_no=coe.email_no;
 ```
 
 ```sql
-/* Stock Center Orders - Strains (3132) */
+/* Stock Center Orders(3132) - Strains (3132) */
 SELECT so.stock_order_id order_id, so.order_date, sc.id id, sc.strain_name name, colleague.colleague_no, colleague.first_name, colleague.last_name, email.email
 FROM cgm_ddb.stock_center sc
 JOIN cgm_ddb.stock_item_order sio on
