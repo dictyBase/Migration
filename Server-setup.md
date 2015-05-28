@@ -1,3 +1,8 @@
+# Design and Specs
+It's given in this [presentation](http://testgenomes.dictybase.org/server.slide#1). A copy
+of the server specs is also kept [here](Server-specs.md).
+
+
 # Strategy
 * The default strategy is to use [docker](http://docker.io) container to deploy
   every applications. The applications could span across multiple hosts. 
