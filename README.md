@@ -32,8 +32,7 @@
     * Blast.
     * Search.
 * Batch processing
-* Server setup
-* [Software deployment](Deploy.md)
+* [Server setup and deployment](Server-setup.md)
 * Misc
 * Third party tools
 
