@@ -33,6 +33,7 @@
     * Search.
 * Batch processing
 * [Server setup and deployment](Server-setup.md)
+* [Hosting](Hosting.md)
 * Misc
 * Third party tools
 
