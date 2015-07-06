@@ -7,6 +7,8 @@ __Production:__ 6486.88$/year
 
 __Total:__ 9730.32$/year
 
+Amazon [calculator](http://calculator.s3.amazonaws.com/index.html#r=IAD&s=EC2&key=calc-B1A81899-BEF5-46A6-BAA5-CD249B0A80D0)
+
 #### Possible growth points
 These are the places which might increase the costs.
 * Increase data transfer or dictyBase has more users or it is getting more hits etc.
