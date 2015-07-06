@@ -16,7 +16,7 @@ These are the places which might increase the costs.
 However, at this point these growth are hard to measure and so do their associated costs.
 
 ### Facts about cost calculation
-+ The basic breakdown for __stating__ is [here](http://calculator.s3.amazonaws.com/index.html#r=IAD&s=EC2&key=calc-B1A81899-BEF5-46A6-BAA5-CD249B0A80D0)
++ The basic breakdown for __staging__ is [here](http://calculator.s3.amazonaws.com/index.html#r=IAD&s=EC2&key=calc-B1A81899-BEF5-46A6-BAA5-CD249B0A80D0)
 + The projection for __production__ is done by doubling the cost of __staging__
 + Excludes intermine/dictyMine backend, at this point not sure whether it would
   fit in the existing database or will need another extra machine for that.
