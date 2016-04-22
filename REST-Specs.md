@@ -57,7 +57,7 @@ all the fields.
 
 ```json
 {
-    "error: {
+    "errors: [{
         "id": "",
         "links": {
             "about": ""
@@ -71,7 +71,7 @@ all the fields.
             "parameter": ""
         },
         "meta": {}
-    }
+    }]
 }
 ```
 
