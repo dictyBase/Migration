@@ -10,9 +10,9 @@ API` website, [here](http://jsonapi.org/recommendations/) and
 Here is the basic format of `JSON API` structure, it might or might not contain
 all the fields.
 
-**Single resource**
+### Single resource
 
-```
+```json
 {
     "data": {
         "type": "",
@@ -32,9 +32,9 @@ all the fields.
 
 ```
 
-**Resource collection**
+### Resource collection
 
-```
+```json
 {
     "data": [{
         "type": "",
@@ -53,9 +53,9 @@ all the fields.
 }
 ```
 
-**Error**
+### Error representation
 
-```
+```json
 {
     "error: {
         "id": "",
@@ -91,6 +91,8 @@ Resources related to cv(controlled vocabulary)
 List all cvs. 
 
 #### Response structure
+
+```json
 {
     "data": [{
         "type": "cvs",
@@ -110,4 +112,4 @@ List all cvs.
         "related": {}
     }
 }
-
+```
