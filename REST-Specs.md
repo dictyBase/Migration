@@ -7,10 +7,15 @@ principle of the resource conventions are more or less described in the `JSON
 API` website, [here](http://jsonapi.org/recommendations/) and
 [here](http://jsonapi.org/format/#fetching).
 
-Here is the basic format of `JSON API` structure, it might or might not contain
+Here is the basic format and specifications of `JSON API` structure, it might or might not contain
 all the fields.
 
-### Single resource
+## JSON API specifications in a nutshell
+Generally, there are two types of resource representation, [resource
+object](http://jsonapi.org/format/#document-resource-objects) and [resource
+identifier object](http://jsonapi.org/format/#document-resource-objects).
+
+### Single resource object
 
 ```json
 {
@@ -18,21 +23,27 @@ all the fields.
         "type": "",
         "id": "",
         "attributes": {},
-        "relationships": {},
-        "links": {},
-        "meta": {}
+        "relationships": {
+            "links": {
+                "self": "",
+                "related": ""
+            },
+            "data": {},
+            "meta": {}
+        },
     },
     "included": [],
     "links": {
         "self": {},
         "related": {}
     },
+    "meta": {},
     "jsonapi":{}
 }
 
 ```
 
-### Resource collection
+### Resource objects collection
 
 ```json
 {
@@ -49,9 +60,69 @@ all the fields.
         "self": {},
         "related": {}
     },
+    "meta": {},
     "jsonapi":{}
 }
 ```
+
+### Resource identifier object
+
+```json 
+{
+    "data": {
+        "id": "",
+        "type": ""
+    }
+}
+```
+
+### Relationships
+
+```json
+    "relationships": {
+        "links": {
+            "self": "",
+            "related": ""
+        },
+        "data": {},
+        "meta": {}
+    }
+```
+
+The relationships specs is described
+[here](http://jsonapi.org/format/#document-resource-object-relationships). The
+`data` field, if present, generally represents a repsents a [resource
+identifier object](###Resource identifier object).  In this context, the
+[links](http://jsonapi.org/format/#document-links) object's **self** field
+represent the relationship itself, whereas **related** represents the related
+resource.  In terms of a graph data structure, **related** is the node and
+**self** represent the vertex.  The details are given
+[here](http://jsonapi.org/recommendations/#urls-relationships).
+
+### Included member
+Contains an array of [resource objects](###Single resource object) and it should represent the object
+that could be fetch from the resource(s) specified in the related field of relationship's links member.
+
+```
+{
+    data : {
+        "relationships": {
+            "data": {},
+            "meta": {},
+            "links": {
+                "self": "",
+                "related": "http://getme.com/32"  >----------
+            }                                               |
+                                                            |
+        }                                                   |
+    },                                                      |  GET
+    included: [                                             |
+                                                            |
+       <----------------------------------------------------|
+    ]
+}
+```
+
 
 ### Error representation
 
@@ -80,7 +151,7 @@ all the fields.
 The concept and naming of various resources are created around chado schema modules
 and conventions.
 
-# Resources 
+# Resources for chado access
 
 ## API endpoint
 
@@ -113,3 +184,7 @@ List all cvs.
     }
 }
 ```
+
+### `/cvs/:id`
+Retrieve a cv. The `id` will be unique **ontology short name**  as defined is [OLS](http://www.ebi.ac.uk/ols/beta/ontologies)
+or the **acronym** defined in [bioportal](http://bioportal.bioontology.org/ontologies?filter=OBO_Foundry)
