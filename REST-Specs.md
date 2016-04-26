@@ -24,13 +24,20 @@ identifier object](http://jsonapi.org/format/#document-resource-objects).
         "id": "",
         "attributes": {},
         "relationships": {
-            "links": {
-                "self": "",
-                "related": ""
-            },
-            "data": {},
-            "meta": {}
+            "object_name": {
+                "links": {
+                    "self": "",
+                    "related": ""
+                },
+                "data": {},
+                "meta": {}
+            }
         },
+        "links": { 
+            "self": {}, 
+            "related": {},
+            "object_name": {}
+        }
     },
     "included": [],
     "links": {
@@ -80,12 +87,14 @@ identifier object](http://jsonapi.org/format/#document-resource-objects).
 
 ```json
     "relationships": {
-        "links": {
-            "self": "",
-            "related": ""
-        },
-        "data": {},
-        "meta": {}
+        "object_name": {
+            "links": {
+                "self": "",
+                "related": ""
+            },
+            "data": {},
+            "meta": {}
+        }
     }
 ```
 
@@ -107,12 +116,14 @@ that could be fetch from the resource(s) specified in the related field of relat
 {
     data : {
         "relationships": {
-            "data": {},
-            "meta": {},
-            "links": {
-                "self": "",
-                "related": "http://getme.com/32"  >----------
-            }                                               |
+            "object_name": {
+                "data": {},
+                "meta": {},
+                "links": {
+                    "self": "",
+                    "related": "http://getme.com/32"  >----------
+                }                                               |
+            }
                                                             |
         }                                                   |
     },                                                      |  GET
@@ -123,12 +134,14 @@ that could be fetch from the resource(s) specified in the related field of relat
 }
 ```
 
+### Links and pagination
+
 
 ### Error representation
 
 ```json
 {
-    "errors: [{
+    "errors": [{
         "id": "",
         "links": {
             "about": ""
@@ -146,12 +159,9 @@ that could be fetch from the resource(s) specified in the related field of relat
 }
 ```
 
-
-
+# Resources for chado access
 The concept and naming of various resources are created around chado schema modules
 and conventions.
-
-# Resources for chado access
 
 ## API endpoint
 
@@ -159,14 +169,14 @@ and conventions.
 Resources related to cv(controlled vocabulary)
 
 ### `/cvs`
-List all cvs. 
+Resource for collection of cvs. 
 
 #### Response structure
 
 ```json
 {
     "data": [{
-        "type": "cvs",
+        "type": "cv",
         "id": 1,
         "attributes": {
         },
@@ -186,5 +196,54 @@ List all cvs.
 ```
 
 ### `/cvs/:id`
-Retrieve a cv. The `id` will be unique **ontology short name**  as defined is [OLS](http://www.ebi.ac.uk/ols/beta/ontologies)
+Resource for a particular cv. The `id` will be unique **ontology short name**  as defined is [OLS](http://www.ebi.ac.uk/ols/beta/ontologies)
 or the **acronym** defined in [bioportal](http://bioportal.bioontology.org/ontologies?filter=OBO_Foundry)
+
+```json
+{
+    "data": {
+        "type": "cv",
+        "id": 1,
+        "attributes": {
+            "name": "so",
+            "defintion": "This is sequence ontology"
+        },
+        "relationships": {
+            "terms": {
+                "related": "/cvs/ro/terms"
+            }
+        },
+    },
+    "links": {
+        "self": "/cvs/ro"
+    }
+}
+```
+
+#### Related resources
+Support `terms` as include parameter. 
+
+```/cvs/:id?include=terms```
+
+It will include the term resources for that cv. The list of term resource
+objects will be paginated.
+
+```json
+{
+    "data": {
+        .....
+        "links": {
+            "terms": {
+                "self": "",
+                "first": "",
+                "last": "",
+                "previous": "",
+                "next": ""
+            }
+        }
+    },
+    included: [
+        # term resources here
+    ]
+}
+```
