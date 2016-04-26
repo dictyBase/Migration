@@ -99,17 +99,17 @@ Content-Type: application/vnd.api+json
     "data": [{
         "type": "order",
         "id": "8749937",
-        "links": {"related": "/orders/8749937"}
+        "links": {"self": "/orders/8749937"}
     },
     {
         "type": "order",
         "id": "27663",
-        "links": {"related": "/orders/27663"}
+        "links": {"self": "/orders/27663"}
     },
     {
         "type": "order",
         "id": "546737",
-        "links": {"related": "/orders/546737"}
+        "links": {"self": "/orders/546737"}
     }],
     "links": {"self": "/orders"},
 }
@@ -170,17 +170,17 @@ Content-Type: application/vnd.api+json
     "data": [{
         "type": "user",
         "id": "25",
-        "links": {"related": "/users/25"}
+        "links": {"self": "/users/25"}
     },
     {
         "type": "user",
         "id": "65",
-        "links": {"related": "/users/65"}
+        "links": {"self": "/users/65"}
     },
     {
         "type": "user",
         "id": "10",
-        "links": {"related": "/users/10"}
+        "links": {"self": "/users/10"}
     }],
     "links": {"self": "/users"}
 }
