@@ -111,7 +111,13 @@ Content-Type: application/vnd.api+json
         "id": "546737",
         "links": {"self": "/orders/546737"}
     }],
-    "links": {"self": "/orders"},
+    "links": {
+      "self": "/orders?page[number]=3&page[size]=3",
+      "first": "/orders?page[number]=1&page[size]=3",
+      "prev": "/orders?page[number]=2&page[size]=3",
+      "next": "/orders?page[number]=4&page[size]=3",
+      "last": "/orders?page[number]=12&page[size]=2"
+    }
 }
 ```
 
