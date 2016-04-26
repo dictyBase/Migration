@@ -152,7 +152,7 @@ Content-Type: application/vnd.api+json
             "email": "john@gmail.com",
             "organization": "UIC",
             "group": "Bio Infomatics Lab",
-            "address" : {"line_1": "4563 N Michicagn Ave", "line_2": ""}
+            "address" : {"line_1": "4563 N Michicagn Ave", "line_2": ""},
             "city": "Chicago",
             "state": "IL",
             "zip": "60625",
