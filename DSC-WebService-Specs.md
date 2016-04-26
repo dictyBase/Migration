@@ -99,28 +99,16 @@ Content-Type: application/vnd.api+json
     "data": [{
         "type": "order",
         "id": "8749937",
-        "attributes": {
-            "created": "2015-05-22T14:56:29.000Z",
-            "status": "Shipped"
-        },
         "links": {"related": "/orders/8749937"}
     },
     {
         "type": "order",
         "id": "27663",
-        "attributes": {
-            "created": "2016-03-14T06:27:44.000Z",
-            "status": "in Preparation"
-        },
         "links": {"related": "/orders/27663"}
     },
     {
         "type": "order",
         "id": "546737",
-        "attributes": {
-            "created": "2016-01-06T17:26:12.000Z",
-            "status": "Processing"
-        },
         "links": {"related": "/orders/546737"}
     }],
     "links": {"self": "/orders"},
@@ -182,31 +170,16 @@ Content-Type: application/vnd.api+json
     "data": [{
         "type": "user",
         "id": "25",
-        "attributes": {
-            "first_name": "John",
-            "last_name": "Smith",
-            "email": "john@gmail.com"
-        },
         "links": {"related": "/users/25"}
     },
     {
         "type": "user",
         "id": "65",
-        "attributes": {
-            "first_name": "James",
-            "last_name": "Anderson",
-            "email": "james_a@yahoo.com"
-        },
         "links": {"related": "/users/65"}
     },
     {
         "type": "user",
         "id": "10",
-        "attributes": {
-            "first_name": "Selena",
-            "last_name": "Gomez",
-            "email": "gomeztina@gmail.com"
-        },
         "links": {"related": "/users/10"}
     }],
     "links": {"self": "/users"}
