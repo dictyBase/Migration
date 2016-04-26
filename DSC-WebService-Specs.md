@@ -188,7 +188,13 @@ Content-Type: application/vnd.api+json
         "id": "10",
         "links": {"self": "/users/10"}
     }],
-    "links": {"self": "/users"}
+    "links": {
+      "self": "/users?page[number]=1&page[size]=3",
+      "first": "/users?page[number]=1&page[size]=3",
+      "prev": "",
+      "next": "/users?page[number]=2&page[size]=3",
+      "last": "/users?page[number]=10&page[size]=2"
+    }
 }
 
 ```
