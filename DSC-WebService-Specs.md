@@ -92,15 +92,13 @@ Content-Type: application/vnd.api+json
 <a name="orders"></a>
 ## `/orders`
 
-List all orders. Here, primary data is a *resource collection object*
+List all orders. Here, the primary data is a *resource collection object*
 
 **Allowed HTTP methods**
 
 * GET
 
-### Example Response
-
-`GET /orders`
+### Response Structure
 
 ```json
 HTTP/1.1 200 OK
@@ -110,16 +108,34 @@ Content-Type: application/vnd.api+json
     "data": [{
         "type": "order",
         "id": "8749937",
+        "attributes": {
+            "created": "2015-05-22T14:56:29.000Z",
+            "shipping": {"account": "FedEx", "account_num": "389742"},
+            "payment": {"method": "Credit", "purchase_order": ""},
+            "status": "Shipped"
+        },
         "links": {"self": "/orders/8749937"}
     },
     {
         "type": "order",
         "id": "27663",
+        "attributes": {
+            "created": "2014-11-41T11:51:29.000Z",
+            "shipping": {"account": "UPS", "account_num": "28744"},
+            "payment": {"method": "Wire", "purchase_order": ""},
+            "status": "in Preparation"
+        },
         "links": {"self": "/orders/27663"}
     },
     {
         "type": "order",
         "id": "546737",
+        "attributes": {
+            "created": "2016-04-26T01:16:29.000Z",
+            "shipping": {"account": "FedEx", "account_num": "4544"},
+            "payment": {"method": "Credit", "purchase_order": ""},
+            "status": "Shipped"
+        },
         "links": {"self": "/orders/546737"}
     }],
     "links": {
