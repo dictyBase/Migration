@@ -104,7 +104,7 @@ The relationships specs is described
 identifier object](###Resource identifier object).  In this context, the
 [links](http://jsonapi.org/format/#document-links) object's **self** field
 represent the relationship itself, whereas **related** represents the related
-resource.  In terms of a graph data structure, **related** is the node and
+resource.  In cvterms of a graph data structure, **related** is the node and
 **self** represent the vertex.  The details are given
 [here](http://jsonapi.org/recommendations/#urls-relationships).
 
@@ -123,18 +123,116 @@ that could be fetch from the resource(s) specified in the related field of relat
                     "self": "",
                     "related": "http://getme.com/32"  >----------
                 }                                               |
-            }
-                                                            |
-        }                                                   |
-    },                                                      |  GET
-    included: [                                             |
-                                                            |
-       <----------------------------------------------------|
+            }                                                   |
+                                                                |
+        }                                                       |
+    },                                                          |  GET
+    included: [                                                 |
+                                                                |
+       <--------------------------------------------------------|
     ]
 }
 ```
 
 ### Links and pagination
+The `links` field appear in three places in JSON API document. 
+
+* Top level
+
+```json
+{
+    "data": {},
+    "links": {}
+}
+
+```
+* Inside a resource object
+
+```json
+{
+    "data": {
+        "links": {}
+    }
+}
+```
+
+* Inside a relationship object 
+
+```json 
+{
+    "data": {
+        "relationships": {
+            "object": {
+                "links": {}
+            }
+        }
+    }
+}
+
+```
+
+And putting it all together, 
+
+```json
+{
+    "data": {
+        "relationships": {
+            "object": {
+                "links": {}
+            }
+        },
+        "links": {}
+    },
+    "links": {}
+}
+
+```
+
+The specification is given [here](http://jsonapi.org/format/#document-links).
+In a nutshell, it generally contains two fields `self` and `related`.
+
+```json
+{
+    "links": {
+        "self": "",
+        "related": ""
+    }
+}
+
+```
+
+#### Pagination
+The [links](http://jsonapi.org/format/#document-links) object for representing
+pagination links. The specification is
+[here](http://jsonapi.org/format/#fetching-pagination), particularly how to
+represent pagination of primary
+[data](http://jsonapi.org/examples/#pagination).The pagination of included
+resources, however should be included in the  `links` field of the resource
+object. Here is one example taken from
+[here](https://github.com/json-api/json-api/pull/462).
+
+```json
+{
+  "data": [{
+    "type": "posts",
+    "id": "1",
+    "title": "JSON API paints my bikeshed!",
+    "links": {
+      "self": "http://example.com/posts/1",
+      "author": {
+        "self": "http://example.com/posts/1/links/author",
+        "related": "http://example.com/posts/1/author",
+        "linkage": { "type": "people", "id": "9" }
+      },
+      "comments": {
+        "self": "http://example.com/posts/1/comments?page[offset]=2",
+        "next": "http://example.com/posts/1/comments?page[offset]=3",
+        "last": "http://example.com/posts/1/comments?page[offset]=10",
+        "prev": "http://example.com/posts/1/comments?page[offset]=1"
+      }
+    }
+  }
+```
 
 
 ### Error representation
@@ -171,7 +269,7 @@ Resources related to cv(controlled vocabulary)
 ### `/cvs`
 Resource for collection of cvs. 
 
-#### Response structure
+**Document structure**
 
 ```json
 {
@@ -199,6 +297,8 @@ Resource for collection of cvs.
 Resource for a particular cv. The `id` will be unique **ontology short name**  as defined is [OLS](http://www.ebi.ac.uk/ols/beta/ontologies)
 or the **acronym** defined in [bioportal](http://bioportal.bioontology.org/ontologies?filter=OBO_Foundry)
 
+**Document structure**
+
 ```json
 {
     "data": {
@@ -209,8 +309,15 @@ or the **acronym** defined in [bioportal](http://bioportal.bioontology.org/ontol
             "defintion": "This is sequence ontology"
         },
         "relationships": {
-            "terms": {
-                "related": "/cvs/ro/terms"
+            "cvcvterms": {
+                "links": {
+                    "related": "/cvs/ro/cvcvterms"
+                }
+            },
+            "typedefs": {
+                "links": {
+                    "related": "/cvs/ro/typedefs"
+                }
             }
         },
     },
@@ -221,19 +328,21 @@ or the **acronym** defined in [bioportal](http://bioportal.bioontology.org/ontol
 ```
 
 #### Related resources
-Support `terms` as include parameter. 
+Support `cvcvterms` as include parameter. 
 
-```/cvs/:id?include=terms```
+```/cvs/:id?include=cvterms```
 
 It will include the term resources for that cv. The list of term resource
 objects will be paginated.
+
+**Document structure**
 
 ```json
 {
     "data": {
         .....
         "links": {
-            "terms": {
+            "cvterms": {
                 "self": "",
                 "first": "",
                 "last": "",
@@ -243,7 +352,147 @@ objects will be paginated.
         }
     },
     included: [
-        # term resources here
+        # cvterm resources here
     ]
+}
+```
+
+### `/cvs/:id/cvterms`
+
+### `/cvs/:id/predicates`
+
+### `/cvs/:id/cvterms/:id`
+The syntax of the cvterm id is defined [here](http://owlcollab.github.io/oboformat/doc/GO.format.obo-1_4.html#S.1.6).
+
+**Document structure**
+```json
+{
+    "links": {
+        "self": "/cvs/eco/cvterms/ECO:0000006"
+    }
+    "data": {
+        "type": "cvterm",
+        "id": 6,
+        "attributes": {
+            "name": "experimental evidence",
+            "defintion": "",
+            "iri": "http://purl.obolibrary.org/eco/ECO_0000006",
+            "comment": "",
+            "alternate_ids": [],
+            "created_by": "",
+            "creation_date": "",
+            "relationships": {
+                "synonyms": {
+                    "links": {
+                        "related": "/cvs/eco/cvterms/ECO:0000006/synonyms"
+                    }
+                },
+                "dbxrefs": {
+                    "links": {
+                        "related": "/cvs/eco/cvterms/ECO:0000006/dbxrefs"
+                    }
+                },
+                "parents": {
+                    "links": {
+                        "self": "/cvs/eco/cvterms/ECO:0000006/relationships/parents",
+                        "related": "/cvs/eco/cvterms/ECO:0000006/parents"
+                    }
+                },
+                "children": {
+                    "links": {
+                        "self": "/cvs/eco/cvterms/ECO:0000006/relationships/children",
+                        "related": "/cvs/eco/cvterms/ECO:0000006/children"
+                    }
+                },
+                "ancestors": {
+                    "links": {
+                        "related": "/cvs/eco/cvterms/ECO:0000006/ancestors"
+                    }
+                },
+                "descendants": {
+                    "links": {
+                        "related": "/cvs/eco/cvterms/ECO:0000006/descendants"
+                    }
+                },
+                "connected": {
+                    "links": {
+                        "self": "/cvs/eco/cvterms/ECO:0000006/relationships/connected",
+                        "related": "/cvs/eco/cvterms/ECO:0000006/connected"
+                    }
+                }
+            }
+        }
+    }
+}
+
+```
+
+### `/cvs/:id/predicates/:id`
+Predicates represents the relationship terms(edge labels) in cv. The predicate
+id is also expressed in [shorthand
+format](https://github.com/oborel/obo-relations/wiki/Identifier://github.com/oborel/obo-relations/wiki/Identifiers).
+It is also known as [unprefixed
+id](http://owlcollab.github.io/oboformat/doc/obo-syntax.html#5.9.3) and the
+formal specification is described
+[here](http://owlcollab.github.io/oboformat/doc/obo-syntax.html#2.5)
+
+**Document structure**
+
+```json
+{
+    "links": {
+        "self": "/cvs/eco/predicates/ECO:9000000"
+    }
+    "data": {
+        "type": "cvterm",
+        "id": 6,
+        "attributes": {
+            "name": "used_in",
+            "defintion": "",
+            "iri": "http://purl.obolibrary.org/eco/ECO_9000000",
+            "comment": "",
+            "alternate_ids": [],
+            "relationships": {
+                "synonyms": {
+                    "links": {
+                        "related": "/cvs/eco/cvterms/ECO:0000006/synonyms"
+                    }
+                },
+                "dbxrefs": {
+                    "links": {
+                        "related": "/cvs/eco/cvterms/ECO:0000006/dbxrefs"
+                    }
+                },
+                "parents": {
+                    "links": {
+                        "self": "/cvs/eco/cvterms/ECO:0000006/relationships/parents",
+                        "related": "/cvs/eco/cvterms/ECO:0000006/parents"
+                    }
+                },
+                "children": {
+                    "links": {
+                        "self": "/cvs/eco/cvterms/ECO:0000006/relationships/children",
+                        "related": "/cvs/eco/cvterms/ECO:0000006/children"
+                    }
+                },
+                "ancestors": {
+                    "links": {
+                        "related": "/cvs/eco/cvterms/ECO:0000006/ancestors"
+                    }
+                },
+                "descendants": {
+                    "links": {
+                        "related": "/cvs/eco/cvterms/ECO:0000006/descendants"
+                    }
+                },
+                "connected": {
+                    "links": {
+                        "self": "/cvs/eco/cvterms/ECO:0000006/relationships/connected",
+                        "related": "/cvs/eco/cvterms/ECO:0000006/connected"
+                    }
+                }
+            }
+        }
+    }
 }
 ```
