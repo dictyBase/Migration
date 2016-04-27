@@ -14,7 +14,14 @@ Resources related to dicty stock center and it's orders
 
 Request a single order. Here, primary data is a *single resource object*
 
-### Response
+**Allowed HTTP methods**
+
+* GET
+* POST
+* PATCH
+* DELETE
+
+### Example Response
 
 `GET /orders/8749937`
 
@@ -87,7 +94,11 @@ There are three types of users associated with a single order. `consumer`, `paye
 
 List all orders. Here, primary data is a *resource collection object*
 
-### Response
+**Allowed HTTP methods**
+
+* GET
+
+### Example Response
 
 `GET /orders`
 
@@ -128,7 +139,14 @@ A list of all orders can be requested at `/orders`.
 
 Request a single user. Here, primary data is a *single resource object*
 
-### Response
+**Allowed HTTP methods**
+
+* GET
+* POST
+* PATCH
+* DELETE
+
+### Example Response
 
 `GET /users/25`
 
@@ -164,7 +182,11 @@ Content-Type: application/vnd.api+json
 
 List all users. Here, primary data is a *resource collection object*
 
-### Response
+**Allowed HTTP methods**
+
+* GET
+
+### Example Response
 
 `GET /users`
 
