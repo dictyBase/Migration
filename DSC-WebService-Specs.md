@@ -12,7 +12,7 @@ Resources related to dicty stock center and it's orders
 <a name="order_id"></a>
 ## `/orders/{order_id}`
 
-Request a single order. Here, primary data is a *single resource object*
+Request a single order. Here, the primary data is a *single resource object*
 
 **Allowed HTTP methods**
 
@@ -21,9 +21,21 @@ Request a single order. Here, primary data is a *single resource object*
 * PATCH
 * DELETE
 
-### Example Response
+The primary data which is a singe resource object, contains the information of a single dsc order. Allowed HTTP methods can be executed at `/orders/{order_id}`. For instance, an order with the id 874993 can be retrieved at `/orders/874993` with HTTP GET method.
 
-`GET /orders/8749937`
+#### relationships
+
+`stocks` relationship indicates the items ordered (strains, plasmids etc.).
+
+There are three types of users associated with a single order. `consumer`, `payer`, and `purchaser`. It is possible that all three be the same user.
+
+`consumer` : The person(user) who is receiving the stocks in mail.
+
+`payer` : The person(user) who is paying for the stocks.
+
+`purchaser` : The person who is ordering (the logged in user).
+
+### Response Structure
 
 ```json
 HTTP/1.1 200 OK
@@ -76,18 +88,6 @@ Content-Type: application/vnd.api+json
     "links": {"self": "/orders/8749937"}
 }
 ```
-
-Resource containing information regarding a single order can be requested at `/orders/{order_id}` For instance, an order with the id 874993 can be requested at `/orders/874993`. The order resource object contains the relationships (in "relationships object") stocks, consumer, payer, and purchaser.
-
-stocks relationship indicates the items ordered. In the order example above, the user has ordered a strain(id: DBS0238484) and a plasmid(id: DBP0251758).
-
-There are three types of users associated with a single order. `consumer`, `payer`, and `purchaser`, and they have been included in the "relationships object". It is possible that all three be the same user.
-
-`consumer` : The person(user) who is receiving the stocks in mail.
-
-`payer` : The person(user) who is paying for the stocks.
-
-`purchaser` : The person who is ordering (the logged in user).
 
 <a name="orders"></a>
 ## `/orders`
