@@ -362,7 +362,7 @@ objects will be paginated.
 ### `/cvs/:id/predicates`
 
 ### `/cvs/:id/cvterms/:id`
-The syntax of the cvterm id is defined [here](http://owlcollab.github.io/oboformat/doc/GO.format.obo-1_4.html#S.1.6).
+The syntax of the cvterm `id` is defined [here](http://owlcollab.github.io/oboformat/doc/GO.format.obo-1_4.html#S.1.6).
 
 **Document structure**
 ```json
@@ -372,15 +372,15 @@ The syntax of the cvterm id is defined [here](http://owlcollab.github.io/oboform
     }
     "data": {
         "type": "cvterm",
-        "id": 6,
+        "id": "ECO:0000006",
         "attributes": {
             "name": "experimental evidence",
-            "defintion": "",
-            "iri": "http://purl.obolibrary.org/eco/ECO_0000006",
-            "comment": "",
-            "alternate_ids": [],
-            "created_by": "",
-            "creation_date": "",
+            "defintion": "an evidence type that is  based on....""
+            "iri": "http://purl.obolibrary.org/obo/ECO_0000006",
+            "comment": "It has no comment",
+            "alternate_ids": ["ECO:0000014", "ECO:001125"],
+            "created_by": "bob",
+            "creation_date": "2009-04-13T01:32:36Z",
             "relationships": {
                 "synonyms": {
                     "links": {
@@ -392,16 +392,16 @@ The syntax of the cvterm id is defined [here](http://owlcollab.github.io/oboform
                         "related": "/cvs/eco/cvterms/ECO:0000006/dbxrefs"
                     }
                 },
-                "parents": {
+                "objects": {
                     "links": {
-                        "self": "/cvs/eco/cvterms/ECO:0000006/relationships/parents",
-                        "related": "/cvs/eco/cvterms/ECO:0000006/parents"
+                        "self": "/cvs/eco/cvterms/ECO:0000006/relationships/objects",
+                        "related": "/cvs/eco/cvterms/ECO:0000006/objects"
                     }
                 },
-                "children": {
+                "subjects": {
                     "links": {
-                        "self": "/cvs/eco/cvterms/ECO:0000006/relationships/children",
-                        "related": "/cvs/eco/cvterms/ECO:0000006/children"
+                        "self": "/cvs/eco/cvterms/ECO:0000006/relationships/subjects",
+                        "related": "/cvs/eco/cvterms/ECO:0000006/subjects"
                     }
                 },
                 "ancestors": {
@@ -445,13 +445,13 @@ formal specification is described
     }
     "data": {
         "type": "cvterm",
-        "id": 6,
+        "id": "ECO_9000000",
         "attributes": {
             "name": "used_in",
-            "defintion": "",
+            "defintion": "use me",
             "iri": "http://purl.obolibrary.org/eco/ECO_9000000",
-            "comment": "",
-            "alternate_ids": [],
+            "comment": "Think before you use",
+            "alternate_ids": ["ECO:0000019", "ECO:9000001"],
             "relationships": {
                 "synonyms": {
                     "links": {
@@ -463,16 +463,16 @@ formal specification is described
                         "related": "/cvs/eco/cvterms/ECO:0000006/dbxrefs"
                     }
                 },
-                "parents": {
+                "objects": {
                     "links": {
-                        "self": "/cvs/eco/cvterms/ECO:0000006/relationships/parents",
-                        "related": "/cvs/eco/cvterms/ECO:0000006/parents"
+                        "self": "/cvs/eco/cvterms/ECO:0000006/relationships/objects",
+                        "related": "/cvs/eco/cvterms/ECO:0000006/objects"
                     }
                 },
-                "children": {
+                "subjects": {
                     "links": {
-                        "self": "/cvs/eco/cvterms/ECO:0000006/relationships/children",
-                        "related": "/cvs/eco/cvterms/ECO:0000006/children"
+                        "self": "/cvs/eco/cvterms/ECO:0000006/relationships/subjects",
+                        "related": "/cvs/eco/cvterms/ECO:0000006/subjects"
                     }
                 },
                 "ancestors": {
@@ -496,3 +496,54 @@ formal specification is described
     }
 }
 ```
+
+### `/cvs/:id/cvterms/:id/synonyms`
+
+**Document structure**
+
+```json
+{
+    "links": {
+        "self": "/cvs/eco/cvterms/ECO_9000000/synonyms"
+    },
+    "data": [
+        {
+            "type": "synonym",
+            "id": "9",
+            "name": "evidence_code",
+            "scope": "RELATED"
+            "links": {
+                "self": "/cvs/eco/cvterms/ECO_9000000/synonyms/9"
+            }
+        }, 
+        {
+            "type": "synonym",
+            "id": "10",
+            "name": "infered by curator",
+            "scope": "EXACT"
+            "links": {
+                "self": "/cvs/eco/cvterms/ECO_9000001/synonyms/10"
+           }
+        }
+    ]
+}
+```
+
+### `/cvs/:id/cvterms/:id/synonyms/:id`
+
+**Document structure**
+
+```json
+{
+    "links": {
+        "self": "/cvs/eco/cvterms/ECO_9000000/synonyms/9"
+    },
+    "data": {
+        "type": "synonym",
+        "id": "9",
+        "name": "evidence_code",
+        "scope": "RELATED"
+    }
+}
+```
+
