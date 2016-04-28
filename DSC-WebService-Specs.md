@@ -97,6 +97,7 @@ List all orders. Here, the primary data is a *resource collection object*
 **Allowed HTTP methods**
 
 * GET
+* POST
 
 ### Response Structure
 
@@ -180,7 +181,7 @@ Content-Type: application/vnd.api+json
             "email": "john@gmail.com",
             "organization": "UIC",
             "group": "Bio Infomatics Lab",
-            "address" : {"line_1": "4563 N Michicagn Ave", "line_2": ""},
+            "address" : {"first": "4563 N Michicagn Ave", "second": ""},
             "city": "Chicago",
             "state": "IL",
             "zip": "60625",
@@ -201,6 +202,7 @@ List all users. Here, primary data is a *resource collection object*
 **Allowed HTTP methods**
 
 * GET
+* POST
 
 ### Example Response
 
