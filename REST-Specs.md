@@ -260,9 +260,9 @@ object. Here is one example taken from
 # Resources for chado access
 The concept and naming of various resources are created around chado schema modules
 and conventions.
-Unless specified, by default all resources will allow HTTP **GET, POST,
-DELETE** and **PATCH** methods. All collection resources by default does not
-allow **PATCH** and **DELETE**, only **GET** and **POST** are permitted.
+Unless specified, by default all collection resources allow HTTP **GET** and
+**POST**, whereas singular resources allow **GET**, **DELETE** and **PATCH**.
+
 
 ## API endpoint
 
@@ -331,9 +331,11 @@ or the **acronym** defined in [bioportal](http://bioportal.bioontology.org/ontol
 ```
 
 #### Related resources
-Support `cvcvterms` as include parameter. 
+Support `cvterms` as include parameter. 
 
-```/cvs/:id?include=cvterms```
+```
+/cvs/:id?include=cvterms
+```
 
 It will include the term resources for that cv. The list of term resource
 objects will be paginated.
@@ -362,7 +364,6 @@ objects will be paginated.
 
 ### `/cvs/:id/cvterms`
 
-### `/cvs/:id/predicates`
 
 ### `/cvs/:id/cvterms/:id`
 The syntax of the cvterm `id` is defined [here](http://owlcollab.github.io/oboformat/doc/GO.format.obo-1_4.html#S.1.6).
@@ -384,77 +385,6 @@ The syntax of the cvterm `id` is defined [here](http://owlcollab.github.io/obofo
             "alternate_ids": ["ECO:0000014", "ECO:001125"],
             "created_by": "bob",
             "creation_date": "2009-04-13T01:32:36Z",
-            "relationships": {
-                "synonyms": {
-                    "links": {
-                        "related": "/cvs/eco/cvterms/ECO:0000006/synonyms"
-                    }
-                },
-                "dbxrefs": {
-                    "links": {
-                        "related": "/cvs/eco/cvterms/ECO:0000006/dbxrefs"
-                    }
-                },
-                "objects": {
-                    "links": {
-                        "self": "/cvs/eco/cvterms/ECO:0000006/relationships/objects",
-                        "related": "/cvs/eco/cvterms/ECO:0000006/objects"
-                    }
-                },
-                "subjects": {
-                    "links": {
-                        "self": "/cvs/eco/cvterms/ECO:0000006/relationships/subjects",
-                        "related": "/cvs/eco/cvterms/ECO:0000006/subjects"
-                    }
-                },
-                "ancestors": {
-                    "links": {
-                        "related": "/cvs/eco/cvterms/ECO:0000006/ancestors"
-                    }
-                },
-                "descendants": {
-                    "links": {
-                        "related": "/cvs/eco/cvterms/ECO:0000006/descendants"
-                    }
-                },
-                "connected": {
-                    "links": {
-                        "self": "/cvs/eco/cvterms/ECO:0000006/relationships/connected",
-                        "related": "/cvs/eco/cvterms/ECO:0000006/connected"
-                    }
-                }
-            }
-        }
-    }
-}
-
-```
-
-### `/cvs/:id/predicates/:id`
-Predicates represents the relationship terms(edge labels) in cv. The predicate
-id is also expressed in [shorthand
-format](https://github.com/oborel/obo-relations/wiki/Identifier://github.com/oborel/obo-relations/wiki/Identifiers).
-It is also known as [unprefixed
-id](http://owlcollab.github.io/oboformat/doc/obo-syntax.html#5.9.3) and the
-formal specification is described
-[here](http://owlcollab.github.io/oboformat/doc/obo-syntax.html#2.5)
-
-**Document structure**
-
-```json
-{
-    "links": {
-        "self": "/cvs/eco/predicates/ECO:9000000"
-    }
-    "data": {
-        "type": "cvterm",
-        "id": "ECO_9000000",
-        "attributes": {
-            "name": "used_in",
-            "defintion": "use me",
-            "iri": "http://purl.obolibrary.org/eco/ECO_9000000",
-            "comment": "Think before you use",
-            "alternate_ids": ["ECO:0000019", "ECO:9000001"],
             "relationships": {
                 "synonyms": {
                     "links": {
@@ -500,16 +430,177 @@ formal specification is described
         }
     }
 }
+
 ```
 
-### `/cvs/:id/cvterms/:id/synonyms`
+
+### `/cvs/:id/predicates`
 
 **Document structure**
 
 ```json
 {
     "links": {
-        "self": "/cvs/eco/cvterms/ECO_9000000/synonyms"
+        "self": "/cvs/eco/predicates?page[number]=6&page[size]=10",
+        "next": "/cvs/eco/predicates?page[number]=7&page[size]=10",
+        "prev": "/cvs/eco/predicates?page[number]=5&page[size]=10"
+        "last": "/cvs/eco/predicates?page[number]=16&page[size]=10",
+        "first": "/cvs/eco/predicates?page[number]=1&page[size]=10"
+    }
+    "data": [
+        {
+            "type": "cvterm",
+            "id": "ECO:9000000",
+            "attributes": { # all attributes are included
+                ......
+            },
+            "links": {
+                "self": "/cvs/eco/predicates/ECO:9000000"
+            }
+        }, 
+        {
+            "type": "cvterm",
+            "id": "ECO:0000025",
+            "attributes": {
+                .....
+            },
+            "links": {
+                "self": "/cvs/eco/predicates/ECO:9000025"
+            }
+        }
+    ]
+}
+
+```
+
+### `/cvs/:id/predicates/:id`
+Predicates represents the relationship terms(edge labels) in cv. The predicate
+id is also expressed in [shorthand
+format](https://github.com/oborel/obo-relations/wiki/Identifier://github.com/oborel/obo-relations/wiki/Identifiers).
+It is also known as [unprefixed
+id](http://owlcollab.github.io/oboformat/doc/obo-syntax.html#5.9.3) and the
+formal specification is described
+[here](http://owlcollab.github.io/oboformat/doc/obo-syntax.html#2.5)
+
+**Document structure**
+
+```json
+{
+    "links": {
+        "self": "/cvs/eco/predicates/ECO:9000000"
+    }
+    "data": {
+        "type": "cvterm",
+        "id": "ECO:9000000",
+        "attributes": {
+            "name": "used_in",
+            "defintion": "use me",
+            "iri": "http://purl.obolibrary.org/eco/ECO_9000000",
+            "comment": "Think before you use",
+            "alternate_ids": ["ECO:0000019", "ECO:9000001"],
+            "cyclic": "true",
+            "reflexive": "false",
+            "symmetric": "true",
+            "anti_symmetric": "true",
+            "transitive": "false",
+            "relationships": {
+                "synonyms": {
+                    "links": {
+                        "related": "/cvs/eco/predicates/ECO:0000006/synonyms"
+                    }
+                },
+                "dbxrefs": {
+                    "links": {
+                        "related": "/cvs/eco/predicates/ECO:0000006/dbxrefs"
+                    }
+                },
+                "objects": {
+                    "links": {
+                        "self": "/cvs/eco/predicates/ECO:0000006/relationships/objects",
+                        "related": "/cvs/eco/predicates/ECO:0000006/objects"
+                    }
+                },
+                "subjects": {
+                    "links": {
+                        "self": "/cvs/eco/predicates/ECO:0000006/relationships/subjects",
+                        "related": "/cvs/eco/predicates/ECO:0000006/subjects"
+                    }
+                },
+                "ancestors": {
+                    "links": {
+                        "related": "/cvs/eco/predicates/ECO:0000006/ancestors"
+                    }
+                },
+                "descendants": {
+                    "links": {
+                        "related": "/cvs/eco/predicates/ECO:0000006/descendants"
+                    }
+                },
+                "connected": {
+                    "links": {
+                        "self": "/cvs/eco/predicates/ECO:0000006/relationships/connected",
+                        "related": "/cvs/eco/predicates/ECO:0000006/connected"
+                    }
+                },
+                "transitive_over": {
+                    "links": {
+                        "related": "/cvs/eco/predicates/ECO:0000004"
+                    }
+                },
+                "inverse_of": {
+                    "links": {
+                        "related": "/cvs/eco/predicates/ECO:0000005"
+                    }
+                },
+                "domain": {
+                    "links": {
+                        "related": "/cvs/eco/cvterms/ECO:0000000"
+                    }
+                },
+                "range": {
+                    "links": {
+                        "related": "/cvs/eco/cvterms/ECO:0000001"
+                    }
+                }
+            }
+        }
+    }
+}
+```
+### `/cvs/:id/predicates/:id/relationships/objects`
+
+**Document structure**
+Identical to `/cvs/:id/predicates`. However the response will not be
+paginated.
+
+### `/cvs/:id/predicates/:id/objects`
+**Allowed methods**
+GET
+
+**Document structure**
+Identical to `/cvs/:id/predicates`. However the response will not be
+paginated.
+
+
+### `/cvs/:id/predicates/:id/relationships/subjects` and `/cvs/:id/predicates/:id/subjects`
+Identical to previous two `objects` resources.
+
+### `/cvs/:id/predicates/:id/ancestors` and `/cvs/:id/predicates/:id/descendants`
+**Allowed methods**
+GET
+
+**Document structure**
+Identical to `/cvs/:id/predicates`. However the response will be paginated.
+
+
+### `/cvs/:id/cvterms/:id/synonyms` and `/cvs/:id/predicates/:id/synonyms`
+
+**Document structure**
+
+```json
+{
+    "links": {
+        "self": "/cvs/eco/cvterms/ECO:9000000/synonyms"
     },
     "data": [
         {
@@ -534,7 +625,9 @@ formal specification is described
 }
 ```
 
-### `/cvs/:id/cvterms/:id/synonyms/:id`
+For predicate resource replace `cvterms` with `predicates` in the `self` link.
+
+### `/cvs/:id/cvterms/:id/synonyms/:id` and `/cvs/:id/predicates/:id/synonyms/:id`
 
 **Document structure**
 
@@ -552,7 +645,7 @@ formal specification is described
 }
 ```
 
-### `/cvs/:id/cvterms/:id/dbxrefs"`
+### `/cvs/:id/cvterms/:id/dbxrefs"` and `/cvs/:id/predicates/:id/dbxrefs"`
 
 **Document structure**
 
@@ -586,6 +679,10 @@ formal specification is described
     }
 }
 ```
+
+
+### `/dbxrefs`
+Will be written later as a part of general module.
 
 ### `/dbxrefs/:id"`
 The dbxref `id` needs to be url encoded.
