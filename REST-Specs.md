@@ -260,6 +260,9 @@ object. Here is one example taken from
 # Resources for chado access
 The concept and naming of various resources are created around chado schema modules
 and conventions.
+Unless specified, by default all resources will allow HTTP **GET, POST,
+DELETE** and **PATCH** methods. All collection resources by default does not
+allow **PATCH** and **DELETE**, only **GET** and **POST** are permitted.
 
 ## API endpoint
 
@@ -455,11 +458,13 @@ formal specification is described
             "relationships": {
                 "synonyms": {
                     "links": {
+                        "self": "/cvs/eco/cvterms/ECO:0000006/relationships/synonyms"
                         "related": "/cvs/eco/cvterms/ECO:0000006/synonyms"
                     }
                 },
                 "dbxrefs": {
                     "links": {
+                        "self": "/cvs/eco/cvterms/ECO:0000006/relationships/dbxrefs"
                         "related": "/cvs/eco/cvterms/ECO:0000006/dbxrefs"
                     }
                 },
@@ -603,3 +608,4 @@ The dbxref `id` needs to be url encoded.
 }
 
 ```
+
