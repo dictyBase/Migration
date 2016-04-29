@@ -513,7 +513,7 @@ formal specification is described
             "name": "evidence_code",
             "scope": "RELATED"
             "links": {
-                "self": "/cvs/eco/cvterms/ECO_9000000/synonyms/9"
+                "self": "/cvs/eco/cvterms/ECO:9000000/synonyms/9"
             }
         }, 
         {
@@ -522,7 +522,7 @@ formal specification is described
             "name": "infered by curator",
             "scope": "EXACT"
             "links": {
-                "self": "/cvs/eco/cvterms/ECO_9000001/synonyms/10"
+                "self": "/cvs/eco/cvterms/ECO:9000001/synonyms/10"
            }
         }
     ]
@@ -536,7 +536,7 @@ formal specification is described
 ```json
 {
     "links": {
-        "self": "/cvs/eco/cvterms/ECO_9000000/synonyms/9"
+        "self": "/cvs/eco/cvterms/ECO:9000000/synonyms/9"
     },
     "data": {
         "type": "synonym",
@@ -547,3 +547,59 @@ formal specification is described
 }
 ```
 
+### `/cvs/:id/cvterms/:id/dbxrefs"`
+
+**Document structure**
+
+```json 
+{
+    "links": {
+        "self": "/cvs/eco/cvterms/ECO:0000006/dbxrefs"
+    },
+    {
+        "data": [
+            {
+                "type": "dbxref",
+                "id": "GO_REF:0000011",
+                "database": "GO_REF",
+                "accession": "0000011",
+                "links": {
+                    "self": "/dbxrefs/GO_REF:0000011"
+                }
+            }, 
+            {
+                "type": "dbxref",
+                "id": "KEGG:R05612",
+                "database": "KEGG",
+                "accession": "R05612",
+                "links": {
+                    "self": "/dbxrefs/KEGG:R05612"
+                }
+
+            }
+        ]
+    }
+}
+```
+
+### `/dbxrefs/:id"`
+The dbxref `id` needs to be url encoded.
+
+**Document structure**
+
+```json
+{
+    "links": {
+        "self": "/dbxrefs/GO_REF:0000011"
+    },
+    {
+        "data": {
+            "type": "dbxref",
+            "id": "GO_REF:0000011",
+            "database": "GO_REF",
+            "accession": "0000011"
+        }
+    }
+}
+
+```
