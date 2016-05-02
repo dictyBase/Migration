@@ -243,7 +243,7 @@ formal specification is described
                 },
                 "dbxrefs": {
                     "links": {
-                        "related": "/cvs/eco/predicates/ECO:0000006/dbxrefs"
+                        "self": "/cvs/eco/predicates/ECO:0000006/relationships/dbxrefs"
                     }
                 },
                 "objects": {
