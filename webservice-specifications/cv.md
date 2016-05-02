@@ -1,6 +1,12 @@
 # Controlled vocabulary(cv) or ontology
 Resources related to cv(controlled vocabulary)
 
+![cvterm_model_for_data_api](https://cloud.githubusercontent.com/assets/48740/14930927/2c3bb4ca-0e2d-11e6-824c-caad8b61f239.png)
+
+Various resources and their relationships that are defined below in cv
+webservice specifications. The **cvterm** represents a singular resource. The
+**predicate** is also structured similarly.
+
 ## `/cvs`
 Resource for collection of cvs.
 
