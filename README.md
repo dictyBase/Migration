@@ -22,7 +22,7 @@
     * Support for data with non-ascii characters in postgresql.
 * [Importing](Import-analysis.md) data from analysis.
 * Backend data access
-    * Specification
+    * [Specification](Webservice-specs.md)
     * Software implementation
 * Frontend Web UI
     * [Homepage/Header/Footer and static pages](Homepage-header-footer.md).
