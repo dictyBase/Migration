@@ -62,39 +62,6 @@ or the **acronym** defined in [bioportal](http://bioportal.bioontology.org/ontol
 }
 ```
 
-### Related resources
-Support `cvterms` as include parameter.
-
-```
-/cvs/:id?include=cvterms
-```
-
-It will include the term resources for that cv. The list of term resource
-objects will be paginated.
-
-**Document structure**
-
-```json
-{
-    "data": {
-        .....
-        "links": {
-            "cvterms": {
-                "self": "",
-                "first": "",
-                "last": "",
-                "previous": "",
-                "next": ""
-            }
-        }
-    },
-    included: [
-        # cvterm resources here
-    ]
-}
-```
-
-## `/cvs/:id/cvterms`
 
 
 ## `/cvs/:id/cvterms/:id`
@@ -111,7 +78,7 @@ The syntax of the cvterm `id` is defined [here](http://owlcollab.github.io/obofo
         "id": "ECO:0000006",
         "attributes": {
             "name": "experimental evidence",
-            "defintion": "an evidence type that is  based on...."",
+            "defintion": "an evidence type that is  based on....",
             "iri": "http://purl.obolibrary.org/obo/ECO_0000006",
             "comment": "It has no comment",
             "alternate_ids": ["ECO:0000014", "ECO:001125"],
@@ -120,13 +87,13 @@ The syntax of the cvterm `id` is defined [here](http://owlcollab.github.io/obofo
             "relationships": {
                 "synonyms": {
                     "links": {
-                        "self": "/cvs/eco/cvterms/ECO:0000006/relationships/synonyms"
+                        "self": "/cvs/eco/cvterms/ECO:0000006/relationships/synonyms",
                         "related": "/cvs/eco/cvterms/ECO:0000006/synonyms"
                     }
                 },
                 "dbxrefs": {
                     "links": {
-                        "self": "/cvs/eco/cvterms/ECO:0000006/relationships/dbxrefs"
+                        "self": "/cvs/eco/cvterms/ECO:0000006/relationships/dbxrefs",
                         "related": "/cvs/eco/cvterms/ECO:0000006/dbxrefs"
                     }
                 },
@@ -165,42 +132,41 @@ The syntax of the cvterm `id` is defined [here](http://owlcollab.github.io/obofo
 
 ```
 
-
-## `/cvs/:id/predicates`
-
+## `/cvs/:id/cvterms`
 **Document structure**
 
 ```json
 {
     "links": {
-        "self": "/cvs/eco/predicates?page[number]=6&page[size]=10",
-        "next": "/cvs/eco/predicates?page[number]=7&page[size]=10",
-        "prev": "/cvs/eco/predicates?page[number]=5&page[size]=10"
-        "last": "/cvs/eco/predicates?page[number]=16&page[size]=10",
-        "first": "/cvs/eco/predicates?page[number]=1&page[size]=10"
+        "self": "/cvs/eco/cvterms?page[number]=6&page[size]=10",
+        "next": "/cvs/eco/cvterms?page[number]=7&page[size]=10",
+        "prev": "/cvs/eco/cvterms?page[number]=5&page[size]=10"
+        "last": "/cvs/eco/cvterms?page[number]=16&page[size]=10",
+        "first": "/cvs/eco/cvterms?page[number]=1&page[size]=10"
+    },
+    {
+        "data": [
+            {
+                "type": "cvterm"
+                "id": "ECO:0000014",
+                "attributes": { # all attributes are included
+                    
+                },
+                "links": {
+                    "self": "/cvs/eco/cvterms/ECO:0000014"
+                }
+            },
+            {
+                "type": "cvterm",
+                "id": "ECO:0000019",
+                "attributes": { # all attributes are included
+                },
+                "links": {
+                    "self": "/cvs/eco/cvterms/ECO:0000025"
+                }
+            }
+        ]
     }
-    "data": [
-        {
-            "type": "cvterm",
-            "id": "ECO:9000000",
-            "attributes": { # all attributes are included
-                ......
-            },
-            "links": {
-                "self": "/cvs/eco/predicates/ECO:9000000"
-            }
-        },
-        {
-            "type": "cvterm",
-            "id": "ECO:0000025",
-            "attributes": {
-                .....
-            },
-            "links": {
-                "self": "/cvs/eco/predicates/ECO:9000025"
-            }
-        }
-    ]
 }
 
 ```
@@ -299,6 +265,46 @@ formal specification is described
     }
 }
 ```
+
+## `/cvs/:id/predicates`
+
+**Document structure**
+
+```json
+{
+    "links": {
+        "self": "/cvs/eco/predicates?page[number]=6&page[size]=10",
+        "next": "/cvs/eco/predicates?page[number]=7&page[size]=10",
+        "prev": "/cvs/eco/predicates?page[number]=5&page[size]=10"
+        "last": "/cvs/eco/predicates?page[number]=16&page[size]=10",
+        "first": "/cvs/eco/predicates?page[number]=1&page[size]=10"
+    }
+    "data": [
+        {
+            "type": "cvterm",
+            "id": "ECO:9000000",
+            "attributes": { # all attributes are included
+                ......
+            },
+            "links": {
+                "self": "/cvs/eco/predicates/ECO:9000000"
+            }
+        },
+        {
+            "type": "cvterm",
+            "id": "ECO:0000025",
+            "attributes": {
+                .....
+            },
+            "links": {
+                "self": "/cvs/eco/predicates/ECO:9000025"
+            }
+        }
+    ]
+}
+
+```
+
 ## Relationship resources
 The list is [here](cv-related.md). 
 The document structure of those resources are more or less identical to their

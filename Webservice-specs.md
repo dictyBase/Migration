@@ -266,4 +266,4 @@ Unless specified, by default all collection resources allow HTTP **GET** and
 ## API endpoint
 
 ## Specifications for webservices
-* [Controlled vocabulary](webservice-specification/cv.md)
+* [Controlled vocabulary](webservice-specifications/cv.md)
