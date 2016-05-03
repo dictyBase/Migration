@@ -9,33 +9,6 @@ singular resource. By walking through the defined relationships, various
 related resources could be reached from an instance of cvterm resource.  The
 **predicate** will also have a similar structure.
 
-## `/cvs`
-Resource for collection of cvs.
-
-**Document structure**
-
-```json
-{
-    "data": [{
-        "type": "cv",
-        "id": 1,
-        "attributes": {
-        },
-        "relationships": {
-        },
-        "links": {
-        },
-        "meta": {
-        }
-    }],
-    "included": [],
-    "links": {
-        "self": {},
-        "related": {}
-    }
-}
-```
-
 ## `/cvs/:id`
 Resource for a particular cv. The `id` will be unique **ontology short name**  as defined is [OLS](http://www.ebi.ac.uk/ols/beta/ontologies)
 or the **acronym** defined in [bioportal](http://bioportal.bioontology.org/ontologies?filter=OBO_Foundry)
@@ -46,20 +19,20 @@ or the **acronym** defined in [bioportal](http://bioportal.bioontology.org/ontol
 {
     "data": {
         "type": "cv",
-        "id": 1,
+        "id": "eco",
         "attributes": {
-            "name": "so",
-            "defintion": "This is sequence ontology"
+            "name": "eco",
+            "defintion": "This is evidence code ontology"
         },
         "relationships": {
-            "cvcvterms": {
+            "cvterms": {
                 "links": {
-                    "related": "/cvs/ro/cvcvterms"
+                    "related": "/cvs/eco/cvterms"
                 }
             },
-            "typedefs": {
+            "predicates": {
                 "links": {
-                    "related": "/cvs/ro/typedefs"
+                    "related": "/cvs/eco/predicates"
                 }
             }
         },
@@ -69,8 +42,49 @@ or the **acronym** defined in [bioportal](http://bioportal.bioontology.org/ontol
     }
 }
 ```
+**Inclusion**
 
+`cvterms` and `predicates` will be paginated.
 
+----
+
+## `/cvs`
+Resource for collection of cvs.
+
+**Document structure**
+
+```json
+{
+    "links": {
+        "self": "/cvs",
+    },
+    "data": [
+        {
+            "type": "cv",
+            "id": "eco",
+            "attributes": {
+                "name": "",
+                "defintion": ""
+            },
+            "links": {
+                "self": "/cvs/eco"
+            }
+        },
+        {
+            "type": "cv",
+            "id": "so",
+            "attributes": {
+                "name": "",
+                "defintion": ""
+            },
+            "links": {
+                "self": "/cvs/so"
+            }
+        }
+    ]
+}
+```
+-------
 
 ## `/cvs/:id/cvterms/:id`
 The syntax of the cvterm `id` is defined [here](http://owlcollab.github.io/oboformat/doc/GO.format.obo-1_4.html#S.1.6).
@@ -140,6 +154,10 @@ The syntax of the cvterm `id` is defined [here](http://owlcollab.github.io/obofo
 
 ```
 
+**Inclusion**
+
+`ancestors`,`descendants` and `connected` will be paginated.
+
 ## `/cvs/:id/cvterms`
 **Document structure**
 
@@ -172,10 +190,16 @@ The syntax of the cvterm `id` is defined [here](http://owlcollab.github.io/obofo
                 "self": "/cvs/eco/cvterms/ECO:0000025"
             }
         }
-    ]
-    
+    ],
+    "meta": {
+        "pagination": {
+            "records": 100,
+            "total": 10,
+            "size": 10,
+            "number": 4
+        }
+    }
 }
-
 ```
 
 ## `/cvs/:id/predicates/:id`

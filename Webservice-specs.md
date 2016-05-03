@@ -209,29 +209,52 @@ represent pagination of primary
 [data](http://jsonapi.org/examples/#pagination).The pagination of included
 resources, however should be included in the  `links` field of the resource
 object. Here is one example taken from
-[here](https://github.com/json-api/json-api/pull/462).
+[here](https://github.com/json-api/json-api/pull/462). The meta
+section(resource level for the included resource) will have information about
+pagination. The pagination object will have four fields with integer values.
+
+```json
+pagination: {
+    "records": 50,
+    "total": 5,
+    "size": 10,
+    "number": 4
+}
+```
+
+Here is a pagination example with included resources.
 
 ```json
 {
-  "data": [{
-    "type": "posts",
-    "id": "1",
-    "title": "JSON API paints my bikeshed!",
-    "links": {
-      "self": "http://example.com/posts/1",
-      "author": {
-        "self": "http://example.com/posts/1/links/author",
-        "related": "http://example.com/posts/1/author",
-        "linkage": { "type": "people", "id": "9" }
-      },
-      "comments": {
-        "self": "http://example.com/posts/1/comments?page[offset]=2",
-        "next": "http://example.com/posts/1/comments?page[offset]=3",
-        "last": "http://example.com/posts/1/comments?page[offset]=10",
-        "prev": "http://example.com/posts/1/comments?page[offset]=1"
-      }
-    }
-  }
+  "data": [
+        {
+            "type": "posts",
+            "id": "1",
+            "title": "JSON API paints my bikeshed!",
+            "links": {
+              "self": "http://example.com/posts/1",
+              "author": {
+                "self": "http://example.com/posts/1/links/author",
+                "related": "http://example.com/posts/1/author"
+              },
+              "comments": {
+                "self": "http://example.com/posts/1/comments?page[number]=4&page[size]=10",
+                "next": "http://example.com/posts/1/comments?page[number]=5&page[size]=10",
+                "last": "http://example.com/posts/1/comments?page[number]10=&page[size]=10",
+                "prev": "http://example.com/posts/1/comments?page[number]=3&page[size]=10"
+              }
+            },
+            "meta": {
+                "pagination": {
+                    "records": 100,
+                    "total": 10,
+                    "size": 10,
+                    "number": 4
+                }
+            }
+        }
+    ]
+}
 ```
 
 

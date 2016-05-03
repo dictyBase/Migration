@@ -3,3 +3,4 @@
 .env
 html/
 node_modules/
+.python-version
