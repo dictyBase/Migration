@@ -90,16 +90,20 @@ Content-Type: application/vnd.api+json
 ```
 
 <a name="orders"></a>
-## `/orders`
+# `/orders`
 
-List all orders. Here, the primary data is a *resource collection object*
+List all orders or create an order. Here, the primary data is a *resource collection object*
 
 **Allowed HTTP methods**
 
 * GET
 * POST
 
-### Response Structure
+### GET
+
+List of orderes can be retrieved by sending a GET request to `/orders`
+
+#### Structure of a GET request. 
 
 ```json
 HTTP/1.1 200 OK
@@ -149,7 +153,47 @@ Content-Type: application/vnd.api+json
 }
 ```
 
-A list of all orders can be requested at `/orders`. 
+### POST
+
+A single order resource can be created by sending a POST request to `/orders`
+
+#### Structure of a POST request
+
+```json
+POST /orders HTTP/1.1
+Content-Type: application/vnd.api+json
+Accept: application/vnd.api+json
+
+{
+  "data": {
+    "type": "order",
+    "attributes": {
+        "created": "2015-05-22T14:56:29.000Z",
+        "shipping": {"account": "FedEx", "account_num": "389742"},
+        "payment": {"method": "Credit", "purchase_order": ""},
+        "status": "Shipped"
+    },
+    "relationships": {
+        "stocks": {
+            "data": [
+                {"type": "strain", "id": "DBS0238484"},
+                {"type": "plasmid", "id": "DBP0251758"}
+            ]
+        },
+        "consumer": {
+            "data": {"type": "user", "id": "25"}
+        },
+        "payer": {
+            "data": {"type": "user", "id": "26"}
+        },
+        "purchaser": {
+            "data": {"type": "user", "id": "27"}
+        }
+    }
+  }
+}
+```
+
 
 <a name="user_id"></a>
 ## `/users/{user_id}`
