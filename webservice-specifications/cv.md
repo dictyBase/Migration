@@ -80,7 +80,7 @@ The syntax of the cvterm `id` is defined [here](http://owlcollab.github.io/obofo
 {
     "links": {
         "self": "/cvs/eco/cvterms/ECO:0000006"
-    }
+    },
     "data": {
         "type": "cvterm",
         "id": "ECO:0000006",
@@ -148,33 +148,32 @@ The syntax of the cvterm `id` is defined [here](http://owlcollab.github.io/obofo
     "links": {
         "self": "/cvs/eco/cvterms?page[number]=6&page[size]=10",
         "next": "/cvs/eco/cvterms?page[number]=7&page[size]=10",
-        "prev": "/cvs/eco/cvterms?page[number]=5&page[size]=10"
+        "prev": "/cvs/eco/cvterms?page[number]=5&page[size]=10",
         "last": "/cvs/eco/cvterms?page[number]=16&page[size]=10",
         "first": "/cvs/eco/cvterms?page[number]=1&page[size]=10"
     },
-    {
-        "data": [
-            {
-                "type": "cvterm"
-                "id": "ECO:0000014",
-                "attributes": { # all attributes are included
-                    
-                },
-                "links": {
-                    "self": "/cvs/eco/cvterms/ECO:0000014"
-                }
+    "data": [
+        {
+            "type": "cvterm",
+            "id": "ECO:0000014",
+            "attributes": { # all attributes are included
+                
             },
-            {
-                "type": "cvterm",
-                "id": "ECO:0000019",
-                "attributes": { # all attributes are included
-                },
-                "links": {
-                    "self": "/cvs/eco/cvterms/ECO:0000025"
-                }
+            "links": {
+                "self": "/cvs/eco/cvterms/ECO:0000014"
             }
-        ]
-    }
+        },
+        {
+            "type": "cvterm",
+            "id": "ECO:0000019",
+            "attributes": { # all attributes are included
+            },
+            "links": {
+                "self": "/cvs/eco/cvterms/ECO:0000025"
+            }
+        }
+    ]
+    
 }
 
 ```

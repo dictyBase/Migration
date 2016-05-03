@@ -163,7 +163,7 @@ other **predicates**.
  
 **Document structure**
 
-Identical to `/cvs/:id/predicates`. However the response will not be
+Identical to [/cvs/:id/predicates](cv.md#cvsidpredicates). However the response will not be
 paginated.
 
 ----
@@ -178,7 +178,7 @@ GET
 
 **Document structure**
 
-Identical to `/cvs/:id/predicates`. However the response will not be
+Identical to [/cvs/:id/predicates](cv.md#cvsidpredicates). However the response will not be
 paginated.
 
 ----
@@ -189,7 +189,7 @@ paginated.
 GET
 
 **Document structure**
-Identical to `/cvs/:id/predicates`. However the response will be paginated.
+Identical to [/cvs/:id/predicates](cv.md#cvsidpredicates). However the response will be paginated.
 
 ----
 
@@ -203,7 +203,7 @@ GET
 
 **Document structure**
 
-Identical to `/cvs/:id/cvterms`. However the response will not be
+Identical to [/cvs/:id/cvterms](cv.md#cvsidcvterms). However the response will not be
 paginated.
 
 ----
@@ -214,7 +214,4 @@ paginated.
 GET
 
 **Document structure**
-Identical to `/cvs/:id/cvterms`. However the response will be paginated.
-
-
-
+Identical to [/cvs/:id/cvterms](cv.md#cvsidcvterms). However the response will be paginated.
