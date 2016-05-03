@@ -239,18 +239,20 @@ Content-Type: application/vnd.api+json
 ```
 
 <a name="users"></a>
-## `/users`
+# `/users`
 
-List all users. Here, primary data is a *resource collection object*
+List all users or create a user. Here, primary data is a *resource collection object*
 
 **Allowed HTTP methods**
 
 * GET
 * POST
 
-### Example Response
+### GET
 
-`GET /users`
+List of users can be retrieved by sending a GET request to `/users`
+
+#### Structure of a GET request
 
 ```json
 HTTP/1.1 200 OK
@@ -280,5 +282,37 @@ Content-Type: application/vnd.api+json
       "last": "/users?page[number]=10&page[size]=2"
     }
 }
+
+```
+
+### POST
+
+A single user resource can be created by sending a POST request to `/users`
+
+#### Structure of a POST request
+
+```json
+POST /users HTTP/1.1
+Content-Type: application/vnd.api+json
+Accept: application/vnd.api+json
+
+{
+    "data": {
+        "type": "user",
+        "attributes": {
+            "first_name": "John",
+            "last_name": "Smith",
+            "email": "john@gmail.com",
+            "organization": "UIC",
+            "group": "Bio Infomatics Lab",
+            "address" : {"first": "4563 N Michicagn Ave", "second": ""},
+            "city": "Chicago",
+            "state": "IL",
+            "zip": "60625",
+            "country": "USA",
+            "phone": "312-503-8367"
+        }
+    }
+},
 
 ```
