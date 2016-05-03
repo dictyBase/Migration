@@ -1,3 +1,4 @@
+# Relationships
 ![cvterm_data_model_rel](https://cloud.githubusercontent.com/assets/48740/14989359/03f5d142-111d-11e6-98b8-834a37453577.png)
 
 In the diagram above, relationships highlighted with bordered line represents
@@ -20,7 +21,31 @@ POST /cvs/:id/cvterms/:id/relationships/subjects
 On the other hand, the rest of them(not
 highlighted) are manipulated along with the related resources.
 
-# Resources
+## Available resources
+
+* [/cvs/:id/cvterms/:id/synonyms ](#cvsidcvtermsidsynonyms)
+* [/cvs/:id/predicates/:id/synonyms ](#cvsidpredicatesidsynonyms)
+* [/cvs/:id/cvterms/:id/synonyms/:id ](#cvsidcvtermsidsynonymsid)
+* [/cvs/:id/predicates/:id/synonyms/:id ](#cvsidpredicatesidsynonymsid)
+* [/cvs/:id/cvterms/:id/relationships/dbxrefs ](#cvsidcvtermsidrelationshipsdbxrefs)
+* [/cvs/:id/predicates/:id/relationships/dbxrefs ](#cvsidpredicatesidrelationshipsdbxrefs)
+* [/dbxrefs ](#dbxrefs)
+* [/dbxrefs/:id ](#dbxrefsid)
+* [/cvs/:id/predicates/:id/relationships/objects ](#cvsidpredicatesidrelationshipsobjects)
+* [/cvs/:id/predicates/:id/relationships/subjects ](#cvsidpredicatesidrelationshipssubjects)
+* [/cvs/:id/predicates/:id/relationships/connected ](#cvsidpredicatesidrelationshipsconnected)
+* [/cvs/:id/cvterms/:id/relationships/objects ](#cvsidcvtermsidrelationshipsobjects)
+* [/cvs/:id/cvterms/:id/relationships/subjects ](#cvsidcvtermsidrelationshipssubjects)
+* [/cvs/:id/predicates/:id/objects ](#cvsidpredicatesidobjects)
+* [/cvs/:id/predicates/:id/subjects ](#cvsidpredicatesidsubjects)
+* [/cvs/:id/predicates/:id/connected ](#cvsidpredicatesidconnected)
+* [/cvs/:id/predicates/:id/ancestors ](#cvsidpredicatesidancestors)
+* [/cvs/:id/predicates/:id/descendants ](#cvsidpredicatesiddescendants)
+* [/cvs/:id/cvterms/:id/objects ](#cvsidcvtermsidobjects)
+* [/cvs/:id/cvterms/:id/subjects ](#cvsidcvtermsidsubjects)
+* [/cvs/:id/cvterms/:id/connected ](#cvsidcvtermsidconnected)
+* [/cvs/:id/cvterms/:id/ancestors ](#cvsidcvtermsidancestors)
+* [/cvs/:id/cvterms/:id/descendants ](#cvsidcvtermsiddescendants)
 
 ## `/cvs/:id/cvterms/:id/synonyms` 
 ## `/cvs/:id/predicates/:id/synonyms`

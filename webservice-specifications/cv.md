@@ -9,6 +9,17 @@ singular resource. By walking through the defined relationships, various
 related resources could be reached from an instance of cvterm resource.  The
 **predicate** will also have a similar structure.
 
+## Available resources
+
+* [/cvs/:id ](#cvsid)
+* [/cvs ](#cvs)
+* [/cvs/:id/cvterms/:id ](#cvsidcvtermsid)
+* [/cvs/:id/cvterms ](#cvsidcvterms)
+* [/cvs/:id/predicates/:id ](#cvsidpredicatesid)
+* [/cvs/:id/predicates ](#cvsidpredicates)
+* [Relationship resources](#relationship-resources)
+
+
 ## `/cvs/:id`
 Resource for a particular cv. The `id` will be unique **ontology short name**  as defined is [OLS](http://www.ebi.ac.uk/ols/beta/ontologies)
 or the **acronym** defined in [bioportal](http://bioportal.bioontology.org/ontologies?filter=OBO_Foundry)

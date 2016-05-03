@@ -1,3 +1,21 @@
+Table of Contents
+=================
+
+  * [Specifications](#specifications)
+    * [JSON API specifications in a nutshell](#json-api-specifications-in-a-nutshell)
+      * [Single resource object](#single-resource-object)
+      * [Resource objects collection](#resource-objects-collection)
+      * [Resource identifier object](#resource-identifier-object)
+      * [Relationships](#relationships)
+      * [Included member](#included-member)
+      * [Links and pagination](#links-and-pagination)
+        * [Pagination](#pagination)
+      * [Error representation](#error-representation)
+  * [Resources for chado access](#resources-for-chado-access)
+    * [API endpoint](#api-endpoint)
+    * [Specifications for webservices](#specifications-for-webservices)
+
+
 # Specifications
 The default data format will be in [JSON](http://www.json.org/) and the json
 will be designed according to [JSON API](http://jsonapi.org) specifications.
