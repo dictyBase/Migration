@@ -3,9 +3,11 @@ Resources related to cv(controlled vocabulary)
 
 ![cvterm_model_for_data_api](https://cloud.githubusercontent.com/assets/48740/14930927/2c3bb4ca-0e2d-11e6-824c-caad8b61f239.png)
 
-Various resources and their relationships that are defined below in cv
-webservice specifications. The **cvterm** represents a singular resource. The
-**predicate** is also structured similarly.
+The diagram above represents various resources and their relationships that
+are defined below in cv webservice specifications. The **cvterm** represents a
+singular resource. By walking through the defined relationships, various
+related resources could be reached from an instance of cvterm resource.  The
+**predicate** will also have a similar structure.
 
 ## `/cvs`
 Resource for collection of cvs.
@@ -192,7 +194,7 @@ formal specification is described
 {
     "links": {
         "self": "/cvs/eco/predicates/ECO:9000000"
-    }
+    },
     "data": {
         "type": "cvterm",
         "id": "ECO:9000000",
@@ -281,16 +283,15 @@ formal specification is described
     "links": {
         "self": "/cvs/eco/predicates?page[number]=6&page[size]=10",
         "next": "/cvs/eco/predicates?page[number]=7&page[size]=10",
-        "prev": "/cvs/eco/predicates?page[number]=5&page[size]=10"
+        "prev": "/cvs/eco/predicates?page[number]=5&page[size]=10",
         "last": "/cvs/eco/predicates?page[number]=16&page[size]=10",
         "first": "/cvs/eco/predicates?page[number]=1&page[size]=10"
-    }
+    },
     "data": [
         {
             "type": "cvterm",
             "id": "ECO:9000000",
             "attributes": { # all attributes are included
-                ......
             },
             "links": {
                 "self": "/cvs/eco/predicates/ECO:9000000"
@@ -299,8 +300,7 @@ formal specification is described
         {
             "type": "cvterm",
             "id": "ECO:0000025",
-            "attributes": {
-                .....
+            "attributes": { # all attributes are included
             },
             "links": {
                 "self": "/cvs/eco/predicates/ECO:9000025"
@@ -312,9 +312,13 @@ formal specification is described
 ```
 
 ## Relationship resources
-The list is [here](cv-related.md). 
+Depending on the relationships, few of them represents individual resources
+and can be manipulated independently of the related resources. Those distinct
+resources are better explained with a diagram in the *related resources* page. 
+
 The document structure of those resources are more or less identical to their
 primary resources. Though they have a lengthy resource url, those really don't
 have to remembered as they could be easily retrieved from their primary
 resources anyway.
+* [cv related resources](cv-related.md)
 
