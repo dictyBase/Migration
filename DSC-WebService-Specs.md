@@ -316,3 +316,22 @@ Accept: application/vnd.api+json
 },
 
 ```
+
+## Error objects
+
+### Strcuture of an error response from the server.
+
+`GET /users/john@gmail.com`
+
+```json
+{
+  "errors": [
+    {
+      "status": "404",
+      "title":  "Not Found",
+      "detail": "User does not exist"
+    }
+  ]
+}
+
+```
