@@ -114,8 +114,10 @@ For predicate resource replace `cvterms` with `predicates` in the `self` link.
 
 ----
 
-## `/cvs/:id/cvterms/:id/relationships/dbxrefs` 
-## `/cvs/:id/predicates/:id/relationships/dbxrefs`
+
+
+## `/cvs/:id/cvterms/:id/dbxrefs` 
+## `/cvs/:id/predicates/:id/dbxrefs`
 
 **Document structure**
 
@@ -151,6 +153,16 @@ For predicate resource replace `cvterms` with `predicates` in the `self` link.
     ]
 }
 ```
+----
+
+## `/cvs/:id/cvterms/:id/relationships/dbxrefs` 
+## `/cvs/:id/predicates/:id/relationships/dbxrefs`
+
+For manipulating the relationships between the cvterm/predicate and dbxrefs.
+The resource behaviour is identical to given in JSON AP
+[specification](http://jsonapi.org/format/#crud-updating-relationships).
+
+
 ----
 
 ## `/dbxrefs`

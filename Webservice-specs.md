@@ -130,12 +130,14 @@ resource.  In cvterms of a graph data structure, **related** is the node and
 ### Self, related and HTTP methods
 If only **related** field is present and no specific instructions are given,
 the **related** resource should allow all HTTP methods. It also means creating
-the related source will create the relationships between the resources.
-If both **self** and **related** are present, then the **related** resource
-needs to be present or created first before creating the relationship with
-**self** resource. And unless the **self** resource itself does not represent
-any independent resource object, **GET** method will not be applied, **POST**,
-**PATCH** and **DELETE** will be alllowed.
+the related source will create the relationships between the resources.  If
+both **self** and **related** are present, then the **related** resource needs
+to be present or created first before creating the relationship with **self**
+resource. In most cases the **related** resource will have an independent
+resource url for manipulating it(POST/PATCH/DELETE). The related resource url
+will generally allow the GET method only.  And unless the **self** resource
+itself does not represent any independent resource object, **GET** method will
+not be applied, **POST**, **PATCH** and **DELETE** will be alllowed.
 
 
 ### Included member

@@ -120,7 +120,6 @@ The syntax of the cvterm `id` is defined [here](http://owlcollab.github.io/obofo
             "relationships": {
                 "synonyms": {
                     "links": {
-                        "self": "/cvs/eco/cvterms/ECO:0000006/relationships/synonyms",
                         "related": "/cvs/eco/cvterms/ECO:0000006/synonyms"
                     }
                 },
