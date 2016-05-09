@@ -21,6 +21,8 @@ POST /cvs/:id/cvterms/:id/relationships/subjects
 On the other hand, the rest of them(not
 highlighted) are manipulated along with the related resources.
 
+And for the allowed HTTP methods(and explanations) see [here](/Webservice-specs.md#self-related-and-http-methods)
+
 ## Available resources
 
 * [/cvs/:id/cvterms/:id/synonyms ](#cvsidcvtermsidsynonyms)
@@ -49,6 +51,7 @@ highlighted) are manipulated along with the related resources.
 
 ## `/cvs/:id/cvterms/:id/synonyms` 
 ## `/cvs/:id/predicates/:id/synonyms`
+
 
 **Document structure**
 
@@ -182,8 +185,8 @@ The dbxref `id` needs to be url encoded.
 ## `/cvs/:id/cvterms/:id/relationships/subjects`
 
 Here bunch of resources have similar data structure specification. For
-**predicates**, `subject`, `object` and `connected` all are linked to other
-predicates, whereas `subjects` and `objects` of *cvterms* are linked through
+**predicates**, the relationships `subject`, `object` and `connected` all are linked to other
+predicates, whereas `subjects` and `objects` relationships of *cvterms* are linked through
 other **predicates**.
  
 **Document structure**
