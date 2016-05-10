@@ -1,5 +1,14 @@
 # Publication
 
+* [/publication/:id ](#publicationid)
+* [/publications ](#publications)
+* [/authors/:id ](#authorsid)
+* [/authors ](#authors)
+* [Related resources](#related-resources)
+    * [/publications/:id/authors ](#publicationsidauthors)
+    * [/publications/:id/relationships/authors ](#publicationsidrelationshipsauthors)
+
+
 ## `/publication/:id`
 Resource for a publication. The id will be primarily [pubmed
 identifier](https://en.wikipedia.org/wiki/PubMed#PubMed_identifier), however
