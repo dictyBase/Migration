@@ -289,6 +289,41 @@ Here is a pagination example with included resources.
 }
 ```
 
+### Filtering
+The [filtering](http://jsonapi.org/format/#fetching-filtering) query parameter
+could be applied for resources defined at dictybase. Since JSON API is
+agonistic about any strategies, a dictybase specific implementation is
+described below.
+
+#### Dictybase specifications
+* Only supported for filtering resource collection. It's not applied for
+  resource that return [single resource object](#single-resource-object).
+* The document structure will remain unchanged.
+* It's optional and not implement by default for all collection resources. Any
+  resource that implement this feature will follow the JSON API [extensions
+  guideline](https://github.com/json-api/json-api/blob/9c7a03dbc37f80f6ca81b16d444c960e96dd7a57/extensions/index.md).
+* This behaviour is currently designed as [custom
+  extension](https://github.com/json-api/json-api/blob/9c7a03dbc37f80f6ca81b16d444c960e96dd7a57/extensions/index.md#-custom-extensions)
+  and it is named `dictybase/filtering-resource`.
+* As defined in the
+  [guideline](https://github.com/json-api/json-api/blob/9c7a03dbc37f80f6ca81b16d444c960e96dd7a57/extensions/index.md#-extension-negotiation),
+  for every response, the supporting resources will include the extension name
+  in the `supported-ext` media type parameter of the `Content-Type` header.
+
+  For example, 
+
+  ``` 
+  Content-Type: application/vnd.api+json; supported-ext="dictybase/filtering-resouce" 
+  ```
+* The filtering will be an exact match to the value of one or more supporting
+  attributes of any particular resource. However, the resource will decide which
+  attribute(s) to choose for filtering.
+
+  ```
+  /users?filter[name]=foo&filter[country]=Brazil
+  ```
+
+
 
 ### Error representation
 
