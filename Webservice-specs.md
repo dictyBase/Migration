@@ -358,3 +358,4 @@ Unless specified, by default all collection resources allow HTTP **GET** and
 ## Specifications for webservices
 * [Controlled vocabulary](webservice-specifications/cv.md)
 * [Publication](webservice-specifications/publication.md)
+* [Organism](webservice-specifications/organism.md)
