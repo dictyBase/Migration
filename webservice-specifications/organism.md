@@ -1,6 +1,6 @@
 # Organism
 
-## `/organism/:id`
+## `/organisms/:id`
 
 **Document structure**
 
@@ -15,6 +15,13 @@
             "abbreviation": "D.discoideum",
             "common_name": "dicty",
             "comment": "blah blah blah"
+        },
+        "relationships": {
+            "properties": {
+                "links": {
+                    "related": "/organisms/:id/properties"
+                }
+            }
         }
     },
     "links": {
@@ -69,7 +76,7 @@
         "first": "/organisms?page[number]=1&page[size]=10"
     },
     "meta": {
-        "pagination: {
+        "pagination": {
             "records": 100,
             "total": 10,
             "size": 10,
@@ -79,3 +86,10 @@
 }
 
 ```
+
+## `/organisms/:id/properties`
+## `/organisms/:id/properties/:id`
+
+**Document structure**
+
+Look [here](/webservice-specifications/chado-common.md#chado-properties)

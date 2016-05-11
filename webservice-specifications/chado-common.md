@@ -7,14 +7,18 @@ primary resource. The primary resource will use a **properties** relationship
 to create a linked property resource. However, the json structure of every
 property resource will be identical.
 
+Since this is not specific for any resource, a generic resource name will
+be used here.
 
-## Document structure 
-The `link` field is not shown as it will be decided by the primary resource.
+## `/:resource/properties/:id`
 
-### Singular
+**Document structure** 
 
 ```json
 {
+    "links": {
+        "self": "/:resource/properties/17"
+    },
     "data": {
         "type": "chadoprop",
         "id": "17",
@@ -33,10 +37,15 @@ The `link` field is not shown as it will be decided by the primary resource.
 
 ```
 
-### Collection
+## `/:resource/properties/:id` 
+
+**Document structure**
 
 ```json
 {
+    "links": {
+        "self": "/:resource/properties"
+    },
     "data": [
         {
             "type": "chadoprop",
@@ -50,11 +59,14 @@ The `link` field is not shown as it will be decided by the primary resource.
                         "related": "/cvs/strain_inventory/cvterms/STRAININVENT:0000003"
                     }
                 }
+            },
+            "links": {
+                "self": "/:resource/properties/17"
             }
         },
         {
             "type": "chadoprop",
-            "id": "17",
+            "id": "25",
             "attributes": {
                 "value": "dictyBase"
             },
@@ -64,6 +76,9 @@ The `link` field is not shown as it will be decided by the primary resource.
                         "related": "/cvs/gpad/cvterms/assigned_by"
                     }
                 }
+            }
+            "links": {
+                "self": "/:resource/properties/25"
             }
         }
     ]
