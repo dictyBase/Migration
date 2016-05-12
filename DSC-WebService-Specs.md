@@ -2,15 +2,15 @@
 
 Resources related to dicty stock center and it's orders
 
-* [`/orders/{order_id}`](#order_id)
+* [`/orders/:order_id`](#order_id)
 * [`/orders`](#orders)
-* `/stocks/{stock_id}`
+* `/stocks/:stock_id`
 * `/stocks`
-* [`/users/{user_id}`](#user_id)
+* [`/users/:user_id`](#user_id)
 * [`/users`](#users)
 
 <a name="order_id"></a>
-## `/orders/{order_id}`
+## `/orders/:order_id`
 
 Request a single order. Here, the primary data is a *single resource object*
 
@@ -21,7 +21,7 @@ Request a single order. Here, the primary data is a *single resource object*
 * PATCH
 * DELETE
 
-The primary data which is a singe resource object, contains the information of a single dsc order. Allowed HTTP methods can be executed at `/orders/{order_id}`. For instance, an order with the id 874993 can be retrieved at `/orders/874993` with HTTP GET method.
+The primary data which is a singe resource object, contains the information of a single dsc order. Allowed HTTP methods can be executed at `/orders/:order_id`. For instance, an order with the id 874993 can be retrieved at `/orders/874993` with HTTP GET method.
 
 #### relationships
 
@@ -196,7 +196,7 @@ Accept: application/vnd.api+json
 
 
 <a name="user_id"></a>
-## `/users/{user_id}`
+## `/users/:user_id`
 
 Request a single user. Here, primary data is a *single resource object*
 
