@@ -17,7 +17,6 @@ Request a single order. Here, the primary data is a *single resource object*
 **Allowed HTTP methods**
 
 * GET
-* POST
 * PATCH
 * DELETE
 
@@ -203,7 +202,6 @@ Request a single user. Here, primary data is a *single resource object*
 **Allowed HTTP methods**
 
 * GET
-* POST
 * PATCH
 * DELETE
 
