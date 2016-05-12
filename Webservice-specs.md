@@ -7,7 +7,7 @@ Table of Contents
       * [Resource objects collection](#resource-objects-collection)
       * [Resource identifier object](#resource-identifier-object)
       * [Relationships](#relationships)
-      * [Self, related and HTTP methods](#self-related-and-http-methods)
+        * [Self, related and HTTP methods](#self-related-and-http-methods)
       * [Included member](#included-member)
       * [Links and pagination](#links-and-pagination)
         * [Pagination](#pagination)
@@ -123,21 +123,34 @@ The relationships specs is described
 identifier object](###Resource identifier object).  In this context, the
 [links](http://jsonapi.org/format/#document-links) object's **self** field
 represent the relationship itself, whereas **related** represents the related
-resource.  In cvterms of a graph data structure, **related** is the node and
-**self** represent the vertex.  The details are given
+resource. The details are given
 [here](http://jsonapi.org/recommendations/#urls-relationships).
 
-### Self, related and HTTP methods
-If only **related** field is present and no specific instructions are given,
-the **related** resource should allow all HTTP methods. It also means creating
-the related source will create the relationships between the resources.  If
-both **self** and **related** are present, then the **related** resource needs
-to be present or created first before creating the relationship with **self**
-resource. In most cases the **related** resource will have an independent
-resource url for manipulating it(POST/PATCH/DELETE). The related resource url
-will generally allow the GET method only.  And unless the **self** resource
-itself does not represent any independent resource object, **GET** method will
-not be applied, **POST**, **PATCH** and **DELETE** will be alllowed.
+In [cv resource](webservice-specifications/cv.md) of chado, cvterms are linked
+in a graph data structure. The **related** field is use to link other
+cvterms(parents, children etc), whereas the **self** is use to represent
+predicate(relationship cvterms) that connect the cvterms.
+
+#### Self, related and HTTP methods
+
+**Only related**
+
+The linked resource is dependent on the primary. In this case, only **related**
+field will be present.  and it should allow all HTTP methods. It also means
+creating the related source will create the relationships between the
+resources.  
+
+**Both related and self**
+
+* The linked resource is independent of primary and needs to be present or
+  created before the creating the relationship. In most cases the linked
+  resource(not the **related** link value) resource will have an independent
+  resource url for manipulating it(POST/PATCH/DELETE). The related resource url
+  will generally allow the GET method only.
+
+* The **self** resource should allow **POST**, **PATCH** and **DELETE**
+  methods. if **self** resource represent any independent resource object,
+  **GET** method will be allowed.
 
 
 ### Included member
