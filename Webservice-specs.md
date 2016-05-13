@@ -136,9 +136,10 @@ predicate(relationship cvterms) that connect the cvterms.
 **Only related**
 
 The linked resource is dependent on the primary. In this case, only **related**
-field will be present.  and it should allow all HTTP methods. It also means
-creating the related source will create the relationships between the
-resources.  
+field will be present and except POST it should allow all HTTP methods.  It
+also means the related resource the relationships are created during the
+creation of primary resource with POST method. And in the POST data structure,
+the relationship should be present with the `data` field.
 
 **Both related and self**
 
@@ -372,3 +373,4 @@ Unless specified, by default all collection resources allow HTTP **GET** and
 * [Controlled vocabulary](webservice-specifications/cv.md)
 * [Publication](webservice-specifications/publication.md)
 * [Organism](webservice-specifications/organism.md)
+* [Sequence](webservice-specifications/sequence.md)
