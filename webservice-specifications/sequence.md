@@ -202,7 +202,66 @@ It's [here](webservice-specifications/chado-common.md#resourcepropertiesid-1)
 
 For **POST** and **PATCH**, use [this](webservice-specifications/organism.md#organism) document structure.
 
+## `/features/:id/analyses/:id`
+
+**Document structure**
+
+```json
+{
+    "links": {
+        "self": "/features/DDB_G028851/analyses/22"
+    },
+    "data": {
+        "type": "feature_analysis",
+        "id": "16",
+        "attributes": {
+            "raw_score": "1.66",
+            "normal_score": "8.98",
+            "significance": "7.5",
+            "identitiy": "78"
+        },
+        "relationships": {
+            "analysis": {
+                "links": {
+                    "related": "/analyses/6"
+                }
+            }
+        }
+    }
+}
+
+```
+
 ## `features/:id/featureanalyses`
 
 **Document structure**
 
+```json
+{
+    "links": {
+        "self": "/features/DDB_G028851/featureanalyses"
+    },
+    "data": [
+        {
+            "links": {
+                "self": "/features/DDB_G028851/analyses/22"
+            },
+            "type": "feature_analysis",
+            "id": "22",
+            "attributes": {
+                .....
+            }
+        },
+        {
+            "links": {
+                "self":  "/features/DDB4893433/analyses/39"
+            },
+            "type": "feature_analysis",
+            "id": "39",
+            "attributes": {
+                ....
+            }
+        }
+    ]
+}
+```
