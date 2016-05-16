@@ -136,10 +136,8 @@ predicate(relationship cvterms) that connect the cvterms.
 **Only related**
 
 The linked resource is dependent on the primary. In this case, only **related**
-field will be present and except POST it should allow all HTTP methods.  It
-also means the related resource the relationships are created during the
-creation of primary resource with POST method. And in the POST data structure,
-the relationship should be present with the `data` field.
+field will be present and it should allow all HTTP methods. The details are
+[here](http://jsonapi.org/format/#crud-updating-relationships)
 
 **Both related and self**
 

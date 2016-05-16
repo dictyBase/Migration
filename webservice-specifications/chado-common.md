@@ -76,7 +76,7 @@ be used here.
                         "related": "/cvs/gpad/cvterms/assigned_by"
                     }
                 }
-            }
+            },
             "links": {
                 "self": "/:resource/properties/25"
             }
