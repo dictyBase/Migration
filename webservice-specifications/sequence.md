@@ -190,19 +190,19 @@ It's [here](/webservice-specifications/cv-related.md#dbxrefs)
 
 ```
 
-## `/features/:id/properties`
+### `/features/:id/properties`
 
 **Document structure**
 
 It's [here](webservice-specifications/chado-common.md#resourcepropertiesid-1)
 
-## `features/:id/relationships/organism`
+### `features/:id/relationships/organism`
 
 **Document structure**
 
 For **POST** and **PATCH**, use [this](webservice-specifications/organism.md#organism) document structure.
 
-## `/features/:id/analyses/:id`
+### `/features/:id/analyses/:id`
 
 **Document structure**
 
@@ -232,7 +232,7 @@ For **POST** and **PATCH**, use [this](webservice-specifications/organism.md#org
 
 ```
 
-## `features/:id/featureanalyses`
+### `features/:id/featureanalyses`
 
 **Document structure**
 
@@ -260,6 +260,143 @@ For **POST** and **PATCH**, use [this](webservice-specifications/organism.md#org
             "id": "39",
             "attributes": {
                 ....
+            }
+        }
+    ]
+}
+```
+
+### `/features/:id/annotations`
+
+**Allowed methods**
+
+GET only
+
+**Document structure**
+
+It should be a collection resource for a single annotation resource.
+Will be done after that is completed.
+
+
+### `/features/:id/relationships/phenotypes`
+
+**Document structure**
+
+For modifying the resource
+
+```json
+{
+    "data": [
+        { "type": "phenotype", id: "13"},
+        { "type": "phenotype", id: "18"}
+    ]
+}
+```
+
+### `/features/:id/phenotypes`
+
+**Document structure**
+
+Identical to phenotype collection resource. Will be shown after its completion.
+
+### `/features/:id/relationships/publications`
+
+**Document structure**
+
+For modifying the resource
+
+```json
+{
+    "data": [
+        { "type": "publication", id: "13"},
+        { "type": "publication", id: "39"}
+    ]
+}
+```
+
+### `/features/:id/publications`
+
+**Document structure**
+
+Identical to [publication](webservice-specifications/publication.md#publications) collection resource.
+
+### `/features/:id/relationships/objects`
+### `/features/:id/relationships/subjects`
+
+**Allowed methods**
+
+GET,POST,PATCH and delete
+
+**Document structure**
+
+Identical to [predicates](webservice-specifications/cv.md#cvsidpredicates).
+The predicates will only be from [relations
+ontology](http://www.obofoundry.org/ontology/ro.html).
+
+### `/features/:id/objects`
+### `/features/:id/subjects`
+
+**Document structure**
+
+Parent features, identical to feature collection resource.
+
+### `/features/:id/synonyms/:id`
+
+**Document structure**
+
+```
+{
+    "links": {
+        "self": "/features/DDB4893433/synonyms/21"
+    },
+    "data": {
+        "type": "synonym",
+        "id": "21",
+        "attributes": {
+            "name": "foo",
+            "encoded_name": "foo",
+            "official": "true",
+            "internal": "false"
+        },
+        "relationships": {
+            "publication": {
+                "links": {
+                    "related": "/publications/56"
+                }
+            }
+        }
+    }
+}
+```
+
+### `/features/:id/synonyms`
+
+**Document structure**
+
+```json
+{
+    "links": {
+        "self": "/features/DDB4893433/synonyms"
+    },
+    "data": [
+        {
+            "type": "synonym",
+            "id": "11",
+            "attributes": {
+                .....
+            },
+            "links": {
+                "self": "/features/DDB4893433/synonyms/11"
+            }
+        },
+        {
+            "type": "synonym",
+            "id": "20",
+            "attributes": {
+                .....
+            },
+            "links": {
+                "self": "/features/DDB4893433/synonyms/20"
             }
         }
     ]

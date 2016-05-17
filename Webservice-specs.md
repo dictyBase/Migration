@@ -143,9 +143,9 @@ field will be present and it should allow all HTTP methods. The details are
 
 * The linked resource is independent of primary and needs to be present or
   created before the creating the relationship. In most cases the linked
-  resource(not the **related** link value) resource will have an independent
-  resource url for manipulating it(POST/PATCH/DELETE). The related resource url
-  will generally allow the GET method only.
+  resource(not the **related** link field) resource will have an independent
+  resource url for manipulating it(POST/PATCH/DELETE). The related resource
+  url(the **related** link field) will generally allow the GET method only.
 
 * The **self** resource should allow **POST**, **PATCH** and **DELETE**
   methods. if **self** resource represent any independent resource object,
