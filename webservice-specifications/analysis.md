@@ -4,6 +4,7 @@
 * [/analyses ](#analyses)
 * [/analyses/:id/features/:id ](#analysesidfeaturesid)
 * [/analyses/:id/features ](#analysesidfeatures)
+* [sequence](sequence.md#featuresidanalysesid)
 
 
 ## `/analyses/:id`

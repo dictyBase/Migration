@@ -8,6 +8,29 @@ resource links. It is identical to the concept described both in [API
 spec](Webservice-specs.md#self-related-and-http-methods) and [cv related
 resource](webservice-specifications/cv-related.md).
 
+* [/features/:id ](#featuresid)
+* [/features ](#features)
+* [Related resources](#related-resources)
+    * [/features/:id/dbxrefs ](#featuresiddbxrefs)
+    * [/features/:id/location ](#featuresidlocation)
+    * [/features/:id/properties ](#featuresidproperties)
+    * [features/:id/relationships/organism ](#featuresidrelationshipsorganism)
+    * [/features/:id/analyses/:id ](#featuresidanalysesid)
+    * [features/:id/featureanalyses ](#featuresidfeatureanalyses)
+    * [analysis](analysis.md)
+    * [/features/:id/annotations ](#featuresidannotations)
+    * [/features/:id/relationships/phenotypes ](#featuresidrelationshipsphenotypes)
+    * [/features/:id/phenotypes ](#featuresidphenotypes)
+    * [/features/:id/relationships/publications ](#featuresidrelationshipspublications)
+    * [/features/:id/publications ](#featuresidpublications)
+    * [/features/:id/relationships/objects ](#featuresidrelationshipsobjects)
+    * [/features/:id/relationships/subjects ](#featuresidrelationshipssubjects)
+    * [/features/:id/objects ](#featuresidobjects)
+    * [/features/:id/subjects ](#featuresidsubjects)
+    * [/features/:id/synonyms/:id ](#featuresidsynonymsid)
+    * [/features/:id/synonyms ](#featuresidsynonyms)
+
+
 ## `/features/:id`
 
 **Document structure**
@@ -233,6 +256,8 @@ For **POST** and **PATCH**, use [this](webservice-specifications/organism.md#org
 ```
 
 ### `features/:id/featureanalyses`
+
+Related [analysis](webservice-specifications/analysis.md) resources.
 
 **Document structure**
 
