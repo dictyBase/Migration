@@ -46,7 +46,11 @@ Content-Type: application/vnd.api+json
         "id": "8749937",
         "attributes": {
             "created": "2015-05-22T14:56:29.000Z",
-            "shipping": {"account": "FedEx", "account_num": "389742"},
+            "shipping": {
+                "account": "FedEx",
+                "account_num": "389742",
+                "comments": ""
+            },
             "payment": {"method": "Credit", "purchase_order": ""},
             "status": "Shipped"
         },
@@ -114,7 +118,11 @@ Content-Type: application/vnd.api+json
         "id": "8749937",
         "attributes": {
             "created": "2015-05-22T14:56:29.000Z",
-            "shipping": {"account": "FedEx", "account_num": "389742"},
+            "shipping": {
+                "account": "FedEx",
+                "account_num": "389742",
+                "comments": ""
+            },
             "payment": {"method": "Credit", "purchase_order": ""},
             "status": "Shipped"
         },
@@ -125,7 +133,11 @@ Content-Type: application/vnd.api+json
         "id": "27663",
         "attributes": {
             "created": "2014-11-41T11:51:29.000Z",
-            "shipping": {"account": "UPS", "account_num": "28744"},
+            "shipping": {
+                "account": "UPS",
+                "account_num": "28744",
+                "comments": ""
+            },
             "payment": {"method": "Wire", "purchase_order": ""},
             "status": "in Preparation"
         },
@@ -136,7 +148,11 @@ Content-Type: application/vnd.api+json
         "id": "546737",
         "attributes": {
             "created": "2016-04-26T01:16:29.000Z",
-            "shipping": {"account": "FedEx", "account_num": "4544"},
+            "shipping": {
+                "account": "FedEx",
+                "account_num": "4544",
+                "comments": ""
+            },
             "payment": {"method": "Credit", "purchase_order": ""},
             "status": "Shipped"
         },
@@ -168,7 +184,11 @@ Accept: application/vnd.api+json
     "type": "order",
     "attributes": {
         "created": "2015-05-22T14:56:29.000Z",
-        "shipping": {"account": "FedEx", "account_num": "389742"},
+        "shipping": {
+            "account": "FedEx",
+            "account_num": "389742",
+            "comments": ""
+        },
         "payment": {"method": "Credit", "purchase_order": ""},
         "status": "Shipped"
     },
