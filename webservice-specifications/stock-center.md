@@ -213,5 +213,147 @@ Accept: application/vnd.api+json
 }
 ```
 
+## `/phenotypes/:id`
+
+__Document structure__
+
+```json
+{
+    “links”: {
+        “self”: “/phenotypes/DSC_PHEN0007441”
+    },
+    “data”: {
+        “type”: “phenotype”,
+        “id”: “DSC_PHEN0007441”,
+        “attributes”: {
+            “name”: “D.discoideum unique phenotype”,
+            “observation”: “abolished aggreation”,
+            “phen_attribute”: “decreased occurence”,
+            “value”: “For some reason very less aggreation”,
+            “cvalue”: “I do not know”,
+            “evidence”: “fruiting body development”
+        },
+        “relationships”: {
+            “properties”: {
+                “links”: {
+                    “related”: “/phenotypes/DSC_PHEN0007441/properties”
+                }
+            }
+        }
+    }
+}
+```
+
+## `/phenotypes`
+
+__Document structure__
+
+```json
+{
+   “links”: {
+        “self”: “/phenotypes?page[number]=5&page[size]=10”,
+        “next”: “/phenotypes?page[number]=6&page[size]=10”,
+        “prev”: “/phenotypes?page[number]=4&page[size]=10”,
+        “first”: “/phenotypes?page[number]=1&page[size]=10”,
+        “last”: “/phenotypes?page[number]=50&page[size]=10”
+   },
+   “data”: [
+        {
+            “links”: {
+                “self”: “/phenotypes/DSC_PHEN0007441”
+            },
+            “type”: “phenotype”,
+            “id”: “DSC_PHEN0007441”,
+            “attributes”: {
+                “name”: “D.discoideum unique phenotype”,
+                “observation”: “abolished aggreation”,
+                “phen_attribute”: “decreased occurence”,
+                “value”: “For some reason very less aggreation”,
+                “cvalue”: “I do not know”,
+                “evidence”: “fruiting body development”
+            },
+            “relationships”: {
+                “properties”: {
+                    “links”: {
+                        “related”: “/phenotypes/DSC_PHEN0007441/properties”
+                    }
+                },
+                “phenstatements”: {
+                    “links”: {
+                        “related”: “/phenotypes/DSC_PHEN0007441/phenstatements”
+                    }
+                }
+            }
+        }, 
+        {
+            ....
+        }
+    ],
+    "meta": {
+        "pagination": {
+            "records": 1000,
+            "total": 100,
+            "size": 10,
+            "number": 5
+        }
+    }
+}
+```
 
 
+## `/phenotypes/:id/properties/:id`
+
+__Document structure__
+
+```json
+{
+    "links": {
+        "self": "/phenotypes/properties/3"
+    },
+    "data": {
+        "type": "chadoprop",
+        "id": "3",
+        "attributes": {
+            "value": "cheater mutant mixed with AX4"
+        },
+        "relationships": {
+            "proptype": {
+                "links": {
+                    "related": "/cvs/dicty_stockcenter/cvterms/curator note"
+                }
+            }
+        }
+    }
+}
+
+```
+
+## `/phenotypes/:id/properties`
+
+__Document structure__
+
+It’s a collection resource for the previous line and should be identical to the one given [here](chado-common.md).
+
+## `/phenotypes/:id/phenstatements`
+
+__Document structure__
+
+Identical to [/phenstatements](#phenstatements) 
+
+## `/genotypes/:id`
+
+## `/genotypes`
+
+## `/phenstatements/:id`
+
+## `/phenstatements`
+
+## `/stocks/:id`
+
+## `/stocks`
+
+## `/stocks/:id/characteristics`
+
+## `/stocks/:id/inventories`
+
+## `/stocks/:id/publications`

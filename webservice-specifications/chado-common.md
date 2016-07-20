@@ -37,7 +37,7 @@ be used here.
 
 ```
 
-## `/:resource/properties/:id` 
+## `/:resource/properties` 
 
 **Document structure**
 
