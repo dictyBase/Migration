@@ -6,8 +6,8 @@ Resources related to dicty stock center and it's orders
 * [`/orders`](#orders)
 * `/stocks/:stock_id`
 * `/stocks`
-* [`/users/:user_id`](#user_id)
-* [`/users`](#users)
+* [`/users/:user_id`](auth.md#user_id)
+* [`/users`](auth.md#users)
 
 <a name="order_id"></a>
 ## `/orders/:order_id`

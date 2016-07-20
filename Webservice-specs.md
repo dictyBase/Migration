@@ -372,3 +372,5 @@ Unless specified, by default all collection resources allow HTTP **GET** and
 * [Publication](webservice-specifications/publication.md)
 * [Organism](webservice-specifications/organism.md)
 * [Sequence](webservice-specifications/sequence.md)
+* [Authorization](webservice-specifications/auth.md)
+* [Stock center](webservice-specifications/stock-center.md) 
