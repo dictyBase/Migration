@@ -9,7 +9,6 @@ Resources related to dicty stock center and it's orders
 * [`/users/:user_id`](auth.md#user_id)
 * [`/users`](auth.md#users)
 
-<a name="order_id"></a>
 ## `/orders/:order_id`
 
 Request a single order. Here, the primary data is a *single resource object*
@@ -34,7 +33,7 @@ There are three types of users associated with a single order. `consumer`, `paye
 
 `purchaser` : The person who is ordering (the logged in user).
 
-### Response Structure
+__Document structure__
 
 ```json
 HTTP/1.1 200 OK
@@ -92,7 +91,6 @@ Content-Type: application/vnd.api+json
 }
 ```
 
-<a name="orders"></a>
 # `/orders`
 
 List all orders or create an order. Here, the primary data is a *resource collection object*
@@ -106,7 +104,7 @@ List all orders or create an order. Here, the primary data is a *resource collec
 
 List of orderes can be retrieved by sending a GET request to `/orders`
 
-#### Structure of a GET request. 
+__Document structure__
 
 ```json
 HTTP/1.1 200 OK
@@ -172,7 +170,7 @@ Content-Type: application/vnd.api+json
 
 A single order resource can be created by sending a POST request to `/orders`
 
-#### Structure of a POST request
+__Document structure__
 
 ```json
 POST /orders HTTP/1.1
@@ -219,24 +217,24 @@ __Document structure__
 
 ```json
 {
-    “links”: {
-        “self”: “/phenotypes/DSC_PHEN0007441”
+    "links": {
+        "self": "/phenotypes/DSC_PHEN0007441"
     },
-    “data”: {
-        “type”: “phenotype”,
-        “id”: “DSC_PHEN0007441”,
-        “attributes”: {
-            “name”: “D.discoideum unique phenotype”,
-            “observation”: “abolished aggreation”,
-            “phen_attribute”: “decreased occurence”,
-            “value”: “For some reason very less aggreation”,
-            “cvalue”: “I do not know”,
-            “evidence”: “fruiting body development”
+    "data": {
+        "type": "phenotype",
+        "id": "DSC_PHEN0007441",
+        "attributes": {
+            "name": "D.discoideum unique phenotype",
+            "observation": "abolished aggreation",
+            "phen_attribute": "decreased occurence",
+            "value": "For some reason very less aggreation",
+            "cvalue": "I do not know",
+            "evidence": "fruiting body development"
         },
-        “relationships”: {
-            “properties”: {
-                “links”: {
-                    “related”: “/phenotypes/DSC_PHEN0007441/properties”
+        "relationships": {
+            "properties": {
+                "links": {
+                    "related": "/phenotypes/DSC_PHEN0007441/properties"
                 }
             }
         }
@@ -250,37 +248,37 @@ __Document structure__
 
 ```json
 {
-   “links”: {
-        “self”: “/phenotypes?page[number]=5&page[size]=10”,
-        “next”: “/phenotypes?page[number]=6&page[size]=10”,
-        “prev”: “/phenotypes?page[number]=4&page[size]=10”,
-        “first”: “/phenotypes?page[number]=1&page[size]=10”,
-        “last”: “/phenotypes?page[number]=50&page[size]=10”
+   "links": {
+        "self": "/phenotypes?page[number]=5&page[size]=10",
+        "next": "/phenotypes?page[number]=6&page[size]=10",
+        "prev": "/phenotypes?page[number]=4&page[size]=10",
+        "first": "/phenotypes?page[number]=1&page[size]=10",
+        "last": "/phenotypes?page[number]=50&page[size]=10"
    },
-   “data”: [
+   "data": [
         {
-            “links”: {
-                “self”: “/phenotypes/DSC_PHEN0007441”
+            "links": {
+                "self": "/phenotypes/DSC_PHEN0007441"
             },
-            “type”: “phenotype”,
-            “id”: “DSC_PHEN0007441”,
-            “attributes”: {
-                “name”: “D.discoideum unique phenotype”,
-                “observation”: “abolished aggreation”,
-                “phen_attribute”: “decreased occurence”,
-                “value”: “For some reason very less aggreation”,
-                “cvalue”: “I do not know”,
-                “evidence”: “fruiting body development”
+            "type": "phenotype",
+            "id": "DSC_PHEN0007441",
+            "attributes": {
+                "name": "D.discoideum unique phenotype",
+                "observation": "abolished aggreation",
+                "phen_attribute": "decreased occurence",
+                "value": "For some reason very less aggreation",
+                "cvalue": "I do not know",
+                "evidence": "fruiting body development"
             },
-            “relationships”: {
-                “properties”: {
-                    “links”: {
-                        “related”: “/phenotypes/DSC_PHEN0007441/properties”
+            "relationships": {
+                "properties": {
+                    "links": {
+                        "related": "/phenotypes/DSC_PHEN0007441/properties"
                     }
                 },
-                “phenstatements”: {
-                    “links”: {
-                        “related”: “/phenotypes/DSC_PHEN0007441/phenstatements”
+                "phenstatements": {
+                    "links": {
+                        "related": "/phenotypes/DSC_PHEN0007441/phenstatements"
                     }
                 }
             }
@@ -341,6 +339,8 @@ __Document structure__
 Identical to [/phenstatements](#phenstatements) 
 
 ## `/genotypes/:id`
+
+__Document structure__
 
 ## `/genotypes`
 
