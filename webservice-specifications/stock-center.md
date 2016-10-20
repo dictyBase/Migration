@@ -342,15 +342,208 @@ Identical to [/phenstatements](#phenstatements)
 
 __Document structure__
 
+```json
+{
+    "links": {
+        "self": "/genotypes/DSC_G0122502"
+    },
+    "data": {
+        "type": "genotype",
+        "id": "DSC_G0122502",
+        "attributes": {
+            "name": "axeA1,axeB1,axeC1,pB18-cAR1],neoR",
+            "description": "Important genotype" 
+        },
+        "relationships": {
+            "properties": {
+                "links": {
+                    "related": "/genotypes/DSC_G0122502/properties"
+                }
+            }
+        }
+    }
+}
+```
+
 ## `/genotypes`
 
+```json
+{
+    "data": [
+        {
+            "type": "genotype",
+            "id": "DSC_G0122502",
+            "attributes": {
+                "name": "axeA1,axeB1,axeC1,pB18-cAR1],neoR",
+                "description": "Important genotype" 
+            },
+            "relationships": {
+                "properties": {
+                    "links": {
+                        "related": "/genotypes/DSC_G0122502/properties"
+                    }
+                }
+            }
+        }
+        {
+            #another genotype
+        }
+    ],
+    "links": {
+        "self": "/genotypes?page[number]=5&page[size]=10",
+        "next": "/genotypes?page[number]=6&page[size]=10",
+        "prev": "/genotypes?page[number]=4&page[size]=10",
+        "first": "/genotypes?page[number]=1&page[size]=10",
+        "last": "/genotypes?page[number]=50&page[size]=10"
+    },
+    "meta": {
+        "pagination": {
+            "records": 1000,
+            "total": 100,
+            "size": 10,
+            "number": 5
+        }
+    }
+}
+
+```
 ## `/phenstatements/:id`
 
 ## `/phenstatements`
 
 ## `/stocks/:id`
 
+There could be two types, strain or plasmid.
+
+__Document structure__
+
+```json
+{
+   “links”: {
+        “self”: “/stocks/DBS0236225”
+   },
+   “data”: {
+        “type”: “strain”,
+        “id”: “DBS0236225”,
+        “attributes”: {
+            “name”: “HL27”,
+            “description”: “partial stalky mutant in marked strain”
+        },
+        “relationships”: {
+            “dbxrefs”: {
+                “links”: {
+                    “related”: “/stocks/DBS0236225/dbxrefs”
+                }
+            },
+            “phenotypes”: {
+                “links”: {
+                    “related”: “/stocks/DBS0236225/phenotypes”
+                }
+            },
+            “genotypes”: {
+                “links”: {
+                    “related”: “/stocks/DBS0236225/genotypes”
+                }
+            },
+            “characteristics”: {
+                “links”: {
+                    “related”: “/stocks/DBS0236225/characteristics”
+                }
+            },
+            “inventories”: {
+                “links”: {
+                    “related”: “/stocks/DBS0236225/inventories”
+                }
+            },
+            “publications”: {
+                “links”: {
+                    “related”: “/stocks/DBS0236225/publictions”
+                }
+            },
+            “orders”: {
+                “links”: {
+                    “related”: “/stocks/DBS0236225/orders”
+                }
+            }
+        }
+    }
+}
+
+```
+
 ## `/stocks`
+
+__Document structure__
+
+```json
+{
+   “data”: [
+        {
+            “type”: “strain”,
+            “id”: “DBS0236225”,
+            “attributes”: {
+                “name”: “HL27”,
+                “description”: “partial stalky mutant in marked strain”
+            },
+            “relationships”: {
+                “dbxrefs”: {
+                    “links”: {
+                        “related”: “/stocks/DBS0236225/dbxrefs”
+                    }
+                },
+                “phenotypes”: {
+                    “links”: {
+                        “related”: “/stocks/DBS0236225/phenotypes”
+                    }
+                },
+                “genotypes”: {
+                    “links”: {
+                        “related”: “/stocks/DBS0236225/genotypes”
+                    }
+                },
+                “characteristics”: {
+                    “links”: {
+                        “related”: “/stocks/DBS0236225/characteristics”
+                    }
+                },
+                “inventories”: {
+                    “links”: {
+                        “related”: “/stocks/DBS0236225/inventories”
+                    }
+                },
+                “publications”: {
+                    “links”: {
+                        “related”: “/stocks/DBS0236225/publictions”
+                    }
+                },
+                “orders”: {
+                    “links”: {
+                        “related”: “/stocks/DBS0236225/orders”
+                    }
+                }
+            },
+            {
+                #another stock item
+            }
+        ],
+    “links”: {
+      "self": "/stocks?page[number]=3&page[size]=3",
+      "first": "/stocks?page[number]=1&page[size]=3",
+      "prev": "/stocks?page[number]=2&page[size]=3",
+      "next": "/stocks?page[number]=4&page[size]=3",
+      "last": "/stocks?page[number]=12&page[size]=2"
+    },
+    "meta": {
+        "pagination": {
+            "records": 1000,
+            "total": 100,
+            "size": 10,
+            "number": 3
+        }
+    }
+}
+
+```
 
 ## `/stocks/:id/characteristics`
 
