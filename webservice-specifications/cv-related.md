@@ -163,32 +163,6 @@ The resource behaviour is identical to given in JSON AP
 [specification](http://jsonapi.org/format/#crud-updating-relationships).
 
 
-----
-
-## `/dbxrefs`
-Will be written later as a part of general module.
-
-## `/dbxrefs/:id`
-The dbxref `id` needs to be url encoded.
-
-**Document structure**
-
-```json
-{
-    "links": {
-        "self": "/dbxrefs/GO_REF:0000011"
-    },
-    "data": {
-        "type": "dbxref",
-        "id": "GO_REF:0000011",
-        "attributes": {
-            "database": "GO_REF",
-            "accession": "0000011"
-        }
-    }
-}
-```
------
 
 ## `/cvs/:id/predicates/:id/relationships/objects`
 ## `/cvs/:id/predicates/:id/relationships/subjects` 

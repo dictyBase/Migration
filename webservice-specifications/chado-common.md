@@ -85,3 +85,61 @@ be used here.
 }
 
 ```
+
+
+# Chado Dbxrefs
+Another common pattern in chado to use dbxrefs for various resources.
+
+
+## `/dbxrefs/:id`
+The dbxref `id` needs to be url encoded.
+
+**Document structure**
+
+```json
+{
+    "links": {
+        "self": "/dbxrefs/GO_REF:0000011"
+    },
+    "data": {
+        "type": "dbxref",
+        "id": "GO_REF:0000011",
+        "attributes": {
+            "database": "GO_REF",
+            "accession": "0000011"
+        }
+    }
+}
+```
+
+## `/dbxrefs`
+This resource does not really represent an independent resource,
+rather the expected data structure for the other resources that
+linked to their dbxrefs through the relationships field.
+
+__Document structure__
+
+```json
+{
+    “links”: {
+        “self”: “/dbxrefs #The actual value will vary based on the resource it comes from
+    },
+    data: [
+        {
+            “links”: {
+                “self”: “/dbxrefs/GO_REF:0000011”
+            },
+            "type": "dbxref",
+            "id": "GO_REF:0000011",
+            "attributes": {
+                "database": "GO_REF",
+                "accession": "0000011"
+            }
+        },
+        {
+          #another dbxref
+        }
+    ]
+}
+
+```
