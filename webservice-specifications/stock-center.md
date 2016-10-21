@@ -464,6 +464,11 @@ __Document structure__
                 “links”: {
                     “related”: “/stocks/DBS0236225/orders”
                 }
+            },
+            “parents”: {
+                “links”: {
+                    “related”: “/stocks/DBS0236225/parents”
+                }
             }
         }
     }
@@ -520,6 +525,11 @@ __Document structure__
                     “links”: {
                         “related”: “/stocks/DBS0236225/orders”
                     }
+                },
+                “parents”: {
+                    “links”: {
+                        “related”: “/stocks/DBS0236225/parents”
+                    }
                 }
             },
             {
@@ -547,6 +557,93 @@ __Document structure__
 
 ## `/stocks/:id/characteristics`
 
+__Document structure__
+
+```json
+{
+    “links”: {
+        “self”: “/stocks/DBS0236225/characteristics”
+    },
+    “data”: [
+        {
+           “type”: “characteristic”,
+           “id”: “14”,
+           “attributes”: {
+               “value”: “axenic”
+           },
+           “relationships”: {
+               “publication”: {
+                    “links”: {
+                        “related”: “/publications/573”
+                    }
+               }
+           }
+        },
+        {
+           “type”: “characteristic”,
+           “id”: “19”,
+           “attributes”: {
+               “value”: “neomycin resistant”
+           },
+           “relationships”: {
+               “publication”: {
+                    “links”: {
+                        “related”: “/publications/573”
+                    }
+               }
+           }
+        }
+    ]
+}
+
+```
+
 ## `/stocks/:id/inventories`
 
+__Document structure__
+
+```json
+{
+    “links”: {
+        “self”: “/stocks/DBS0236225/inventories”
+    },
+    “data”: [
+        {
+           “type”: “inventory”,
+           “id”: “7”,
+           “attributes”: {
+               “property”: “location”,
+               “value”: “2-6(4)”
+           }
+        },
+        {
+           “type”: “inventory”,
+           “id”: “2”,
+           “attributes”: {
+               “property”: “no of vials”, 
+               “value”: “4”
+           }
+        },
+        {
+           “type”: “inventory”,
+           “id”: “4”,
+           “attributes”: {
+               “property”: “color”, 
+               “value”: “Blue”
+           }
+        }
+    ]
+}
+```
+
+## `/stocks/:id/parents`
+
+__Document structure__
+
+Identical to 
+
 ## `/stocks/:id/publications`
+
+__Document structure__
+
+Identical to [/publications ](#publications)
