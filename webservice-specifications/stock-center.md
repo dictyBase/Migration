@@ -1,13 +1,27 @@
 # Stock center
 
-Resources related to dicty stock center and it's orders
+  * [/orders/:order_id ](#ordersorder_id)
+      * [relationships](#relationships)
+  * [/orders ](#orders)
+      * [GET](#get)
+      * [POST](#post)
+  * [/phenotypes/:id ](#phenotypesid)
+  * [/phenotypes ](#phenotypes)
+  * [/phenotypes/:id/properties/:id ](#phenotypesidpropertiesid)
+  * [/phenotypes/:id/properties ](#phenotypesidproperties)
+  * [/phenotypes/:id/phenstatements ](#phenotypesidphenstatements)
+  * [/genotypes/:id ](#genotypesid)
+  * [/genotypes ](#genotypes)
+  * [/phenstatements/:id ](#phenstatementsid)
+  * [/phenstatements ](#phenstatements)
+  * [/stocks/:id ](#stocksid)
+  * [/stocks ](#stocks)
+  * [/stocks/:id/characteristics ](#stocksidcharacteristics)
+  * [/stocks/:id/inventories ](#stocksidinventories)
+  * [/stocks/:id/parents ](#stocksidparents)
+  * [/stocks/:id/publications ](#stocksidpublications)
 
-* [`/orders/:order_id`](#order_id)
-* [`/orders`](#orders)
-* `/stocks/:stock_id`
-* `/stocks`
-* [`/users/:user_id`](auth.md#user_id)
-* [`/users`](auth.md#users)
+
 
 ## `/orders/:order_id`
 
@@ -21,7 +35,7 @@ Request a single order. Here, the primary data is a *single resource object*
 
 The primary data which is a singe resource object, contains the information of a single dsc order. Allowed HTTP methods can be executed at `/orders/:order_id`. For instance, an order with the id 874993 can be retrieved at `/orders/874993` with HTTP GET method.
 
-#### relationships
+### Relationships
 
 `stocks` relationship indicates the items ordered (strains, plasmids etc.).
 
@@ -59,31 +73,24 @@ Content-Type: application/vnd.api+json
                     "self": "/orders/8749937/relationships/stocks",
                     "related": "/orders/8749937/stocks"
                 },
-                "data": [
-                    {"type": "strain", "id": "DBS0238484"},
-                    {"type": "plasmid", "id": "DBP0251758"}
-                ]
             },
             "consumer": {
                 "links": {
                     "self": "/orders/8749937/relationships/consumer",
                     "related": "/users/25"
                 },
-                "data": {"type": "user", "id": "25"}
             },
             "payer": {
                 "links": {
                     "self": "/orders/8749936/relationships/payer",
                     "related": "/users/26"
                 },
-                "data": {"type": "user", "id": "26"}
             },
             "purchaser": {
                 "links": {
                     "self": "/orders/8749937/relationships/purchaser",
                     "related": "/users/27"
                 },
-                "data": {"type": "user", "id": "27"}
             }
         }
     },
@@ -367,6 +374,7 @@ __Document structure__
 
 ## `/genotypes`
 
+__Document structure__
 ```json
 {
     "data": [
@@ -419,55 +427,55 @@ __Document structure__
 
 ```json
 {
-   “links”: {
-        “self”: “/stocks/DBS0236225”
+   "links": {
+        "self": "/stocks/DBS0236225"
    },
-   “data”: {
-        “type”: “strain”,
-        “id”: “DBS0236225”,
-        “attributes”: {
-            “name”: “HL27”,
-            “description”: “partial stalky mutant in marked strain”
+   "data": {
+        "type": "strain",
+        "id": "DBS0236225",
+        "attributes": {
+            "name": "HL27",
+            "description": "partial stalky mutant in marked strain"
         },
-        “relationships”: {
-            “dbxrefs”: {
-                “links”: {
-                    “related”: “/stocks/DBS0236225/dbxrefs”
+        "relationships": {
+            "dbxrefs": {
+                "links": {
+                    "related": "/stocks/DBS0236225/dbxrefs"
                 }
             },
-            “phenotypes”: {
-                “links”: {
-                    “related”: “/stocks/DBS0236225/phenotypes”
+            "phenotypes": {
+                "links": {
+                    "related": "/stocks/DBS0236225/phenotypes"
                 }
             },
-            “genotypes”: {
-                “links”: {
-                    “related”: “/stocks/DBS0236225/genotypes”
+            "genotypes": {
+                "links": {
+                    "related": "/stocks/DBS0236225/genotypes"
                 }
             },
-            “characteristics”: {
-                “links”: {
-                    “related”: “/stocks/DBS0236225/characteristics”
+            "characteristics": {
+                "links": {
+                    "related": "/stocks/DBS0236225/characteristics"
                 }
             },
-            “inventories”: {
-                “links”: {
-                    “related”: “/stocks/DBS0236225/inventories”
+            "inventories": {
+                "links": {
+                    "related": "/stocks/DBS0236225/inventories"
                 }
             },
-            “publications”: {
-                “links”: {
-                    “related”: “/stocks/DBS0236225/publictions”
+            "publications": {
+                "links": {
+                    "related": "/stocks/DBS0236225/publictions"
                 }
             },
-            “orders”: {
-                “links”: {
-                    “related”: “/stocks/DBS0236225/orders”
+            "orders": {
+                "links": {
+                    "related": "/stocks/DBS0236225/orders"
                 }
             },
-            “parents”: {
-                “links”: {
-                    “related”: “/stocks/DBS0236225/parents”
+            "parents": {
+                "links": {
+                    "related": "/stocks/DBS0236225/parents"
                 }
             }
         }
@@ -482,53 +490,53 @@ __Document structure__
 
 ```json
 {
-   “data”: [
+   "data": [
         {
-            “type”: “strain”,
-            “id”: “DBS0236225”,
-            “attributes”: {
-                “name”: “HL27”,
-                “description”: “partial stalky mutant in marked strain”
+            "type": "strain",
+            "id": "DBS0236225",
+            "attributes": {
+                "name": "HL27",
+                "description": "partial stalky mutant in marked strain"
             },
-            “relationships”: {
-                “dbxrefs”: {
-                    “links”: {
-                        “related”: “/stocks/DBS0236225/dbxrefs”
+            "relationships": {
+                "dbxrefs": {
+                    "links": {
+                        "related": "/stocks/DBS0236225/dbxrefs"
                     }
                 },
-                “phenotypes”: {
-                    “links”: {
-                        “related”: “/stocks/DBS0236225/phenotypes”
+                "phenotypes": {
+                    "links": {
+                        "related": "/stocks/DBS0236225/phenotypes"
                     }
                 },
-                “genotypes”: {
-                    “links”: {
-                        “related”: “/stocks/DBS0236225/genotypes”
+                "genotypes": {
+                    "links": {
+                        "related": "/stocks/DBS0236225/genotypes"
                     }
                 },
-                “characteristics”: {
-                    “links”: {
-                        “related”: “/stocks/DBS0236225/characteristics”
+                "characteristics": {
+                    "links": {
+                        "related": "/stocks/DBS0236225/characteristics"
                     }
                 },
-                “inventories”: {
-                    “links”: {
-                        “related”: “/stocks/DBS0236225/inventories”
+                "inventories": {
+                    "links": {
+                        "related": "/stocks/DBS0236225/inventories"
                     }
                 },
-                “publications”: {
-                    “links”: {
-                        “related”: “/stocks/DBS0236225/publictions”
+                "publications": {
+                    "links": {
+                        "related": "/stocks/DBS0236225/publictions"
                     }
                 },
-                “orders”: {
-                    “links”: {
-                        “related”: “/stocks/DBS0236225/orders”
+                "orders": {
+                    "links": {
+                        "related": "/stocks/DBS0236225/orders"
                     }
                 },
-                “parents”: {
-                    “links”: {
-                        “related”: “/stocks/DBS0236225/parents”
+                "parents": {
+                    "links": {
+                        "related": "/stocks/DBS0236225/parents"
                     }
                 }
             },
@@ -536,7 +544,7 @@ __Document structure__
                 #another stock item
             }
         ],
-    “links”: {
+    "links": {
       "self": "/stocks?page[number]=3&page[size]=3",
       "first": "/stocks?page[number]=1&page[size]=3",
       "prev": "/stocks?page[number]=2&page[size]=3",
@@ -561,34 +569,34 @@ __Document structure__
 
 ```json
 {
-    “links”: {
-        “self”: “/stocks/DBS0236225/characteristics”
+    "links": {
+        "self": "/stocks/DBS0236225/characteristics"
     },
-    “data”: [
+    "data": [
         {
-           “type”: “characteristic”,
-           “id”: “14”,
-           “attributes”: {
-               “value”: “axenic”
+           "type": "characteristic",
+           "id": "14",
+           "attributes": {
+               "value": "axenic"
            },
-           “relationships”: {
-               “publication”: {
-                    “links”: {
-                        “related”: “/publications/573”
+           "relationships": {
+               "publication": {
+                    "links": {
+                        "related": "/publications/573"
                     }
                }
            }
         },
         {
-           “type”: “characteristic”,
-           “id”: “19”,
-           “attributes”: {
-               “value”: “neomycin resistant”
+           "type": "characteristic",
+           "id": "19",
+           "attributes": {
+               "value": "neomycin resistant"
            },
-           “relationships”: {
-               “publication”: {
-                    “links”: {
-                        “related”: “/publications/573”
+           "relationships": {
+               "publication": {
+                    "links": {
+                        "related": "/publications/573"
                     }
                }
            }
@@ -604,32 +612,32 @@ __Document structure__
 
 ```json
 {
-    “links”: {
-        “self”: “/stocks/DBS0236225/inventories”
+    "links": {
+        "self": "/stocks/DBS0236225/inventories"
     },
-    “data”: [
+    "data": [
         {
-           “type”: “inventory”,
-           “id”: “7”,
-           “attributes”: {
-               “property”: “location”,
-               “value”: “2-6(4)”
+           "type": "inventory",
+           "id": "7",
+           "attributes": {
+               "property": "location",
+               "value": "2-6(4)"
            }
         },
         {
-           “type”: “inventory”,
-           “id”: “2”,
-           “attributes”: {
-               “property”: “no of vials”, 
-               “value”: “4”
+           "type": "inventory",
+           "id": "2",
+           "attributes": {
+               "property": "no of vials", 
+               "value": "4"
            }
         },
         {
-           “type”: “inventory”,
-           “id”: “4”,
-           “attributes”: {
-               “property”: “color”, 
-               “value”: “Blue”
+           "type": "inventory",
+           "id": "4",
+           "attributes": {
+               "property": "color", 
+               "value": "Blue"
            }
         }
     ]
@@ -640,7 +648,7 @@ __Document structure__
 
 __Document structure__
 
-Identical to 
+Identical to [/stocks](#stocks)
 
 ## `/stocks/:id/publications`
 
