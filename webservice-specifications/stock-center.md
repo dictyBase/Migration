@@ -67,25 +67,21 @@ __Document structure__
         "relationships": {
             "stocks": {
                 "links": {
-                    "self": "/orders/8749937/relationships/stocks",
                     "related": "/orders/8749937/stocks"
                 },
             },
             "consumer": {
                 "links": {
-                    "self": "/orders/8749937/relationships/consumer",
                     "related": "/users/25"
                 },
             },
             "payer": {
                 "links": {
-                    "self": "/orders/8749936/relationships/payer",
                     "related": "/users/26"
                 },
             },
             "purchaser": {
                 "links": {
-                    "self": "/orders/8749937/relationships/purchaser",
                     "related": "/users/27"
                 },
             }
