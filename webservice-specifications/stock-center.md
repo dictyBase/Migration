@@ -50,21 +50,18 @@ There are three types of users associated with a single order. `consumer`, `paye
 __Document structure__
 
 ```json
-HTTP/1.1 200 OK
-Content-Type: application/vnd.api+json
-
 {   
     "data": {
         "type": "order",
         "id": "8749937",
         "attributes": {
-            "created": "2015-05-22T14:56:29.000Z",
-            "shipping": {
-                "account": "FedEx",
-                "account_num": "389742",
-                "comments": ""
-            },
-            "payment": {"method": "Credit", "purchase_order": ""},
+            "created_at": "2015-05-22T14:56:29.000Z",
+            "updated_at": "2015-05-22T14:56:29.000Z",
+            "courier": "FedEx",
+            "courier_account": "34839439",
+            "comments": "Whatever whatever",
+            "payment": "Credit", 
+			"purchase_order": "8394398493",
             "status": "Shipped"
         },
         "relationships": {
