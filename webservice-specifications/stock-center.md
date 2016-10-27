@@ -52,7 +52,7 @@ __Document structure__
 ```json
 {   
     "data": {
-        "type": "order",
+        "type": "orders",
         "id": "8749937",
         "attributes": {
             "created_at": "2015-05-22T14:56:29.000Z",
@@ -116,7 +116,7 @@ Content-Type: application/vnd.api+json
 
 {   
     "data": [{
-        "type": "order",
+        "type": "orders",
         "id": "8749937",
         "attributes": {
             "created": "2015-05-22T14:56:29.000Z",
@@ -131,7 +131,7 @@ Content-Type: application/vnd.api+json
         "links": {"self": "/orders/8749937"}
     },
     {
-        "type": "order",
+        "type": "orders",
         "id": "27663",
         "attributes": {
             "created": "2014-11-41T11:51:29.000Z",
@@ -146,7 +146,7 @@ Content-Type: application/vnd.api+json
         "links": {"self": "/orders/27663"}
     },
     {
-        "type": "order",
+        "type": "orders",
         "id": "546737",
         "attributes": {
             "created": "2016-04-26T01:16:29.000Z",
@@ -177,13 +177,10 @@ A single order resource can be created by sending a POST request to `/orders`
 __Document structure__
 
 ```json
-POST /orders HTTP/1.1
-Content-Type: application/vnd.api+json
-Accept: application/vnd.api+json
 
 {
   "data": {
-    "type": "order",
+    "type": "orders",
     "attributes": {
         "created": "2015-05-22T14:56:29.000Z",
         "shipping": {
@@ -197,18 +194,18 @@ Accept: application/vnd.api+json
     "relationships": {
         "stocks": {
             "data": [
-                {"type": "strain", "id": "DBS0238484"},
-                {"type": "plasmid", "id": "DBP0251758"}
+                {"type": "strains", "id": "DBS0238484"},
+                {"type": "plasmids", "id": "DBP0251758"}
             ]
         },
         "consumer": {
-            "data": {"type": "user", "id": "25"}
+            "data": {"type": "users", "id": "25"}
         },
         "payer": {
-            "data": {"type": "user", "id": "26"}
+            "data": {"type": "users", "id": "26"}
         },
         "purchaser": {
-            "data": {"type": "user", "id": "27"}
+            "data": {"type": "users", "id": "27"}
         }
     }
   }
@@ -225,10 +222,10 @@ __Document structure__
         "self": "/phenotypes/DSC_PHEN0007441"
     },
     "data": {
-        "type": "phenotype",
+        "type": "phenotypes",
         "id": "DSC_PHEN0007441",
         "attributes": {
-            "name": "D.discoideum unique phenotype",
+            "name": "D.discoideum unique phenotypes",
             "observation": "abolished aggreation",
             "phen_attribute": "decreased occurence",
             "value": "For some reason very less aggreation",
@@ -264,10 +261,10 @@ __Document structure__
             "links": {
                 "self": "/phenotypes/DSC_PHEN0007441"
             },
-            "type": "phenotype",
+            "type": "phenotypes",
             "id": "DSC_PHEN0007441",
             "attributes": {
-                "name": "D.discoideum unique phenotype",
+                "name": "D.discoideum unique phenotypes",
                 "observation": "abolished aggreation",
                 "phen_attribute": "decreased occurence",
                 "value": "For some reason very less aggreation",
@@ -313,7 +310,7 @@ __Document structure__
         "self": "/phenotypes/properties/3"
     },
     "data": {
-        "type": "chadoprop",
+        "type": "chadoprops",
         "id": "3",
         "attributes": {
             "value": "cheater mutant mixed with AX4"
@@ -352,11 +349,11 @@ __Document structure__
         "self": "/genotypes/DSC_G0122502"
     },
     "data": {
-        "type": "genotype",
+        "type": "genotypes",
         "id": "DSC_G0122502",
         "attributes": {
             "name": "axeA1,axeB1,axeC1,pB18-cAR1],neoR",
-            "description": "Important genotype" 
+            "description": "Important genotypes" 
         },
         "relationships": {
             "properties": {
@@ -376,11 +373,11 @@ __Document structure__
 {
     "data": [
         {
-            "type": "genotype",
+            "type": "genotypes",
             "id": "DSC_G0122502",
             "attributes": {
                 "name": "axeA1,axeB1,axeC1,pB18-cAR1],neoR",
-                "description": "Important genotype" 
+                "description": "Important genotypes" 
             },
             "relationships": {
                 "properties": {
@@ -391,7 +388,7 @@ __Document structure__
             }
         }
         {
-            #another genotype
+            #another genotypes
         }
     ],
     "links": {
@@ -418,7 +415,7 @@ __Document structure__
 
 ## `/stocks/:id`
 
-There could be two types, strain or plasmid.
+There could be two types, strains or plasmid.
 
 __Document structure__
 
@@ -428,11 +425,11 @@ __Document structure__
         "self": "/stocks/DBS0236225"
    },
    "data": {
-        "type": "strain",
+        "type": "strains",
         "id": "DBS0236225",
         "attributes": {
             "name": "HL27",
-            "description": "partial stalky mutant in marked strain"
+            "description": "partial stalky mutant in marked strains"
         },
         "relationships": {
             "dbxrefs": {
@@ -489,11 +486,12 @@ __Document structure__
 {
    "data": [
         {
-            "type": "strain",
+            "type": "stocks",
             "id": "DBS0236225",
             "attributes": {
                 "name": "HL27",
-                "description": "partial stalky mutant in marked strain"
+                "description": "partial stalky mutant in marked strains",
+				"category": "strain"
             },
             "relationships": {
                 "dbxrefs": {
@@ -571,7 +569,7 @@ __Document structure__
     },
     "data": [
         {
-           "type": "characteristic",
+           "type": "characteristics",
            "id": "14",
            "attributes": {
                "value": "axenic"
@@ -614,7 +612,7 @@ __Document structure__
     },
     "data": [
         {
-           "type": "inventory",
+           "type": "inventories",
            "id": "7",
            "attributes": {
                "property": "location",
