@@ -61,7 +61,7 @@ __Document structure__
             "courier_account": "34839439",
             "comments": "Whatever whatever",
             "payment": "Credit", 
-			"purchase_order": "8394398493",
+			"purchase_order_num": "8394398493",
             "status": "Shipped"
         },
         "relationships": {
@@ -83,7 +83,7 @@ __Document structure__
             "purchaser": {
                 "links": {
                     "related": "/users/27"
-                },
+                }
             }
         }
     },
@@ -107,9 +107,6 @@ List of orderes can be retrieved by sending a GET request to `/orders`
 __Document structure__
 
 ```json
-HTTP/1.1 200 OK
-Content-Type: application/vnd.api+json
-
 {   
     "data": [{
         "type": "orders",
@@ -207,6 +204,12 @@ __Document structure__
   }
 }
 ```
+
+## `/orders/:id/stocks`
+
+__Document structure__
+
+Identical to [/stocks](#stocks)
 
 ## `/phenotypes/:id`
 
