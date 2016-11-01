@@ -16,7 +16,7 @@ __Document structure__
 ```json
 {
     "data": {
-        "type": "permission",
+        "type": "permissions",
         "id": "4",
         "attributes" : {
            "permission": "create-strain",
@@ -37,7 +37,7 @@ __Document structure__
 {
     "data": [
         {
-            "type": "permission",
+            "type": "permissions",
             "id": "4",
             "attributes": {
                "permission": "create-strain",
@@ -48,7 +48,7 @@ __Document structure__
             }
         },
         {
-            "type": "permission",
+            "type": "permissions",
             "id": "6",
             "attributes": {
                "permission": "delete-strain",
@@ -72,7 +72,7 @@ __Document structure__
 ```json
 {
     "data": {
-        "type": "role",
+        "type": "roles",
         "id": "6",
         "attributes": {
             "role": "curator",
@@ -81,14 +81,12 @@ __Document structure__
         "relationships": {
            "permissions": {
                "links": {
-                    "related": "/roles/6/permissions",
-                    "self": "/roles/6/relationships/permissions",
+                    "related": "/roles/6/permissions"
                }
            },
            "users": {
                 "links": {
-                    "related": "/roles/6/users",
-                    "self": "/roles/6/relationships/users"
+                    "related": "/roles/6/users"
                 }
            }
         }
@@ -107,7 +105,7 @@ __Document structure__
 {
     "data": [
         {
-            "type": "role",
+            "type": "roles",
             "id": "6",
             "attributes": {
                 "role": "curator",
@@ -116,14 +114,12 @@ __Document structure__
             "relationships": {
                "permissions": {
                    "links": {
-                        "related": "/roles/6/permissions",
-                        "self": "/roles/6/relationships/permissions",
+                        "related": "/roles/6/permissions"
                    }
                },
                "users": {
                     "links": {
-                        "related": "/roles/6/users",
-                        "self": "/roles/6/relationships/users"
+                        "related": "/roles/6/users"
                     }
                }
             },
@@ -176,7 +172,7 @@ __Document structure__
 ```json
 {
     "data": {
-        "type": "user",
+        "type": "users",
         "id": "25",
         "attributes": {
             "first_name": "John",
@@ -184,7 +180,8 @@ __Document structure__
             "email": "john@gmail.com",
             "organization": "UIC",
             "group": "Bio Infomatics Lab",
-            "address" : {"first": "4563 N Michicagn Ave", "second": ""},
+            "first_address" : "4563 N Michicagn Ave", 
+            "second_address": "Apt 203",
             "city": "Chicago",
             "state": "IL",
             "zip": "60625",
@@ -194,8 +191,7 @@ __Document structure__
         "relationships": {
             "roles": {
                 "links": {
-                    "related": "/users/25/roles",
-                    "self": "/users/25/relationships/roles"
+                    "related": "/users/25/roles"
                 }
             }
         }
@@ -211,21 +207,60 @@ __Document structure__
 
 ```json
 {   
-    "data": [{
-        "type": "user",
-        "id": "25",
-        "links": {"self": "/users/25"}
-    },
-    {
-        "type": "user",
-        "id": "65",
-        "links": {"self": "/users/65"}
-    },
-    {
-        "type": "user",
-        "id": "10",
-        "links": {"self": "/users/10"}
-    }],
+    "data": [
+        {
+            "type": "users",
+            "id": "25",
+            "attributes": {
+                "first_name": "John",
+                "last_name": "Smith",
+                "email": "john@gmail.com",
+                "organization": "UIC",
+                "group": "Bio Infomatics Lab",
+                "first_address" : "4563 N Michicagn Ave", 
+                "second_address": "Apt 4890",
+                "city": "Chicago",
+                "state": "IL",
+                "zip": "60625",
+                "country": "USA",
+                "phone": "312-503-8367"
+            },
+            "relationships": {
+                "roles": {
+                    "links": {
+                        "related": "/users/25/roles"
+                    }
+                }
+            },
+            "links": {"self": "/users/25"}
+        },
+        {
+            "type": "users",
+            "id": "65",
+            "attributes": {
+                "first_name": "Pale",
+                "last_name": "Caboose",
+                "email": "caboose@gmail.com",
+                "organization": "PTN",
+                "group": "Pacific whale group",
+                "first_address" : "583 N main street", 
+                "second_address": "2nd floor unit 393",
+                "city": "Float",
+                "state": "HP",
+                "zip": "60635",
+                "country": "USA",
+                "phone": "312-503-9938"
+            },
+            "relationships": {
+                "roles": {
+                    "links": {
+                        "related": "/users/65/roles"
+                    }
+                }
+            },
+            "links": {"self": "/users/65"}
+        }
+    ],
     "links": {
       "self": "/users?page[number]=1&page[size]=3",
       "first": "/users?page[number]=1&page[size]=3",
