@@ -262,43 +262,21 @@ __Document structure__
         }
     ],
     "links": {
-      "self": "/users?page[number]=1&page[size]=3",
+      "self": "/users?page[number]=6&page[size]=3",
       "first": "/users?page[number]=1&page[size]=3",
-      "prev": "",
-      "next": "/users?page[number]=2&page[size]=3",
+      "prev": "/users?page[number]=5&page[size]=3",
+      "next": "/users?page[number]=7&page[size]=3",
       "last": "/users?page[number]=10&page[size]=2"
-    }
-}
-
-```
-
-A single user resource can be created by sending a POST request to `/users`
-
-```json
-POST /users HTTP/1.1
-Content-Type: application/vnd.api+json
-Accept: application/vnd.api+json
-
-{
-    "data": {
-        "type": "user",
-        "attributes": {
-            "first_name": "John",
-            "last_name": "Smith",
-            "email": "john@gmail.com",
-            "organization": "UIC",
-            "group": "Bio Infomatics Lab",
-            "address" : {"first": "4563 N Michicagn Ave", "second": ""},
-            "city": "Chicago",
-            "state": "IL",
-            "zip": "60625",
-            "country": "USA",
-            "phone": "312-503-8367"
+    },
+    "meta": {
+        "pagination": {
+            "records": 160,
+            "total": 60,
+            "size": 10,
+            "number": 6
         }
     }
-},
-
-```
+}
 
 ### Error objects
 
