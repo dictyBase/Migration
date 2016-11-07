@@ -8,6 +8,12 @@
 * [/users ](#users-1)
 * [Error objects](#error-objects)
 
+## Note
+All the **self** relationship links in the resources below only allow HTTP POST,
+PATCH and DELETE methods for managing the inter-resource linkage. For detail
+look
+[here.](https://github.com/dictyBase/Migration/blob/master/Webservice-specs.md#self-related-and-http-methods)
+
 
 ## `/permissions/:id`
 
@@ -81,7 +87,8 @@ __Document structure__
         "relationships": {
            "permissions": {
                "links": {
-                    "related": "/roles/6/permissions"
+                    "related": "/roles/6/permissions",
+                    "self": "/roles/6/relationships/permissions"
                }
            },
            "users": {
@@ -114,12 +121,14 @@ __Document structure__
             "relationships": {
                "permissions": {
                    "links": {
-                        "related": "/roles/6/permissions"
+                        "related": "/roles/6/permissions",
+                        "self": "/roles/6/relationships/permissions"
                    }
                },
                "users": {
                     "links": {
-                        "related": "/roles/6/users"
+                        "related": "/roles/6/users",
+                        "self": "/roles/6/relationships/users"
                     }
                }
             },
@@ -191,7 +200,8 @@ __Document structure__
         "relationships": {
             "roles": {
                 "links": {
-                    "related": "/users/25/roles"
+                    "related": "/users/25/roles",
+                    "self": "/users/25/relationships/roles"
                 }
             }
         }
@@ -228,7 +238,8 @@ __Document structure__
             "relationships": {
                 "roles": {
                     "links": {
-                        "related": "/users/25/roles"
+                        "related": "/users/25/roles",
+                        "self": "/users/25/relationships/roles"
                     }
                 }
             },
@@ -255,6 +266,7 @@ __Document structure__
                 "roles": {
                     "links": {
                         "related": "/users/65/roles"
+                        "self": "/users/65/relationships/roles"
                     }
                 }
             },
