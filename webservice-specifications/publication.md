@@ -198,4 +198,5 @@ Identical to [authors](/webservice-specifications/publication.md#authors)
 
 ### `/publications/:id/relationships/authors`
 
+This resource only allow `POST`, `PATCH` and `DELETE` methods to manage the relationships.
 
