@@ -25,21 +25,10 @@
 
 ## `/orders/:order_id`
 
-Request a single order. Here, the primary data is a *single resource object*
-
-**Allowed HTTP methods**
-
-* GET
-* PATCH
-* DELETE
-
-The primary data which is a singe resource object, contains the information of a single dsc order. Allowed HTTP methods can be executed at `/orders/:order_id`. For instance, an order with the id 874993 can be retrieved at `/orders/874993` with HTTP GET method.
-
-### Relationships
-
 `stocks` relationship indicates the items ordered (strains, plasmids etc.).
 
-There are three types of users associated with a single order. `consumer`, `payer`, and `purchaser`. It is possible that all three be the same user.
+There are three types of users associated with a single order. `consumer`,
+`payer`, and `purchaser`. It is possible that all three be the same user.
 
 `consumer` : The person(user) who is receiving the stocks in mail.
 
@@ -67,22 +56,26 @@ __Document structure__
         "relationships": {
             "stocks": {
                 "links": {
-                    "related": "/orders/8749937/stocks"
+                    "related": "/orders/8749937/stocks",
+                    "self": "/orders/8749937/relationships/stocks"
                 },
             },
             "consumer": {
                 "links": {
-                    "related": "/users/25"
+                    "related": "/users/25",
+                    "self": "/users/25/relationships"
                 },
             },
             "payer": {
                 "links": {
                     "related": "/users/26"
+                    "self": "/users/26/relationships"
                 },
             },
             "purchaser": {
                 "links": {
                     "related": "/users/27"
+                    "self": "/users/27/relationships"
                 }
             }
         }
@@ -93,17 +86,6 @@ __Document structure__
 
 # `/orders`
 
-List all orders or create an order. Here, the primary data is a *resource collection object*
-
-**Allowed HTTP methods**
-
-* GET
-* POST
-
-### GET
-
-List of orderes can be retrieved by sending a GET request to `/orders`
-
 __Document structure__
 
 ```json
@@ -112,45 +94,82 @@ __Document structure__
         "type": "orders",
         "id": "8749937",
         "attributes": {
-            "created": "2015-05-22T14:56:29.000Z",
-            "shipping": {
-                "account": "FedEx",
-                "account_num": "389742",
-                "comments": ""
-            },
-            "payment": {"method": "Credit", "purchase_order": ""},
+            "created_at": "2015-05-22T14:56:29.000Z",
+            "updated_at": "2015-05-22T14:56:29.000Z",
+            "courier": "FedEx",
+            "courier_account": "389742",
+            "comments": "I just ordered it",
+            "payment": "Credit", 
+			"purchase_order_num": "839483943",
             "status": "Shipped"
         },
-        "links": {"self": "/orders/8749937"}
-    },
-    {
-        "type": "orders",
-        "id": "27663",
-        "attributes": {
-            "created": "2014-11-41T11:51:29.000Z",
-            "shipping": {
-                "account": "UPS",
-                "account_num": "28744",
-                "comments": ""
+        "relationships": {
+            "stocks": {
+                "links": {
+                    "related": "/orders/8749937/stocks",
+                    "self": "/orders/8749937/relationships/stocks"
+                },
             },
-            "payment": {"method": "Wire", "purchase_order": ""},
-            "status": "in Preparation"
-        },
-        "links": {"self": "/orders/27663"}
+            "consumer": {
+                "links": {
+                    "related": "/users/25",
+                    "self": "/users/25/relationships"
+                },
+            },
+            "payer": {
+                "links": {
+                    "related": "/users/26"
+                    "self": "/users/26/relationships"
+                },
+            },
+            "purchaser": {
+                "links": {
+                    "related": "/users/27"
+                    "self": "/users/27/relationships"
+                }
+            }
+        }
+        "links": {"self": "/orders/8749937"}
     },
     {
         "type": "orders",
         "id": "546737",
         "attributes": {
-            "created": "2016-04-26T01:16:29.000Z",
-            "shipping": {
-                "account": "FedEx",
-                "account_num": "4544",
-                "comments": ""
-            },
-            "payment": {"method": "Credit", "purchase_order": ""},
+            "created_at": "2016-04-26T01:16:29.000Z",
+            "updated_at": "2016-04-26T01:16:29.000Z",
+            "courier": "FedEx",
+            "courier_account": "4544",
+            "comments": ""
+            "payment": "Credit", 
+			"purchase_order": "",
             "status": "Shipped"
         },
+        "relationships": {
+            "stocks": {
+                "links": {
+                    "related": "/orders/546737/stocks",
+                    "self": "/orders/546737/relationships/stocks"
+                },
+            },
+            "consumer": {
+                "links": {
+                    "related": "/users/25",
+                    "self": "/users/25/relationships"
+                },
+            },
+            "payer": {
+                "links": {
+                    "related": "/users/26"
+                    "self": "/users/26/relationships"
+                },
+            },
+            "purchaser": {
+                "links": {
+                    "related": "/users/27"
+                    "self": "/users/27/relationships"
+                }
+            }
+        }
         "links": {"self": "/orders/546737"}
     }],
     "links": {
@@ -158,7 +177,7 @@ __Document structure__
       "first": "/orders?page[number]=1&page[size]=3",
       "prev": "/orders?page[number]=2&page[size]=3",
       "next": "/orders?page[number]=4&page[size]=3",
-      "last": "/orders?page[number]=12&page[size]=2"
+      "last": "/orders?page[number]=12&page[size]=3"
     }
 }
 ```
