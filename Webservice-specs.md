@@ -373,4 +373,7 @@ Unless specified, by default all collection resources allow HTTP **GET** and
 * [Organism](webservice-specifications/organism.md)
 * [Sequence](webservice-specifications/sequence.md)
 * [Authorization](webservice-specifications/auth.md)
+* [Analysis](webservice-specifications/analysis.md )
 * [Stock center](webservice-specifications/stock-center.md) 
+* [Common](webservice-specifications/chado-common.md)
+* [Cv related](webservice-specifications/cv-related.md)
