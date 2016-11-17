@@ -20,7 +20,7 @@ be used here.
         "self": "/:resource/properties/17"
     },
     "data": {
-        "type": "chadoprop",
+        "type": "chadoprops",
         "id": "17",
         "attributes": {
             "value": "blue"
@@ -48,7 +48,7 @@ be used here.
     },
     "data": [
         {
-            "type": "chadoprop",
+            "type": "chadoprops",
             "id": "17",
             "attributes": {
                 "value": "blue"
@@ -65,7 +65,7 @@ be used here.
             }
         },
         {
-            "type": "chadoprop",
+            "type": "chadoprops",
             "id": "25",
             "attributes": {
                 "value": "dictyBase"
@@ -121,13 +121,13 @@ __Document structure__
 
 ```json
 {
-    “links”: {
-        “self”: “/dbxrefs #The actual value will vary based on the resource it comes from
+    "links": {
+        "self": "/dbxrefs #The actual value will vary based on the resource it comes from
     },
     data: [
         {
-            “links”: {
-                “self”: “/dbxrefs/GO_REF:0000011”
+            "links": {
+                "self": "/dbxrefs/GO_REF:0000011"
             },
             "type": "dbxref",
             "id": "GO_REF:0000011",

@@ -648,4 +648,4 @@ Identical to [/stocks](#stocks)
 
 __Document structure__
 
-Identical to [/publications ](#publications)
+Identical to [publications](/webservice-specifications/publication.md#publications)
