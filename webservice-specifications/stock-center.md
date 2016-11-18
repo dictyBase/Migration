@@ -1,10 +1,7 @@
 # Stock center
 
   * [/orders/:order_id ](#ordersorder_id)
-      * [relationships](#relationships)
   * [/orders ](#orders)
-      * [GET](#get)
-      * [POST](#post)
   * [/phenotypes/:id ](#phenotypesid)
   * [/phenotypes ](#phenotypes)
   * [/phenotypes/:id/properties/:id ](#phenotypesidpropertiesid)
@@ -63,19 +60,19 @@ __Document structure__
             "consumer": {
                 "links": {
                     "related": "/users/25",
-                    "self": "/users/25/relationships"
+                    "self": "/orders/8749937/relationships/users/25"
                 },
             },
             "payer": {
                 "links": {
-                    "related": "/users/26"
-                    "self": "/users/26/relationships"
+                    "related": "/users/26",
+                    "self": "/orders/8749937/relationships/users/26"
                 },
             },
             "purchaser": {
                 "links": {
-                    "related": "/users/27"
-                    "self": "/users/27/relationships"
+                    "related": "/users/27",
+                    "self": "/orders/8749937/relationships/users/27"
                 }
             }
         }
@@ -113,19 +110,19 @@ __Document structure__
             "consumer": {
                 "links": {
                     "related": "/users/25",
-                    "self": "/users/25/relationships"
+                    "self": "/orders/8749937/relationships/users/25"
                 },
             },
             "payer": {
                 "links": {
-                    "related": "/users/26"
-                    "self": "/users/26/relationships"
+                    "related": "/users/26",
+                    "self": "/orders/8749937/relationships/users/26"
                 },
             },
             "purchaser": {
                 "links": {
-                    "related": "/users/27"
-                    "self": "/users/27/relationships"
+                    "related": "/users/27",
+                    "self": "/orders/8749937/relationships/users/27"
                 }
             }
         }
@@ -154,19 +151,19 @@ __Document structure__
             "consumer": {
                 "links": {
                     "related": "/users/25",
-                    "self": "/users/25/relationships"
+                    "self": "/orders/546737/relationships/users/25"
                 },
             },
             "payer": {
                 "links": {
-                    "related": "/users/26"
-                    "self": "/users/26/relationships"
+                    "related": "/users/26",
+                    "self": "/orders/546737/relationships/users/26"
                 },
             },
             "purchaser": {
                 "links": {
-                    "related": "/users/27"
-                    "self": "/users/27/relationships"
+                    "related": "/users/27",
+                    "self": "/orders/546737/relationships/users/27"
                 }
             }
         }
@@ -179,48 +176,6 @@ __Document structure__
       "next": "/orders?page[number]=4&page[size]=3",
       "last": "/orders?page[number]=12&page[size]=3"
     }
-}
-```
-
-### POST
-
-A single order resource can be created by sending a POST request to `/orders`
-
-__Document structure__
-
-```json
-
-{
-  "data": {
-    "type": "orders",
-    "attributes": {
-        "created": "2015-05-22T14:56:29.000Z",
-        "shipping": {
-            "account": "FedEx",
-            "account_num": "389742",
-            "comments": ""
-        },
-        "payment": {"method": "Credit", "purchase_order": ""},
-        "status": "Shipped"
-    },
-    "relationships": {
-        "stocks": {
-            "data": [
-                {"type": "strains", "id": "DBS0238484"},
-                {"type": "plasmids", "id": "DBP0251758"}
-            ]
-        },
-        "consumer": {
-            "data": {"type": "users", "id": "25"}
-        },
-        "payer": {
-            "data": {"type": "users", "id": "26"}
-        },
-        "purchaser": {
-            "data": {"type": "users", "id": "27"}
-        }
-    }
-  }
 }
 ```
 
@@ -294,11 +249,6 @@ __Document structure__
                     "links": {
                         "related": "/phenotypes/DSC_PHEN0007441/properties"
                     }
-                },
-                "phenstatements": {
-                    "links": {
-                        "related": "/phenotypes/DSC_PHEN0007441/phenstatements"
-                    }
                 }
             }
         }, 
@@ -317,6 +267,43 @@ __Document structure__
 }
 ```
 
+## `/phenotypes/:id/properties`
+
+__Document structure__
+
+It’s a collection resource for the previous line and should be identical to the one given [here](chado-common.md).
+
+```json
+{
+    "links": {
+        "self": "/phenotypes/DSC_PHEN0007441/properties"
+    },
+	"data": [
+		{
+			"links": {
+				"self": "/phenotypes/DSC_PHEN0007441/properties/3"
+			}
+			”type”: “chadoprops”,
+			”id”: “3”,
+			”attributes”: {
+				”value”: “cheater mutant mixed with AX4”
+			},
+			”relationships”: {
+				”proptype”: {
+					”links”: {
+                    	"related": "/cvs/dicty_stockcenter/cvterms/curator note"
+					}
+				}
+			}
+		},
+		{
+				.....
+		}
+	]
+}
+
+```
+
 
 ## `/phenotypes/:id/properties/:id`
 
@@ -325,7 +312,7 @@ __Document structure__
 ```json
 {
     "links": {
-        "self": "/phenotypes/properties/3"
+        "self": "/phenotypes/DSC_PHEN0007441/properties/3"
     },
     "data": {
         "type": "chadoprops",
@@ -345,11 +332,6 @@ __Document structure__
 
 ```
 
-## `/phenotypes/:id/properties`
-
-__Document structure__
-
-It’s a collection resource for the previous line and should be identical to the one given [here](chado-common.md).
 
 ## `/phenotypes/:id/phenstatements`
 
