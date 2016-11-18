@@ -282,15 +282,15 @@ It’s a collection resource for the previous line and should be identical to th
 		{
 			"links": {
 				"self": "/phenotypes/DSC_PHEN0007441/properties/3"
-			}
-			”type”: “chadoprops”,
-			”id”: “3”,
-			”attributes”: {
-				”value”: “cheater mutant mixed with AX4”
 			},
-			”relationships”: {
-				”proptype”: {
-					”links”: {
+			"type": "chadoprops",
+			"id": "3",
+			"attributes": {
+				"value": "cheater mutant mixed with AX4"
+			},
+			"relationships": {
+				"proptype": {
+					"links": {
                     	"related": "/cvs/dicty_stockcenter/cvterms/curator note"
 					}
 				}
@@ -407,8 +407,14 @@ __Document structure__
         }
     }
 }
-
 ```
+
+## `/genotypes/:id/properties` and `/genotype/:id/properties/:id`
+
+The document structure is similar to [/phenotypes/:id/properties ](#phenotypesidproperties)
+and [/phenotypes/:id/properties/:id ](#phenotypesidpropertiesid) respectively.
+
+
 ## `/phenstatements/:id`
 
 ## `/phenstatements`
