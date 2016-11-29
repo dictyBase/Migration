@@ -37,6 +37,9 @@ exclusively.
             "pages": "765-80",
             "month": "june",
             "issn": "1526-968X",
+            "pub_type": "journal_article",
+            "source": "pubmed"
+            
         },
         "relationships": {
             "authors": {
@@ -74,6 +77,8 @@ It will be a paginated response.
                 "pages": "765-80",
                 "month": "june",
                 "issn": "1526-968X",
+                "source": "pubmed",
+                "pub_type": "journal_article"
             }
         }, 
         {
@@ -92,6 +97,8 @@ It will be a paginated response.
                 "pages": "676-80",
                 "month": "jan",
                 "issn": "1362-4962",
+                "source": "pubmed",
+                "pub_type": "journal_article"
             }
         }
     ],
