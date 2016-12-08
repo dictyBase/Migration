@@ -421,6 +421,8 @@ and [/phenotypes/:id/properties/:id ](#phenotypesidpropertiesid) respectively.
 
 ## `/stocks/:id`
 
+To determine if a strain or plasmid is in stock, include the 'inventory' member.
+
 __Document structure__
 
 ```json
