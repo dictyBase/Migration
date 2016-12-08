@@ -422,7 +422,7 @@ and [/phenotypes/:id/properties/:id ](#phenotypesidpropertiesid) respectively.
 ## `/stocks/:id`
 
 There could be two types, strains or plasmid.
-To determine if a strain or plasmid is in stock, include the 'inventory' member.
+To determine if a strain or plasmid is in stock, include the 'inventories' member.
 __Document structure__
 
 ```json
