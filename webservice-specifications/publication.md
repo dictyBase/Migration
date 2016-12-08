@@ -38,7 +38,8 @@ exclusively.
             "month": "june",
             "issn": "1526-968X",
             "pub_type": "journal_article",
-            "source": "pubmed"
+            "source": "pubmed",
+            "status": "ppublish"
             
         },
         "relationships": {
@@ -78,6 +79,7 @@ It will be a paginated response.
                 "month": "june",
                 "issn": "1526-968X",
                 "source": "pubmed",
+                "status": "ppublish",
                 "pub_type": "journal_article"
             }
         }, 
@@ -98,6 +100,7 @@ It will be a paginated response.
                 "month": "jan",
                 "issn": "1362-4962",
                 "source": "pubmed",
+                "status": "epublish",
                 "pub_type": "journal_article"
             }
         }
