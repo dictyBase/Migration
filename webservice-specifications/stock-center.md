@@ -421,8 +421,6 @@ and [/phenotypes/:id/properties/:id ](#phenotypesidpropertiesid) respectively.
 
 ## `/stocks/:id`
 
-There could be two types, strains or plasmid.
-
 __Document structure__
 
 ```json
@@ -431,11 +429,12 @@ __Document structure__
         "self": "/stocks/DBS0236225"
    },
    "data": {
-        "type": "strains",
+        "type": "stocks",
         "id": "DBS0236225",
         "attributes": {
             "name": "HL27",
-            "description": "partial stalky mutant in marked strains"
+            "description": "partial stalky mutant in marked strains",
+			"category": "strain"
         },
         "relationships": {
             "dbxrefs": {
