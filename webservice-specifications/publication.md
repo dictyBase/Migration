@@ -39,6 +39,7 @@ exclusively.
             "issn": "1526-968X",
             "pub_type": "journal_article",
             "source": "pubmed",
+            "issue": "8",
             "status": "ppublish"
             
         },
@@ -79,6 +80,7 @@ It will be a paginated response.
                 "month": "june",
                 "issn": "1526-968X",
                 "source": "pubmed",
+                "issue": "8",
                 "status": "ppublish",
                 "pub_type": "journal_article"
             }
@@ -97,6 +99,7 @@ It will be a paginated response.
                 "year": "2013",
                 "volume": "41",
                 "pages": "676-80",
+                "issue": "18",
                 "month": "jan",
                 "issn": "1362-4962",
                 "source": "pubmed",
