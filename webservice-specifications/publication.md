@@ -139,7 +139,7 @@ It will be a paginated response.
         },
         "attributes": {
             "last_name": "Rajandream",
-            "given_name": "MA",
+            "given_names": "MA",
             "rank": "13"
         },
         "relationships": {
@@ -165,7 +165,7 @@ It will be a paginated response.
             },
             "attributes": {
                 "last_name": "Wardroper",
-                "given_name": "A",
+                "given_names": "A",
                 "rank": "22"
             }
         },
@@ -175,7 +175,7 @@ It will be a paginated response.
             },
             "attributes": {
                 "last_name": "Quail",
-                "given_name": "MA",
+                "given_names": "MA",
                 "rank": "11"
             }
         }
