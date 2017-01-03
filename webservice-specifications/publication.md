@@ -1,215 +1,360 @@
-# Publication
+FORMAT:1A
 
-* [/publications/:id ](#publicationid)
-* [/publications ](#publications)
-* [/authors/:id ](#authorsid)
-* [/authors ](#authors)
-* [Related resources](#related-resources)
-    * [/publications/:id/authors ](#publicationsidauthors)
-    * [/publications/:id/relationships/authors ](#publicationsidrelationshipsauthors)
+# Literature
+Literature API is to manage literature in chado database.
+
+# Group Publication
+Resources related to **publications** in the API.
 
 
-## `/publications/:id`
-Resource for a publication. The id will be primarily [pubmed
-identifier](https://en.wikipedia.org/wiki/PubMed#PubMed_identifier), however
-for handful of non-published resources, internally generated identifiers will
-be used. In future, instead
-[doi](https://en.wikipedia.org/wiki/Digital_object_identifier) could be used
-exclusively.
+## Publication [/publications/{publication_id}]
+```apib
++ Parameters
+    + publication_id: 26099919 (number, required) - The id will be primarily
+      [pubmed identifier](https://en.wikipedia.org/wiki/PubMed#PubMed_identifier).
+      However for handful of non-published resources, internally generated
+      identifiers will be used. 
+```
 
-**Document structure**
+### Retrieve a specific publication [GET]
+```apib
++ Request (application/vnd.api+json)
 
-```json
-{
-    "data": {
-        "links": {
-            "self": "/publications/26099919"
-        },
-        "type": "publication",
-        "id": "26088819",
-        "attributes": {
-            "doi": "10.1002/dvg.22867",
-            "title": "dictyBase 2015: Expanding data and annotations in a new software environment",
-            "abstract": "dictyBase is the model organism database ......",
-            "journal": "Genesis",
-            "year": "2015",
-            "volume": "12",
-            "pages": "765-80",
-            "month": "june",
-            "issn": "1526-968X",
-            "pub_type": "journal_article",
-            "source": "pubmed",
-            "issue": "8",
-            "status": "ppublish"
+    + Headers  
+            Accept: application/vnd.api+json
+
++ Response 200 (application/vnd.api+json)
+
+    +Body  
             
-        },
-        "relationships": {
-            "authors": {
-                "links": {
-                    "self": "/publications/26099919/relationships/authors",
-                    "related": "/publication/26099919/authors"
+            {
+                "data": {
+                    "links": {
+                        "self": "/publications/26099919"
+                    },
+                    "type": "publications",
+                    "id": "26088819",
+                    "attributes": {
+                        "doi": "10.1002/dvg.22867",
+                        "title": "dictyBase 2015: Expanding data and annotations in a new software environment",
+                        "abstract": "dictyBase is the model organism database ......",
+                        "journal": "Genesis",
+                        "year": "2015",
+                        "volume": "12",
+                        "pages": "765-80",
+                        "month": "june",
+                        "issn": "1526-968X",
+                        "pub_type": "journal_article",
+                        "source": "pubmed",
+                        "issue": "8",
+                        "status": "ppublish"
+                    },
+                    "relationships": {
+                        "authors": {
+                            "links": {
+                                "related": "/publication/26099919/authors"
+                            }
+                        }
+                    }
                 }
             }
-        }
-    }
-}
 ```
 
-## `/publications`
-It will be a paginated response.
+### Delete a specific publication [DELETE]
+```apib
++ Request (application/vnd.api+json)
 
-**Document structure**
+    + Headers  
+            Accept: application/vnd.api+json
 
-```
-{
-    "data": [
-        {
-            "links": {
-                "self": "/publications/26088819"
-            }
-            "type": "publication",
-            "id": "26088819",
-            "attributes": {
-                "doi": "10.1002/dvg.22867",
-                "title": "dictyBase 2015: Expanding data and annotations in a new software environment",
-                "abstract": "dictyBase is the model organism database ......",
-                "journal": "Genesis",
-                "year": "2015",
-                "volume": "12",
-                "pages": "765-80",
-                "month": "june",
-                "issn": "1526-968X",
-                "source": "pubmed",
-                "issue": "8",
-                "status": "ppublish",
-                "pub_type": "journal_article"
-            }
-        }, 
-        {
-            "links": {
-                "self": "/publications/23172289"
-            }
-            "type": "publication",
-            "id": "23172289",
-            "attributes": {
-                "doi": "10.1093/nar/gks1064",
-                "title": "dictyBase 2013: Integrating multiple dictyostelid species",
-                "abstract": "dictyBase is the model organism database ......",
-                "journal": "Nucleic Acids Research",
-                "year": "2013",
-                "volume": "41",
-                "pages": "676-80",
-                "issue": "18",
-                "month": "jan",
-                "issn": "1362-4962",
-                "source": "pubmed",
-                "status": "epublish",
-                "pub_type": "journal_article"
-            }
-        }
-    ],
-    "links": {
-        "self": "/publications?page[number]=6&page[size]=10",
-        "next": "/publications?page[number]=7&page[size]=10",
-        "prev": "/publications?page[number]=5&page[size]=10",
-        "last": "/publications?page[number]=80&page[size]=10",
-        "first": "/publications?page[number]=1&page[size]=10"
-    },
-    "meta": {
-        "pagination": {
-            "records": 800,
-            "total": 80,
-            "size": 10,
-            "number": 6
-        }
-    }
-}
-
++ Response 204
 ```
 
-## `/authors/:id`
+### Update a specific publication [PATCH]
+```apib
++ Request (application/vnd.api+json)
 
-**Document structure**
+    + Headers  
+            Accept: application/vnd.api+json  
 
-```json
-{
-    "data": {
-        "links": {
-            "self": "/authors/30330"
-        },
-        "attributes": {
-            "last_name": "Rajandream",
-            "given_names": "MA",
-            "rank": "13"
-        },
-        "relationships": {
-            "publications": {
-                "related": "/authors/30330/publications",
-                "self": "/authors/30300/relationships/publications"
+    + Body
+
+            {
+                "data": {
+                    "type": "publications",
+                    "id": "26088819",
+                    "attributes": {
+                        "doi": "10.1002/dvg.22867",
+                        "title": "dictyBase 2015: Expanding data and annotations in a new software environment",
+                        "abstract": "dictyBase is the model organism database ......",
+                        "journal": "Genesis",
+                        "year": "2015",
+                        "volume": "12",
+                        "pages": "765-80",
+                        "month": "june",
+                        "issn": "1526-968X",
+                        "pub_type": "journal_article",
+                        "source": "pubmed",
+                        "issue": "8",
+                        "status": "ppublish"
+                    },
+                    "relationships": {
+                        "authors": {
+                           "data": [
+                                { "type": "authors", "id": "10"},
+                                { "type": "authors", "id": "21"},
+                                { "type": "authors", "id": "5"}
+                           ] 
+                        }
+                    }
+                }
             }
-        }
-    }
-}
+
++ Response 204
 ```
 
-## `/authors`
+## Publication collection [/publications?page[number]={pagenum}&page[size]={pagesize}]
+```apib
++ Parameters
+    + pagenum: `8` (number, optional) - The page number in the collection.  
+        + Default: `1`
+    + pagesize: `20` (number, optional) - The number of entries in that page.  
+        + Default: 10
+```
 
-**Document structure**
+###  List of all publications [GET]
+```apib
++ Request (application/vnd.api+json)
 
-```json
-{
-    "data": [
-        {
-            "links": {
-                "self": "/authors/483943"
-            },
-            "attributes": {
-                "last_name": "Wardroper",
-                "given_names": "A",
-                "rank": "22"
-            }
-        },
-        {
-            "links": {
-                "self": "/authors/3479343"
-            },
-            "attributes": {
-                "last_name": "Quail",
-                "given_names": "MA",
-                "rank": "11"
-            }
-        }
-    ],
-    "links": {
-        "self": "/authors?page[number]=13&page[size]=10",
-        "next": "/authors?page[number]=14&page[size]=10",
-        "prev": "/authors?page[number]=12&page[size]=10",
-        "first": "/authors?page[number]=1&page[size]=10",
-        "last": "/authors?page[number]=200&page[size]=10"
-    },
-    "meta": {
-        "pagination": {
-            "records": 2000,
-            "total": 200,
-            "size": 10,
-            "number": 13
-        }
-    }
-}
+    + Headers  
+            Accept: application/vnd.api+json
+
++ Response 200 (application/vnd.api+json)
+
+    +Body  
+
+                {
+                    "data": [
+                        {
+                            "links": {
+                                "self": "/publications/26088819"
+                            }
+                            "type": "publications",
+                            "id": "26088819",
+                            "attributes": {
+                                "doi": "10.1002/dvg.22867",
+                                "title": "dictyBase 2015: Expanding data and annotations in a new software environment",
+                                "abstract": "dictyBase is the model organism database ......",
+                                "journal": "Genesis",
+                                "year": "2015",
+                                "volume": "12",
+                                "pages": "765-80",
+                                "month": "june",
+                                "issn": "1526-968X",
+                                "source": "pubmed",
+                                "issue": "8",
+                                "status": "ppublish",
+                                "pub_type": "journal_article"
+                            },
+                            "relationships": {
+                                "authors": {
+                                    "links": {
+                                        "related": "/publication/26088819/authors"
+                                    }
+                                }
+                            }
+                        }, 
+                        {
+                            "links": {
+                                "self": "/publications/23172289"
+                            }
+                            "type": "publications",
+                            "id": "23172289",
+                            "attributes": {
+                                "doi": "10.1093/nar/gks1064",
+                                "title": "dictyBase 2013: Integrating multiple dictyostelid species",
+                                "abstract": "dictyBase is the model organism database ......",
+                                "journal": "Nucleic Acids Research",
+                                "year": "2013",
+                                "volume": "41",
+                                "pages": "676-80",
+                                "issue": "18",
+                                "month": "jan",
+                                "issn": "1362-4962",
+                                "source": "pubmed",
+                                "status": "epublish",
+                                "pub_type": "journal_article"
+                            },
+                            "relationships": {
+                                "authors": {
+                                    "links": {
+                                        "related": "/publication/23172289/authors"
+                                    }
+                                }
+                            }
+                        }
+                    ],
+                    "links": {
+                        "self": "/publications?page[number]=6&page[size]=10",
+                        "next": "/publications?page[number]=7&page[size]=10",
+                        "prev": "/publications?page[number]=5&page[size]=10",
+                        "last": "/publications?page[number]=80&page[size]=10",
+                        "first": "/publications?page[number]=1&page[size]=10"
+                    },
+                    "meta": {
+                        "pagination": {
+                            "records": 800,
+                            "total": 80,
+                            "size": 10,
+                            "number": 6
+                        }
+                    }
+                }
 
 ```
 
-## Related resources
-* Generic [specifications](http://jsonapi.org/format/#crud-updating-relationships)
-* Expected [behaviour](/Webservice-specs.md#self-related-and-http-methods) in this context.
+### Create a new publication [POST]
+```apib
++ Request (application/vnd.api+json)
 
-### `/publications/:id/authors` 
+    + Headers  
+            Accept: application/vnd.api+json
 
-**Document structure**
+    + Body
 
-Identical to [authors](/webservice-specifications/publication.md#authors)
+            {
+                "data": {
+                    "type": "publications",
+                    "attributes": {
+                        "doi": "10.1002/dvg.22867",
+                        "title": "dictyBase 2015: Expanding data and annotations in a new software environment",
+                        "abstract": "dictyBase is the model organism database ......",
+                        "journal": "Genesis",
+                        "year": "2015",
+                        "volume": "12",
+                        "pages": "765-80",
+                        "month": "june",
+                        "issn": "1526-968X",
+                        "pub_type": "journal_article",
+                        "source": "pubmed",
+                        "issue": "8",
+                        "status": "ppublish"
+                    }
+                }
+            }
 
-### `/publications/:id/relationships/authors`
++ Response 201 (application/vnd.api+json)  
 
-This resource only allow `POST`, `PATCH` and `DELETE` methods to manage the relationships.
+    + Headers  
+            Location: /publications/26088819  
 
+    + Body  
+
+            {
+                "data": {
+                    "links": {
+                        "self": "/publications/26099919"
+                    },
+                    "type": "publications",
+                    "id": "26088819",
+                    "attributes": {
+                        "doi": "10.1002/dvg.22867",
+                        "title": "dictyBase 2015: Expanding data and annotations in a new software environment",
+                        "abstract": "dictyBase is the model organism database ......",
+                        "journal": "Genesis",
+                        "year": "2015",
+                        "volume": "12",
+                        "pages": "765-80",
+                        "month": "june",
+                        "issn": "1526-968X",
+                        "pub_type": "journal_article",
+                        "source": "pubmed",
+                        "issue": "8",
+                        "status": "ppublish"
+                    }
+                }
+            }
+```
+
+# Group Author
+The author resources are dependent of publication and are managed as
+relationship resource. For details look at generic
+[specifications](http://jsonapi.org/format/#crud-updating-relationships) and
+expected [behaviour](/Webservice-specs.md#self-related-and-http-methods) in
+of this concept.
+
+## Author collection [/publications/{publication_id}/authors]
+```apib
++ Parameters
+    + publication_id: `26099919` (number, required) - The id will be primarily [pubmed identifier](https://en.wikipedia.org/wiki/PubMed#PubMed_identifier). 
+```
+
+### List of authors for a publication [GET]
+```apib
++ Request (application/vnd.api+json)
+
+    + Headers  
+            Accept: application/vnd.api+json
+
++ Response 200 (application/vnd.api+json)
+
+    +Body  
+
+            {
+                "data": [
+                    {
+                        "links": {
+                            "self": "/authors/483943"
+                        },
+                        "attributes": {
+                            "last_name": "Wardroper",
+                            "given_names": "A",
+                            "rank": "22"
+                        }
+                    },
+                    {
+                        "links": {
+                            "self": "/authors/3479343"
+                        },
+                        "attributes": {
+                            "last_name": "Quail",
+                            "given_names": "MA",
+                            "rank": "11"
+                        }
+                    }
+                ]
+            }
+```
+
+### Add new authors for a publication [POST]
+```apib
++ Request (application/vnd.api+json)
+
+    + Headers  
+            Accept: application/vnd.api+json
+
+    + Body
+
+```
+
+### Update authors of a publication [PATCH]
+```apib
++ Request (application/vnd.api+json)
+
+    + Headers  
+            Accept: application/vnd.api+json
+
+    + Body
+
+```
+
+### Delete authors from a publication [DELETE]
+```apib
++ Request (application/vnd.api+json)
+
+    + Headers  
+            Accept: application/vnd.api+json
+
+    + Body
+
+```
