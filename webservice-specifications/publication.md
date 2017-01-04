@@ -97,15 +97,6 @@ Resources related to **publications** in the API.
                         "source": "pubmed",
                         "issue": "8",
                         "status": "ppublish"
-                    },
-                    "relationships": {
-                        "authors": {
-                           "data": [
-                                { "type": "authors", "id": "10"},
-                                { "type": "authors", "id": "21"},
-                                { "type": "authors", "id": "5"}
-                           ] 
-                        }
                     }
                 }
             }
@@ -303,6 +294,8 @@ of this concept.
             {
                 "data": [
                     {
+                        "type": "authors",
+                        "id": "483493",
                         "links": {
                             "self": "/authors/483943"
                         },
@@ -311,8 +304,17 @@ of this concept.
                             "given_names": "A",
                             "rank": "22"
                         }
+                        "relationships": {
+                            "publication": {
+                                "links": {
+                                    "related": "/authors/483943/publication"
+                                }
+                            }
+                        }
                     },
                     {
+                        "type": "authors",
+                        "id": "3479343",
                         "links": {
                             "self": "/authors/3479343"
                         },
@@ -320,13 +322,23 @@ of this concept.
                             "last_name": "Quail",
                             "given_names": "MA",
                             "rank": "11"
+                        },
+                        "relationships": {
+                            "publication": {
+                                "links": {
+                                    "related": "/authors/3479343/publication"
+                                }
+                            }
                         }
                     }
-                ]
+                ],
+                "links": {
+                    "self": "/publications/383439/authors"
+                }
             }
 ```
 
-### Add new authors for a publication [POST]
+### Add new author for a publication [POST]
 ```apib
 + Request (application/vnd.api+json)
 
@@ -335,20 +347,53 @@ of this concept.
 
     + Body
 
+            {
+                "data": {
+                    "type": "authors",
+                    "attributes": {
+                        "last_name": "Wardroper",
+                        "given_names": "A",
+                        "rank": "22"
+                    }
+                }
+            }
+
++ Response 201 (application/vnd.api+json)  
+
+    + Headers  
+            Location: /authors/58
+
+    + Body  
+
+            {
+                "data": {
+                    "links": {
+                        "self": "/authors/58"
+                    }
+                    "type": "authors",
+                    "attributes": {
+                        "last_name": "Wardroper",
+                        "given_names": "A",
+                        "rank": "22"
+                    },
+                    "relationships": {
+                        "publication": {
+                            "links": {
+                                "related": "/authors/58/publication"
+                            }
+                        }
+                    }
+                }
+            }
 ```
 
-### Update authors of a publication [PATCH]
+## Author [/authors/{author_id}]
 ```apib
-+ Request (application/vnd.api+json)
-
-    + Headers  
-            Accept: application/vnd.api+json
-
-    + Body
-
++ Parameters
+    + author_id: 20 (number, required) - The author id.
 ```
 
-### Delete authors from a publication [DELETE]
+### Update a specific author [PATCH]
 ```apib
 + Request (application/vnd.api+json)
 
@@ -357,4 +402,26 @@ of this concept.
 
     + Body
 
+            {
+                "data": {
+                    "type": "authors",
+                    "attributes": {
+                        "last_name": "Oreilly",
+                        "given_names": "John",
+                        "rank": "2"
+                    }
+                }
+            }
+
++ Response 204
+```
+
+### Delete a specific author [DELETE]
+```apib
++ Request (application/vnd.api+json)
+
+    + Headers  
+            Accept: application/vnd.api+json
+
++ Response 204
 ```
