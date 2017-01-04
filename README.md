@@ -31,6 +31,7 @@
     * Stock center/genotype/phenotype.
     * Blast.
     * Search.
+    * [Curation tools mockup](curation-tools/mockup ) 
 * Batch processing
 * [Server setup and deployment](Server-setup.md)
 * [Hosting](Hosting.md)
