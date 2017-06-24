@@ -22,7 +22,6 @@ modware-import dictyplasmid2chado -c plasmid_import.yaml --seq_data_dir <path-to
 ## Leftover
 ### Strain-gene link
 ### Stock orders
-### Plasmid map images
 
 ## Additional information/notes
 Its [here](Stock-Import-notes.md)
