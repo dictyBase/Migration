@@ -19,12 +19,12 @@ docker run --rm -it -v ${PWD}:/usr/src/chado-sqitch dictybase/chado-sqitch-devel
 ```
 sqitch config --user user.name "user name"
 sqitch config --user user.email "user email"
-sqitch config --user core.pg.client `which psql`
+sqitch config --user engine.pg.client `which psql`
 ```
 + Add database configurations where the schema will be deployed.  
 ```
-sqitch target add chadotarget db:pg://chadopass:chadouser@chadohost:chadoport/chadodb
-sqitch config core.pg.target chadotarget
+sqitch target add chadotarget db:pg://chadouser:chadopass@chadohost:chadoport/chadodb
+sqitch config engine.pg.target chadotarget
 ```
 + Add new changes to the schema
 ```
