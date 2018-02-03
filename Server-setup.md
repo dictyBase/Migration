@@ -1,3 +1,6 @@
+> We have used to go with [kubernetes](https://k8s.io) which takes care of the
+> setup described below.
+
 # Design and Specs
 It's given in this [presentation](http://testgenomes.dictybase.org/server.slide#1). A copy
 of the server specs is also kept [here](Server-specs.md).
