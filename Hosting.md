@@ -1,3 +1,5 @@
+> We have decided to go with [Google container engine](https://cloud.google.com/kubernetes-engine/) and so rest of the document is just for example.
+
 # Cloud hosting
 ## Amazon EC2
 ### Projected costs
