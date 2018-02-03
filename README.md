@@ -23,18 +23,19 @@
 * [Importing](Import-analysis.md) data from analysis.
 * Backend data access
     * [Specification](Webservice-specs.md)
+    * [Microservices API and specifications](https://dictybase.github.io/dictybase-api/)
     * Software implementation
+        * [User](https://github.com/dictyBase/modware-user)
+        * [Content](https://github.com/dictyBase/modware-content)
 * Frontend Web UI
-    * [Homepage/Header/Footer and static pages](Homepage-header-footer.md).
-    * [Gene page](Genepage.md)
+    * [dictyBase front page](https://github.com/dictyBase/dicty-frontpage).
+    * [Gene page](https://github.com/dictyBase/genomepage://github.com/dictyBase/genomepage/)
     * Literature and ontology.
-    * Stock center/genotype/phenotype.
-    * Blast.
+    * [Stock center and ordering](https://github.com/dictyBase/Dicty-Stock-Center/).
+    * [Blast](https://github.com/dictyBase/dicty-components-blast/).
     * Search.
     * [Curation tools mockup](curation-tools/mockup ) 
 * Batch processing
-* [Server setup and deployment](Server-setup.md)
-* [Hosting](Hosting.md)
 * Misc
 * Third party tools
 
@@ -52,3 +53,6 @@
 # Oracle database refresh
 The instuctions for database refresh is [here](Oracle-database-sync.md)
 
+# Archived(Retired, only here for information)
+* [Server setup and deployment](Server-setup.md)
+* [Hosting](Hosting.md)
