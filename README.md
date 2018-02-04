@@ -1,4 +1,4 @@
-#Entry point for overhaul project
+# Entry point for overhaul project
 ## Conventions
 + The project should link to mostly work in progress documentation, finished one is also acceptable.
 + The link could be internal markdown or external.
