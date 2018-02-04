@@ -38,6 +38,7 @@
 * Batch processing
 * Misc
 * Third party tools
+* [Deploy](deploy.md)
 
 ## Data dependencies and current migration status
 
