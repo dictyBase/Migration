@@ -167,6 +167,8 @@ $_> helm install dictybase/dictycontent-postgres --namespace dictybase \
 		&& helm install dictybase/dictycontent-api-server --namespace dictybase
 ```
 
+For detail understanding of the deploy process read the sections below.
+
 ##### `Backend`
 * First create a `yaml` configuration file to setup the passwords for the admin
   and user of database.
