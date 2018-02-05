@@ -36,8 +36,10 @@ local deployment.
 
 * [Install](https://github.com/kubernetes/minikube#installation) minikube.
   Download the specified version and use the `start` command with decent bit of
-  memory(at least 4-5GB), cpu(at least 4) and disk space(at least 25-30GB).
->$_> `minikube start --cpus=4 --memory=4096 --disk-size=30g --kubernetes-version=v1.9.0`   
+  memory(at least 4-5GB), cpu(at least 4) and disk space(at least 25-30GB).   
+
+![](images/userinput.png)
+>`$_> minikube start --cpus=4 --memory=4096 --disk-size=30g --kubernetes-version=v1.9.0`   
 
  The above command line is assumed to be for default `Virtualbox` driver. To
  use any other drivers, consult the
@@ -46,14 +48,20 @@ local deployment.
  The other drivers might requires additional configurations but could provide
  better performance for that particular `OS`.
 * Enable `heapster` addon for collecting and displaying cluster statistics.
-> $_> minikube addons enable heapster   
+
+
+![](images/userinput.png)
+> `$_> minikube addons enable heapster`   
 
 ##### Useful minikube commands 
 `minikube dashboard` - Opens up a kubernetes dashboard in the web browser.
 `minikube ip` - To retrieve the IP of the cluster, useful for accessing software endpoints.   
 `minikube logs` - Retrieve logs of running cluster, useful for debugging.   
 `minikube service list` - List of available software endpoints in the running cluster. 
-> Usually run minikube kubectl <command> --help to read the manual
+
+![](images/userinput.png)
+> Usually run `minikube kubectl <command> --help` to read the manual
+
 #### kubectl
 Command line client for interacting with kubernetes cluster.
 > **version: v1.9.0**
@@ -63,7 +71,8 @@ Command line client for interacting with kubernetes cluster.
 > Note: If you are authorized to use google cloud, then use the bundled kubectl
 > that comes with the [gcloud](https://cloud.google.com/sdk/gcloud/) command
 > line tool.
-* Handy kubectl commands...
+
+* Handy kubectl commands...   
 > kubectl get po and kubectl describe po   
 > kubectl get svc and kubectl describe svc   
 > kubectl get events   
@@ -89,7 +98,9 @@ and configuring information about cluster.
 > helm inspect   
 
 * **Add dictybase helm repository**
->$_> `helm repo add dictybase https://dictybase-docker.github.io/kubernetes-charts`
+
+![](images/userinput.png)
+>`$_> helm repo add dictybase https://dictybase-docker.github.io/kubernetes-charts`
 
 ### Deploying applications
 #### Concept
@@ -123,26 +134,52 @@ for production and use [minio](https://docs.minio.io/) for development.
   The generated data is generally loaded in batch.
 #### `Deploy Content service stack`
 The application stack for managing data from rich text editor frontend. Before you deploy, make sure
-* You have added the dictybase helm repository. 
-> To confirm   
-> $_> helm repo list   
-> To check for available dictybase charts   
-> $_> helm search -l dicty   
+* You have added the dictybase helm repository.    
+
+  **To confirm**   
+
+![](images/userinput.png)
+> `$_> helm repo list`   
+
+  **To check for available dictybase charts**   
+
+![](images/userinput.png)
+> `$_> helm repo list`   
+> `$_> helm search -l dicty`   
+
 * At least aware about different configuration parameters and their default
   values(if any) of the chart you are deploying. The `README.md` of every
 accompanying chart is available
 * Always add the `--namespace dictybase` parameters for deploying every chart,
   otherwise they might not work as expected. 
 [here](https://github.com/dictybase-docker/kubernetes-charts/)
+
+##### `Quick deploy`
+
+![](images/userinput.png)
+```shell
+$_> helm install dictybase/dictycontent-postgres --namespace dictybase \
+		--set postgresPassword=somepass...  \
+		--set dictyContentPassword=someotherpass.. \ 
+ 		&& sleep 13 \ 
+		&& helm install dictybase/dictycontent-schema --namespace dictybase \ 
+		&& sleep 6 \ 
+		&& helm install dictybase/dictycontent-api-server --namespace dictybase
+```
+
 ##### `Backend`
 * First create a `yaml` configuration file to setup the passwords for the admin
   and user of database.
+
+![](images/userinput.png)
 ```yaml
 postgresPassword: somepass...
 dictycontentPassword: somepassagain...
 ```
 * Deploy
-> $_> helm install dictybase/dictycontent-postgres -f myconfig.yaml --namespace dictybase   
+
+![](images/userinput.png)
+> `$_> helm install dictybase/dictycontent-postgres -f myconfig.yaml --namespace dictybase`   
 
 It will print out bunch of commands about how to gather information about chart
 from the command line. The easy way will be to use web based kubernetes
@@ -151,8 +188,11 @@ dashboard(remember `minikube dashboard` command) and look under the `dictybase` 
 * Wait for 14-19 seconds for the database to get ready for the first time. Have
   two sips of coffee or any other beverages. 
 * Run the following to check for ip, kind of tells you that it’s running at least.
-> $_> minikube service --url dictycontent-backend --namespace dictybase
-Expect an output something like this...
+
+![](images/userinput.png)
+> `$_> minikube service --url dictycontent-backend --namespace dictybase`
+
+Expect an output something like this...   
 `http://192.168.99.100:30372`
 
 Alternatively, check for the pod status in the kubernetes dashboard which will
@@ -161,25 +201,32 @@ look like similar to this
 There might be only one pod and they should have a green tick mark, otherwise
 the deployment is probably botched.
 
-
-
 ##### `Schema loader`
 * Deploy
-> $_> helm install dictybase/dictycontent-schema --namespace dictybase
+
+![](images/userinput.png)
+> `$_> helm install dictybase/dictycontent-schema --namespace dictybase`
 
 * Wait for 3-5 seconds.
 ##### `API server`
 * Deploy
-> $_> helm install dictybase/dictycontent-api-server --namespace dictybase   
+
+![](images/userinput.png)
+> ```$_> helm install dictybase/dictycontent-api-server --namespace dictybase```   
 
 It should start instantly. Run the following check for its endpoint..
-> $_> minikube service --url dictycontent-backend --namespace dictybase   
+
+![](images/userinput.png)
+> ```$_> minikube service --url dictycontent-api-server --namespace dictybase```   
 
 Make sure you note down its port number to use it for the next command.
 
 You could verify it by checking its `/healthz` endpoint...
-> $_> curl -i $(minikube ip):<port number>/healthz   
->   The above should return a successful HTTP response.
+
+![](images/userinput.png)
+> ```$_> curl -i $(minikube ip):<port number>/healthz```   
+
+`The above should return a successful HTTP response.`
 
 Alternatively, you could for check for the `pods` log in the dashboard which is
 expected to look like this ![192 168 99 100-30000- laptop with hidpi
@@ -188,7 +235,7 @@ screen](https://user-images.githubusercontent.com/48740/35778408-739c043e-0983-1
 After this, read the [content api](https://dictybase.github.io/dictybase-api/)
 specification for data loading and to use in frontend application.
 
-> Use the http ip address(including port number) for testing with your frontend.
+ `Use the http ip address(including port number) for testing with your frontend.`
 
 ##### `Data generator`
 It will generate the serialized json from the existing html pages to be loaded
