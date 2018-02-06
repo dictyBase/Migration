@@ -219,7 +219,7 @@ the deployment is probably botched.
 It should start instantly. Run the following check for its endpoint..
 
 ![](images/userinput.png)
-> ```$_> minikube service --url dictycontent-api-server --namespace dictybase```   
+> ```$_> minikube service --url content-api --namespace dictybase```   
 
 Make sure you note down its port number to use it for the next command.
 
