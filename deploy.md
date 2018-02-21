@@ -113,7 +113,7 @@ Every stack is generally consists of the following core applications
 * **API server/middleware/microservice:** Application that provides HTTP(and
 grpc) endpoints to access data from the backend based on an specified `API`.
 * **Frontend:** A [ReactJS](https://reactjs.org/) based application that runs
-in web browser and fetches data through `API sever`.
+in a web browser and fetches data through `API server`.
 
 So, overall a basic stack is organized as 
 > **frontend <--> api server <---> backend**.
@@ -149,10 +149,10 @@ The application stack for managing data from rich text editor frontend. Before y
 
 * At least aware about different configuration parameters and their default
   values(if any) of the chart you are deploying. The `README.md` of every
-accompanying chart is available
+  accompanying chart is available
+[here](https://github.com/dictybase-docker/kubernetes-charts/).
 * Always add the `--namespace dictybase` parameters for deploying every chart,
   otherwise they might not work as expected. 
-[here](https://github.com/dictybase-docker/kubernetes-charts/)
 
 ##### `Quick deploy`
 
@@ -251,3 +251,69 @@ deployment information will be linked from here. At this point,
 [Dicty-Stock-center](https://github.com/dictyBase/Dicty-Stock-Center/) and
 [Genomepage](https://github.com/dictyBase/genomepage/) are few of the potential
 consumers for this stack.
+
+
+#### `Authentication server`
+It’s an standalone server to manage third party [oauth2](https://oauth.net/2/)
+authorization using [jwt](https://jwt.io) tokens.
+
+**Checklist before you deploy**
+
+* You have added and/or updated the dictybase helm repository.
+
+* Search the repository for `authserver`
+
+![](images/userinput.png)
+> `$_> helm repo list`   
+> `$_> helm search -l authserver`   
+
+* You have `openssl` and `base64` available in your command
+  line. If they are installed, running them should print out
+  their usage help, otherwise you will get `command not found`. If
+  it’s the later case, install the program **before proceeding any
+  further.** Generally, they are installed by default for latest Mac
+  and linux OS.
+
+* Generate public and private keys. If you run the following
+  commands, the `app.rsa` will be the private key.
+
+![](images/userinput.png)
+> `$_> openssl genrsa -out keys/app.rsa 2048`   
+> `$_> openssl rsa -in keys/app.rsa -pubout -out keys/app.rsa.pub`
+
+* Create configuration file for oauth providers as described
+  [here](https://github.com/dictyBase/authserver#create-configuration-file). Go
+  [here](https://github.com/dictyBase/authserver/tree/develop#supported-providers)
+  to set up client secrets for all the supported providers. However, for
+  developmental purposes, one or two providers should be a good start.
+
+* **Deploy** the chart. The command assumes your private key to be `app.rsa`,
+  public key is in `app.rsa.pub` and configuration file is `app.json`. Those
+  name are not mandatory, if they are in differently named files, change the
+  command accordingly.
+
+![](images/userinput.png)
+> `$_> helm install --namespace dictybase --set publicKey=$(base64 -w0 app.rsa.pub) \   
+>                --set privateKey=$(base64 -w0 app.rsa) \   
+>                --set configFile=$(base64 -w0 app.json) dictybase/authserver
+
+
+It should start instantly. Run the following check for its endpoint..
+
+![](images/userinput.png)
+> ```$_> minikube service --url authserver --namespace dictybase```   
+
+Make sure you note down its port number to use it for the next command.
+
+You could verify it by checking its `/healthz` endpoint...
+
+![](images/userinput.png)
+> ```$_> curl -i $(minikube ip):<port number>/healthz```   
+
+`The above should return a successful HTTP response.`
+
+There’s extra information available in the [source code]
+(https://github.com/dictyBase/authserver) and chart’s
+[repository](https://github.com/dictybase-docker/kubernetes-charts/tree/master/authserver)
+Helm inspect command `helm inspect <chart-name>` also provides information
+about various configuration options.
