@@ -1,3 +1,28 @@
+Table of Contents
+=================
+
+  * [Deployment](#deployment)
+    * [Strategy](#strategy)
+    * [Development platform](#development-platform)
+      * [Requirements](#requirements)
+        * [Minikube](#minikube)
+          * [Useful minikube commands](#useful-minikube-commands)
+        * [kubectl](#kubectl)
+        * [helm](#helm)
+    * [Deploying applications](#deploying-applications)
+      * [Concept](#concept)
+      * [Deploy Content service stack ](#deploy-content-service-stack)
+        * [Quick deploy ](#quick-deploy)
+        * [Backend ](#backend)
+        * [Schema loader ](#schema-loader)
+        * [API server ](#api-server)
+        * [Data generator ](#data-generator)
+        * [Data loader ](#data-loader)
+        * [Frontend ](#frontend)
+      * [Deploy authentication server ](#deploy-authentication-server)
+
+Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc)
+
 # Deployment
 Dictybase deployment strategy is inspired by [twelve factor
 app](https://12factor.net/) methodology. Our strategy primarily follows these concepts..
@@ -102,8 +127,8 @@ and configuring information about cluster.
 ![](images/userinput.png)
 >`$_> helm repo add dictybase https://dictybase-docker.github.io/kubernetes-charts`
 
-### Deploying applications
-#### Concept
+## Deploying applications
+### Concept
 Application deployments are managed by grouping them into **virtual application
 stack** where every stack provides a particular service(shares similar functions).
 In other words, each stack can also be considered as **multi tiered applications.***
@@ -132,7 +157,7 @@ storage](https://cloud.google.com/storage/) for production and use
 our case we are using [google cloud storage](https://cloud.google.com/storage/)
 for production and use [minio](https://docs.minio.io/) for development.
   The generated data is generally loaded in batch.
-#### `Deploy Content service stack`
+### `Deploy Content service stack`
 The application stack for managing data from rich text editor frontend. Before you deploy, make sure
 * You have added the dictybase helm repository.    
 
@@ -154,7 +179,7 @@ The application stack for managing data from rich text editor frontend. Before y
 * Always add the `--namespace dictybase` parameters for deploying every chart,
   otherwise they might not work as expected. 
 
-##### `Quick deploy`
+#### `Quick deploy`
 
 ![](images/userinput.png)
 ```shell
@@ -169,7 +194,7 @@ $_> helm install dictybase/dictycontent-postgres --namespace dictybase \
 
 For detail understanding of the deploy process read the sections below.
 
-##### `Backend`
+#### `Backend`
 * First create a `yaml` configuration file to setup the passwords for the admin
   and user of database.
 
@@ -203,14 +228,14 @@ look like similar to this
 There might be only one pod and they should have a green tick mark, otherwise
 the deployment is probably botched.
 
-##### `Schema loader`
+#### `Schema loader`
 * Deploy
 
 ![](images/userinput.png)
 > `$_> helm install dictybase/dictycontent-schema --namespace dictybase`
 
 * Wait for 3-5 seconds.
-##### `API server`
+#### `API server`
 * Deploy
 
 ![](images/userinput.png)
@@ -239,13 +264,13 @@ specification for data loading and to use in frontend application.
 
  `Use the http ip address(including port number) for testing with your frontend.`
 
-##### `Data generator`
+#### `Data generator`
 It will generate the serialized json from the existing html pages to be loaded
 by the `data loader`. Depending on the size, it might be loaded to a s3 compatible storage.
-##### `Data loader`
+#### `Data loader`
 It will use the [content api](https://dictybase.github.io/dictybase-api/) and
 load the serialized json from a s3 compatible storage(depending on the size).
-##### `Frontend`
+#### `Frontend`
 There will be multiple frontend applications using this stack, so their
 deployment information will be linked from here. At this point,
 [Dicty-Stock-center](https://github.com/dictyBase/Dicty-Stock-Center/) and
@@ -253,7 +278,7 @@ deployment information will be linked from here. At this point,
 consumers for this stack.
 
 
-#### `Authentication server`
+### `Deploy authentication server`
 It’s an standalone server to manage third party [oauth2](https://oauth.net/2/)
 authorization using [jwt](https://jwt.io) tokens.
 
@@ -317,3 +342,6 @@ There’s extra information available in the [source code]
 [repository](https://github.com/dictybase-docker/kubernetes-charts/tree/master/authserver)
 Helm inspect command `helm inspect <chart-name>` also provides information
 about various configuration options.
+
+
+
