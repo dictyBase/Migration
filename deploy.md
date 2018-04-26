@@ -373,6 +373,7 @@ collection:
 
 * Generate public and private keys. If you run the following
   commands, the `app.rsa` will be the private key.
+* Note: need to create keys folder for the below commands to work
 
 ![](images/userinput.png)
 > `$_> openssl genrsa -out keys/app.rsa 2048`   
@@ -395,6 +396,8 @@ collection:
 >                `--set configFile=$(base64 -w0 app.json) dictybase/authserver`
 
 #### Notes
+* For MacOS, you either need to remove the `-w0` references from the above
+  command or change `base64` to `gbase64` if GNU CoreUtils is installed.   
 * All services should start instantly. Run the following check for its endpoint..   
 
 ![](images/userinput.png)
