@@ -376,9 +376,9 @@ collection:
   command accordingly.
 
 ![](images/userinput.png)
-> `$_> helm install --namespace dictybase --set publicKey=$(base64 -w0 app.rsa.pub) \   
->                --set privateKey=$(base64 -w0 app.rsa) \   
->                --set configFile=$(base64 -w0 app.json) dictybase/authserver
+> `$_> helm install --namespace dictybase --set publicKey=$(base64 -w0 app.rsa.pub) \`   
+>                `--set privateKey=$(base64 -w0 app.rsa) \`   
+>                `--set configFile=$(base64 -w0 app.json) dictybase/authserver`
 
 #### Notes
 * All services should start instantly. Run the following check for its endpoint..   
@@ -401,42 +401,24 @@ Make sure you note down its port number to use it for the next command.
 screen](https://user-images.githubusercontent.com/48740/35778408-739c043e-0983-11e8-8a99-12c84d17b0c1.png)
 
 ### `Data generator`
-It will generate the serialized json from the existing html pages to be loaded
-by the `data loader`. Depending on the size, it might be loaded to a s3 compatible storage.
+Nothing here.
 
 ### `Data loader`
-It will use the [content api](https://dictybase.github.io/dictybase-api/) and
-load the serialized json from a s3 compatible storage(depending on the size).
+#### `Content`
+WIP
+#### `User`
+* Start minio web interface, login using `accessKey` and `secretKey` and upload
+  the `users.tar.gz` under the import folder. Make sure the file is availabe
+  under `dictybase/import` folder.
+
+![](images/userinput.png)
+> `$_> helm install dictybase/load-users --namespace dictybase`
+>           `--set s3.access-key=<minio-access-key>`
+>           `--set s3.secret-key=<minio-secret-key>`
+#### `Roles and Permissions`
+WIP
+#### `Identity`
+WIP
 
 ### `Frontend`
-There will be multiple frontend applications using this stack, so their
-deployment information will be linked from here. At this point,
-[Dicty-Stock-center](https://github.com/dictyBase/Dicty-Stock-Center/) and
-[Genomepage](https://github.com/dictyBase/genomepage/) are few of the potential
-consumers for this stack.
-
-
-
-
-It should start instantly. Run the following check for its endpoint..
-
-![](images/userinput.png)
-> ```$_> minikube service --url authserver --namespace dictybase```   
-
-Make sure you note down its port number to use it for the next command.
-
-You could verify it by checking its `/healthz` endpoint...
-
-![](images/userinput.png)
-> ```$_> curl -i $(minikube ip):<port number>/healthz```   
-
-`The above should return a successful HTTP response.`
-
-There’s extra information available in the [source code]
-(https://github.com/dictyBase/authserver) and chart’s
-[repository](https://github.com/dictybase-docker/kubernetes-charts/tree/master/authserver)
-Helm inspect command `helm inspect <chart-name>` also provides information
-about various configuration options.
-
-
-
+Nothing here.
