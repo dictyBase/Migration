@@ -149,52 +149,69 @@ generally management applications to run one-off tasks(runs to completion).
   backend.
 * **Data generator:** Generate or pre-process raw data to make it compatible
   for loading. Unless the data is embeddable, it should be  a S3(or compatible)
-bucket. For our case we are using [google cloud
-storage](https://cloud.google.com/storage/) for production and use
-[minio](https://docs.minio.io/) for development.
+bucket. For our case we are using  [minio](https://docs.minio.io/) for
+production and development.
 * **Data loader:** Bootstrap the backend with initial data. Unless the data is
   embeddable, it should be made available from a S3(or compatible) bucket. For
-our case we are using [google cloud storage](https://cloud.google.com/storage/)
-for production and use [minio](https://docs.minio.io/) for development.
-  The generated data is generally loaded in batch.
-### `Deploy Content service stack`
-The application stack for managing data from rich text editor frontend. Before you deploy, make sure
-* You have added the dictybase helm repository.    
+our case we are using [minio](https://docs.minio.io/) for production and
+development.The generated data is generally loaded in batch.
 
-  **To confirm**   
+### Common checklist and steps for installing charts
 
-![](images/userinput.png)
-> `$_> helm repo list`   
-
-  **To check for available dictybase charts**   
+* Make sure you have added the correct repositories. If not, add them with
+  `helm repo add` command.
 
 ![](images/userinput.png)
 > `$_> helm repo list`   
+
+* Check for available dictybase charts   
+
+![](images/userinput.png)
 > `$_> helm search -l dicty`   
 
-* At least aware about different configuration parameters and their default
-  values(if any) of the chart you are deploying. The `README.md` of every
-  accompanying chart is available
-[here](https://github.com/dictybase-docker/kubernetes-charts/).
+* Update repositories   
+
+![](images/userinput.png)
+> `$_> helm repo update`   
+
+
 * Always add the `--namespace dictybase` parameters for deploying every chart,
   otherwise they might not work as expected. 
 
-#### `Quick deploy`
+* At least aware about different configuration parameters and their default
+  values(if any) of the chart you are deploying. The `README.md` of every
+accompanying chart is available
+[here](https://github.com/dictybase-docker/kubernetes-charts/). If no
+`README.md` is available, read through the `values.yaml` file, it is generally
+more or less annotated for understanding.
+
+* In addition, use `helm inspect <chart-name>` to check for all configurable options.
+
+* Configuration parameters could be set either from command line `--set
+  something=xxxx` or through a yaml file or a combination of both.
+
+### Backends
+Make sure you did the following, or at least update the repositories
+
+
+#### `PostgreSQL`
+The postgreSQL backend is currently used by following api services.   
++ user-api
++ content-api
+
+##### `Quick deploy`
 
 ![](images/userinput.png)
 ```shell
 $_> helm install dictybase/dictycontent-postgres --namespace dictybase \
 		--set postgresPassword=somepass...  \
-		--set dictyContentPassword=someotherpass.. \ 
- 		&& sleep 13 \ 
-		&& helm install dictybase/dictycontent-schema --namespace dictybase \ 
-		&& sleep 6 \ 
-		&& helm install dictybase/dictycontent-api-server --namespace dictybase
+		--set dictycontentPassword=someotherpass.. \ 
+		--set dictyuserPassword=someotherpass.. \ 
 ```
 
 For detail understanding of the deploy process read the sections below.
 
-#### `Backend`
+##### `Step by step`
 * First create a `yaml` configuration file to setup the passwords for the admin
   and user of database.
 
@@ -202,8 +219,10 @@ For detail understanding of the deploy process read the sections below.
 ```yaml
 postgresPassword: somepass...
 dictycontentPassword: somepassagain...
+dictyuserPassword: somepassagain...
 ```
-* Deploy
+Remember you could also change the default name of the databases and users
+through configuration parameters.
 
 ![](images/userinput.png)
 > `$_> helm install dictybase/dictycontent-postgres -f myconfig.yaml --namespace dictybase`   
@@ -227,6 +246,27 @@ look like similar to this
 ![dashboard-pod](https://user-images.githubusercontent.com/48740/35778877-2482c5d4-098a-11e8-96e7-d1c2b42b51ef.png).
 There might be only one pod and they should have a green tick mark, otherwise
 the deployment is probably botched.
+
+
+### `Arangodb`
+Arangodb backend is currently used by following api services.   
++ identity-api 
+
+![](images/userinput.png)
+> `$_> helm install dictybase/arango-operator --namespace dictybase`   
+
+![](images/userinput.png)
+> `$_> helm install dictybase/arangodb --namespace dictybase`   
+
+### `Nats`
+[Nats](https://nats.io) is the default messaging backend.
+
+![](images/userinput.png)
+> `$_> helm install dictybase/nats-operator --namespace dictybase`   
+
+![](images/userinput.png)
+> `$_> helm install dictybase/nats-cluster --namespace dictybase`   
+
 
 #### `Schema loader`
 * Deploy
