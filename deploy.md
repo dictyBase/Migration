@@ -265,73 +265,91 @@ Arangodb backend is currently used by following api services.
 > `$_> helm install dictybase/nats-operator --namespace dictybase`   
 
 ![](images/userinput.png)
-> `$_> helm install dictybase/nats-cluster --namespace dictybase`   
+> `$_> helm install dictybase/nats --namespace dictybase`   
+
+### `Object storage(S3 compatible)`
+* Make a yaml configuration file 
+```yaml
+mode: standalone
+persistence:
+	enabled: true
+	# the size is configurable
+	size: 6Gi 
+service:
+	type: NodePort
+defaultBucket:
+  enabled: true
+  name: dictybase
+  policy: none
+  purge: false
+# It is kind of username and password
+# you can use it to login from the web interface and manage files
+accessKey: ANYTHINGYOUWANT
+secretKey: ITISASECRET
+```
+
+* You could read about all configuration parameters by running   
+
+![](images/userinput.png)
+> `$_> helm inspect kubernetes-charts/minio`
+
+* or go [here](https://hub.kubeapps.com/charts/stable/minio)
+
+* Install the chart
+
+![](images/userinput.png)
+> `$_> helm install kubernetes-charts/minio -f config.yaml --namespace dictybase`
 
 
-#### `Schema loader`
-* Deploy
+### `Schema loader`
 
 ![](images/userinput.png)
 > `$_> helm install dictybase/dictycontent-schema --namespace dictybase`
 
-* Wait for 3-5 seconds.
-#### `API server`
-* Deploy
+![](images/userinput.png)
+> `$_> helm install dictybase/dictyuser-schema --namespace dictybase`
+
+```yaml
+database:
+  name: auth
+  user: dictybase
+  password: itisbetweenus   
+collection:
+  name: identity
+```
+![](images/userinput.png)
+> `$_> helm install dictybase/arango-database -f config.yaml --namespace dictybase`
 
 ![](images/userinput.png)
-> ```$_> helm install dictybase/dictycontent-api-server --namespace dictybase```   
+> `$_> helm install dictybase/arango-collection -f config.yaml --namespace dictybase`
 
-It should start instantly. Run the following check for its endpoint..
+#### Notes
+* You might have to run the same chart if there’s a change in database or new
+  database/schema being added.
 
+### `API services`
+
+#### `Content`
 ![](images/userinput.png)
-> ```$_> minikube service --url content-api --namespace dictybase```   
+> ```$_> helm install dictybase/content-api-server --namespace dictybase```   
 
-Make sure you note down its port number to use it for the next command.
-
-You could verify it by checking its `/healthz` endpoint...
-
+#### `User`
 ![](images/userinput.png)
-> ```$_> curl -i $(minikube ip):<port number>/healthz```   
+> ```$_> helm install dictybase/user-api-server --namespace dictybase```   
 
-`The above should return a successful HTTP response.`
-
-Alternatively, you could for check for the `pods` log in the dashboard which is
-expected to look like this ![192 168 99 100-30000- laptop with hidpi
-screen](https://user-images.githubusercontent.com/48740/35778408-739c043e-0983-11e8-8a99-12c84d17b0c1.png)
-
-After this, read the [content api](https://dictybase.github.io/dictybase-api/)
-specification for data loading and to use in frontend application.
-
- `Use the http ip address(including port number) for testing with your frontend.`
-
-#### `Data generator`
-It will generate the serialized json from the existing html pages to be loaded
-by the `data loader`. Depending on the size, it might be loaded to a s3 compatible storage.
-#### `Data loader`
-It will use the [content api](https://dictybase.github.io/dictybase-api/) and
-load the serialized json from a s3 compatible storage(depending on the size).
-#### `Frontend`
-There will be multiple frontend applications using this stack, so their
-deployment information will be linked from here. At this point,
-[Dicty-Stock-center](https://github.com/dictyBase/Dicty-Stock-Center/) and
-[Genomepage](https://github.com/dictyBase/genomepage/) are few of the potential
-consumers for this stack.
-
-
-### `Deploy authentication server`
-It’s an standalone server to manage third party [oauth2](https://oauth.net/2/)
-authorization using [jwt](https://jwt.io) tokens.
-
-**Checklist before you deploy**
-
-* You have added and/or updated the dictybase helm repository.
-
-* Search the repository for `authserver`
-
+#### `Identity`
+```yaml
+database:
+  name: auth
+  user: dictybase
+  password: itisbetweenus   
+collection:
+  name: identity
+```
 ![](images/userinput.png)
-> `$_> helm repo list`   
-> `$_> helm search -l authserver`   
+> ```$_> helm install dictybase/identity-api-server -f config.yaml --namespace dictybase```   
 
+#### `Auth`
 * You have `openssl` and `base64` available in your command
   line. If they are installed, running them should print out
   their usage help, otherwise you will get `command not found`. If
@@ -361,6 +379,43 @@ authorization using [jwt](https://jwt.io) tokens.
 > `$_> helm install --namespace dictybase --set publicKey=$(base64 -w0 app.rsa.pub) \   
 >                --set privateKey=$(base64 -w0 app.rsa) \   
 >                --set configFile=$(base64 -w0 app.json) dictybase/authserver
+
+#### Notes
+* All services should start instantly. Run the following check for its endpoint..   
+
+![](images/userinput.png)
+> ```$_> minikube service list -n dictybase```   
+> ```$_> minikube service --url <service-name> -n dictybase```   
+
+Make sure you note down its port number to use it for the next command.
+
+* You could verify it by checking its `/healthz` endpoint...
+
+![](images/userinput.png)
+> ```$_> curl -i $(minikube ip):<port number>/healthz```   
+
+`The above should return a successful HTTP response.`
+
+* Alternatively, you could for check for the `pods` log in the dashboard which
+  is expected to look like this ![192 168 99 100-30000- laptop with hidpi
+screen](https://user-images.githubusercontent.com/48740/35778408-739c043e-0983-11e8-8a99-12c84d17b0c1.png)
+
+### `Data generator`
+It will generate the serialized json from the existing html pages to be loaded
+by the `data loader`. Depending on the size, it might be loaded to a s3 compatible storage.
+
+### `Data loader`
+It will use the [content api](https://dictybase.github.io/dictybase-api/) and
+load the serialized json from a s3 compatible storage(depending on the size).
+
+### `Frontend`
+There will be multiple frontend applications using this stack, so their
+deployment information will be linked from here. At this point,
+[Dicty-Stock-center](https://github.com/dictyBase/Dicty-Stock-Center/) and
+[Genomepage](https://github.com/dictyBase/genomepage/) are few of the potential
+consumers for this stack.
+
+
 
 
 It should start instantly. Run the following check for its endpoint..
