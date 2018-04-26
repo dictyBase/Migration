@@ -11,15 +11,29 @@ Table of Contents
         * [helm](#helm)
     * [Deploying applications](#deploying-applications)
       * [Concept](#concept)
-      * [Deploy Content service stack ](#deploy-content-service-stack)
-        * [Quick deploy ](#quick-deploy)
-        * [Backend ](#backend)
-        * [Schema loader ](#schema-loader)
-        * [API server ](#api-server)
-        * [Data generator ](#data-generator)
-        * [Data loader ](#data-loader)
-        * [Frontend ](#frontend)
-      * [Deploy authentication server ](#deploy-authentication-server)
+      * [Common checklist and steps for installing charts](#common-checklist-and-steps-for-installing-charts)
+      * [Backends](#backends)
+        * [PostgreSQL ](#postgresql)
+          * [Quick deploy ](#quick-deploy)
+          * [Step by step ](#step-by-step)
+        * [Arangodb ](#arangodb)
+        * [Nats ](#nats)
+        * [Object storage(S3 compatible) ](#object-storages3-compatible)
+      * [Schema loader ](#schema-loader)
+        * [Notes](#notes)
+      * [API services ](#api-services)
+        * [Content ](#content)
+        * [User ](#user)
+        * [Identity ](#identity)
+        * [Auth ](#auth)
+        * [Notes](#notes-1)
+      * [Data generator ](#data-generator)
+      * [Data loader ](#data-loader)
+        * [Content ](#content-1)
+        * [User ](#user-1)
+        * [Roles and Permissions ](#roles-and-permissions)
+        * [Identity ](#identity-1)
+      * [Frontend ](#frontend)
 
 Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc)
 
@@ -248,7 +262,7 @@ There might be only one pod and they should have a green tick mark, otherwise
 the deployment is probably botched.
 
 
-### `Arangodb`
+#### `Arangodb`
 Arangodb backend is currently used by following api services.   
 + identity-api 
 
@@ -258,7 +272,7 @@ Arangodb backend is currently used by following api services.
 ![](images/userinput.png)
 > `$_> helm install dictybase/arangodb --namespace dictybase`   
 
-### `Nats`
+#### `Nats`
 [Nats](https://nats.io) is the default messaging backend.
 
 ![](images/userinput.png)
@@ -267,7 +281,7 @@ Arangodb backend is currently used by following api services.
 ![](images/userinput.png)
 > `$_> helm install dictybase/nats --namespace dictybase`   
 
-### `Object storage(S3 compatible)`
+#### `Object storage(S3 compatible)`
 * Make a yaml configuration file 
 ```yaml
 mode: standalone
@@ -422,3 +436,5 @@ WIP
 
 ### `Frontend`
 Nothing here.
+
+
