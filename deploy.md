@@ -430,8 +430,8 @@ WIP
 
 ![](images/userinput.png)
 > `$_> helm install dictybase/load-users --namespace dictybase`
->           `--set s3.access-key=<minio-access-key>`
->           `--set s3.secret-key=<minio-secret-key>`
+>           `--set s3.accessKey=<minio-access-key>`
+>           `--set s3.secretKey=<minio-secret-key>`
 #### `Roles and Permissions`
 WIP
 #### `Identity`
