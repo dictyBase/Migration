@@ -21,6 +21,7 @@ Table of Contents
         * [Object storage(S3 compatible) ](#object-storages3-compatible)
       * [Schema loader ](#schema-loader)
         * [Notes](#notes)
+      * [Ingress ](#ingress)
       * [API services ](#api-services)
         * [Content ](#content)
         * [User ](#user)
@@ -34,6 +35,7 @@ Table of Contents
         * [Roles and Permissions ](#roles-and-permissions)
         * [Identity ](#identity-1)
       * [Frontend ](#frontend)
+  * [Table of Contents](#table-of-contents-1)
 
 Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc)
 
@@ -341,15 +343,53 @@ collection:
 * You might have to run the same chart if there’s a change in database or new
   database/schema being added.
 
+### `Ingress`
+[Ingress](https://kubernetes.io/docs/concepts/services-networking/ingress/#what-is-ingress)
+manages external access to services in kubernetes cluster. For minikube, we are
+going to map two hosts `betatest.dictybase.local` and
+`betaauth.dictybase.local` to various HTTP services. So,
+`betatest.dictybase.local` will be mapped to various services such as
+users,contents and `betatauth.dictybase.local` will be mapped to auth service.
+
+![](images/userinput.png)
+> `$_> minikube addons enable ingress`   
+Have to be done only once.
+
+Now, install the dictybase ingress mapping.
+![](images/userinput.png)
+> `$_> helm install dictybase/dictybase-ingress --namespace dictybase`
+
+Map the host names to ip address of minikube   
+![](images/userinput.png)
+> `$_> echo $(minikube ip) betatest.dictybase.local | sudo tee -a /etc/hosts`
+
+> `$_> echo $(minikube ip) betaauth.dictybase.local | sudo tee -a /etc/hosts`
+
+Extract the port number on which the ingress is available.   
+![](images/userinput.png)
+> `minikube service -n kube-system --url --format "{{.Port}}" default-http-backend`   
+
+The port number might be different from machine to machine, for mine it’s 300001.
+Make sure to remember that, it will be used for deploying all the services. For
+production, it is generally deployed it default port 80, so mentioning that
+implicitly is required only for local system.
+
+The above will allow to access all services by using those hostnames. For example,
+`http://betatest.dictybase.local:300001/users`
+`http://betatest.dictybase.local:300001/identities/2`
+`http://betaauth.dictybase.local:300001/tokens/validate`
+
 ### `API services`
 
 #### `Content`
 ![](images/userinput.png)
-> ```$_> helm install dictybase/content-api-server --namespace dictybase```   
+> `$_> helm install dictybase/content-api-server --namespace dictybase \`   
+>		`--set apiHost=http://betatest.dictybase.local:300001`
 
 #### `User`
 ![](images/userinput.png)
-> ```$_> helm install dictybase/user-api-server --namespace dictybase```   
+> $_> `helm install dictybase/user-api-server --namespace dictybase \`   
+>		`--set apiHost=http://betatest.dictybase.local:300001`
 
 #### `Identity`
 ```yaml
@@ -361,7 +401,8 @@ collection:
   name: identity
 ```
 ![](images/userinput.png)
-> ```$_> helm install dictybase/identity-api-server -f config.yaml --namespace dictybase```   
+> `$_> helm install dictybase/identity-api-server -f config.yaml --namespace dictybase \`   
+>                        `--set apiHost=http://betatest.dictybase.local:300001`
 
 #### `Auth`
 * You have `openssl` and `base64` available in your command
@@ -393,7 +434,8 @@ collection:
 ![](images/userinput.png)
 > `$_> helm install --namespace dictybase --set publicKey=$(base64 -w0 app.rsa.pub) \`   
 >                `--set privateKey=$(base64 -w0 app.rsa) \`   
->                `--set configFile=$(base64 -w0 app.json) dictybase/authserver`
+>                `--set configFile=$(base64 -w0 app.json) dictybase/authserver \`   
+>                `--set apiHost=http://betaauth.dictybase.local:300001`
 
 #### Notes
 * For MacOS, you either need to remove the `-w0` references from the above
@@ -439,5 +481,6 @@ WIP
 
 ### `Frontend`
 Nothing here.
+
 
 
