@@ -361,35 +361,26 @@ Now, install the dictybase ingress mapping.
 
 Map the host names to ip address of minikube   
 ![](images/userinput.png)
-> `$_> echo $(minikube ip) betatest.dictybase.local | sudo tee -a /etc/hosts`
+> `$_> echo $(minikube ip) betaapi.dictybase.local | sudo tee -a /etc/hosts`
 
 > `$_> echo $(minikube ip) betaauth.dictybase.local | sudo tee -a /etc/hosts`
 
-Extract the port number on which the ingress is available.   
-![](images/userinput.png)
-> `minikube service -n kube-system --url --format "{{.Port}}" default-http-backend`   
-
-The port number might be different from machine to machine, for mine it’s 300001.
-Make sure to remember that, it will be used for deploying all the services. For
-production, it is generally deployed it default port 80, so mentioning that
-implicitly is required only for local system.
-
 The above will allow to access all services by using those hostnames. For example,
-`http://betatest.dictybase.local:300001/users`
-`http://betatest.dictybase.local:300001/identities/2`
-`http://betaauth.dictybase.local:300001/tokens/validate`
+`http://betaapi.dictybase.local/users`
+`http://betaapi.dictybase.local/identities/2`
+`http://betaauth.dictybase.local/tokens/validate`
 
 ### `API services`
 
 #### `Content`
 ![](images/userinput.png)
 > `$_> helm install dictybase/content-api-server --namespace dictybase \`   
->		`--set apiHost=http://betatest.dictybase.local:300001`
+>		`--set apiHost=http://betaapi.dictybase.local`
 
 #### `User`
 ![](images/userinput.png)
 > $_> `helm install dictybase/user-api-server --namespace dictybase \`   
->		`--set apiHost=http://betatest.dictybase.local:300001`
+>		`--set apiHost=http://betaapi.dictybase.local`
 
 #### `Identity`
 ```yaml
@@ -402,7 +393,7 @@ collection:
 ```
 ![](images/userinput.png)
 > `$_> helm install dictybase/identity-api-server -f config.yaml --namespace dictybase \`   
->                        `--set apiHost=http://betatest.dictybase.local:300001`
+>                        `--set apiHost=http://betaapi.dictybase.local`
 
 #### `Auth`
 * You have `openssl` and `base64` available in your command
@@ -435,7 +426,7 @@ collection:
 > `$_> helm install --namespace dictybase --set publicKey=$(base64 -w0 app.rsa.pub) \`   
 >                `--set privateKey=$(base64 -w0 app.rsa) \`   
 >                `--set configFile=$(base64 -w0 app.json) dictybase/authserver \`   
->                `--set apiHost=http://betaauth.dictybase.local:300001`
+>                `--set apiHost=http://betaauth.dictybase.local`
 
 #### Notes
 * For MacOS, you either need to remove the `-w0` references from the above
