@@ -314,7 +314,7 @@ secretKey: ITISASECRET
 * Install the chart
 
 ![](images/userinput.png)
-> `$_> helm install kubernetes-charts/minio -f config.yaml --namespace dictybase`
+> `$_> helm install kubernetes-charts/minio -f config.yaml -n minio --namespace dictybase`
 
 
 ### `Schema loader`
