@@ -325,19 +325,16 @@ secretKey: ITISASECRET
 ![](images/userinput.png)
 > `$_> helm install dictybase/dictyuser-schema --namespace dictybase`
 
+
+**Now to load arangodb schema, first create the following yaml file,**
+
 ```yaml
-database:
-  name: auth
-  user: dictybase
-  password: itisbetweenus   
-collection:
-  name: identity
+passwords:
+  - itisbetweenus
 ```
 ![](images/userinput.png)
-> `$_> helm install dictybase/arango-database -f config.yaml --namespace dictybase`
-
-![](images/userinput.png)
-> `$_> helm install dictybase/arango-collection -f config.yaml --namespace dictybase`
+> `$_> helm install dictybase/arango-schema --namespace dictybase \`   
+>                   `--set passwordFile=$(base64 -w0 passwords.yaml)`   
 
 #### Notes
 * You might have to run the same chart if there’s a change in database or new
