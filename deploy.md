@@ -455,7 +455,7 @@ Nothing here.
 WIP
 #### `User`
 * Start minio web interface, login using `accessKey` and `secretKey` and upload
-  the `users.tar.gz` under the import folder. Make sure the file is availabe
+  the `users.tar.gz` under the import folder. Make sure the file is available
   under `dictybase/import` folder.
 
 ![](images/userinput.png)
@@ -465,7 +465,16 @@ WIP
 #### `Roles and Permissions`
 WIP
 #### `Identity`
-WIP
+![](images/userinput.png)
+> `$_> helm install dictybase/load-identity --namespace dictybase`
+>           `--set arguments.identifier=todd@gmail.com`
+>           `--set arguments.provider=google`
+>           `--set arguments.userId=4893`
+
+All three options are required and as usual it can also be fed through a yaml
+file. This loader **must be run** after loading the users. Repeat the above
+command for loading multiple identities.
+
 
 ### `Frontend`
 Nothing here.
