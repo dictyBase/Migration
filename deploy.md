@@ -452,7 +452,15 @@ Nothing here.
 
 ### `Data loader`
 #### `Content`
-WIP
+* Get an user id that will be used for loading content, preferably use of the curators id.
+* Install [jq](https://stedolan.github.io/jq/) and run the following to get
+the user id. Then use that id to run the helm chart.   
+
+![](images/userinput.png)
+> `curl --silent http://betaapi.dictybase.local/users\?filter\=email\=@pfey | jq '.data[0].id'`
+
+> `helm install dictybase/content-loader --namespace dictybase --set arguments.user=4216`
+
 #### `User`
 * Start minio web interface, login using `accessKey` and `secretKey` and upload
   the `users.tar.gz` under the import folder. Make sure the file is available
