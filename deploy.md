@@ -125,7 +125,7 @@ manifests) to deploy containerized applications in kubernetes. Though `kubectl`
 can deploy manifests directly to kubernetes, we will use helm for better
 management. For our purpose, `kubectl` will primarily be used for retrieving
 and configuring information about cluster.
-> **version: v2.8.0**
+> **version: v2.9.1**
 * [Install](https://docs.helm.sh/using_helm/#installing-the-helm-client) helm.
 * Run `helm init` to setup interaction with kubernetes for the first time.
 * To upgrade helm, reinstall the version and run `helm init --upgrade` only
