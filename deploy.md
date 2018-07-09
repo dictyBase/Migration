@@ -1,6 +1,6 @@
 Table of Contents
 =================
-
+  * [Table of Contents](#table-of-contents)
   * [Deployment](#deployment)
     * [Strategy](#strategy)
     * [Development platform](#development-platform)
@@ -21,7 +21,12 @@ Table of Contents
         * [Object storage(S3 compatible) ](#object-storages3-compatible)
       * [Schema loader ](#schema-loader)
         * [Notes](#notes)
-      * [Ingress ](#ingress)
+      * [HTTPs Ingress ](#https-ingress)
+        * [Install cert manager (v0.3.4)](#install-cert-manager-v034)
+        * [Generate a self signed certificate](#generate-a-self-signed-certificate)
+        * [Create TLS secret](#create-tls-secret)
+        * [Issuer and Certificate](#issuer-and-certificate)
+        * [Ingress configuration](#ingress-configuration)
       * [API services ](#api-services)
         * [Content ](#content)
         * [User ](#user)
@@ -340,7 +345,7 @@ passwords:
 * You might have to run the same chart if there’s a change in database or new
   database/schema being added.
 
-### `Ingress`
+### `HTTPs Ingress`
 [Ingress](https://kubernetes.io/docs/concepts/services-networking/ingress/#what-is-ingress)
 manages external access to services in kubernetes cluster. For minikube, we are
 going to map three hosts `https://betatest.dictybase.local`,
@@ -354,8 +359,7 @@ to auth service.
 > `$_> minikube addons enable ingress`   
 Have to be done only once.
 
-#### `HTTPs setup`
-##### Install cert manager (v0.3.4)   
+#### Install cert manager (v0.3.4)   
 Make sure you update(`helm repo update`) and check the name of
 registered default helm repository(`helm repo list`).   
 ![](images/userinput.png)
@@ -363,7 +367,7 @@ registered default helm repository(`helm repo list`).
 > ` --name cert-manager --namespace kube-system \`   
 > `--set rbac.create=false`
 
-##### Generate a self signed certificate
+#### Generate a self signed certificate
 CA private key   
 ![](images/userinput.png)
 > `$_> openssl genrsa -out ca.key 2048`
@@ -377,14 +381,14 @@ or watch [this](https://youtu.be/JJTJfl-V_UM?t=399) youtube video.
 >`-subj "/CN=dictybase.local" -days 365 -reqexts v3_req \`   
 > `-extensions v3_ca -out ca.crt `
 
-##### Create TLS secret
+#### Create TLS secret
 Save the signing key pair (`ca.key` and `ca.crt`) as a kubernetes `Secret`
 resource.   
 ![](images/userinput.png)
 > `$_>  kubectl create secret tls ca-key-pair \`   
 >  `--cert=ca.crt --key=ca.key --namespace dictybase`
 
-##### Issuer and Certificate
+#### Issuer and Certificate
 Save the following yaml say as `issuer.yml` that
 references the above secret(ca-key-pair).
 ```yaml
@@ -427,7 +431,7 @@ Create a `Certificate` resource.
 > `$_> kubectl create -f certificate.yml`
 
 
-##### Ingress configuration
+#### Ingress configuration
 Save the following yml configuration(config.yaml) for https based ingress.
 ```yaml
 ingress:
@@ -570,6 +574,3 @@ command for loading multiple identities.
 
 ### `Frontend`
 Nothing here.
-
-
-
