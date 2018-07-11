@@ -427,7 +427,39 @@ the user id. Then use that id to run the helm chart.
 >           `--set s3.accessKey=<minio-access-key>`
 >           `--set s3.secretKey=<minio-secret-key>`
 #### `Roles and Permissions`
-WIP
+Create a yaml configuration file defining the roles and permissions of one or more users.
+```yaml
+users:
+  - email: email1@email.com
+    role:
+      name: superuser
+      description: A role with superpower
+      permission:
+        name: admin
+        resource: dictybase
+        description: A permission with administration access
+  - email: tucker@email.com
+    role:
+      name: genome-editor
+      description: A role for editing genomes
+      permission:
+        name: write
+        resource: genome
+        description: A permission with write access to genome resource
+  - email: caboose@email.com
+    role:
+      name: curator
+      description: A role for curation
+      permission:
+        name: write
+        resource: dictybase
+        description: A permission with write access to dictybase resource
+```
+
+![](images/userinput.png)
+> `$_> helm install dictybase/assign-roles-permissions \`   
+>       `--set arguments.config=$(base64 -w0 config.yaml)`
+
 #### `Identity`
 ![](images/userinput.png)
 > `$_> helm install dictybase/load-identity --namespace dictybase`
@@ -442,6 +474,3 @@ command for loading multiple identities.
 
 ### `Frontend`
 Nothing here.
-
-
-
