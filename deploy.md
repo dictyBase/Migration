@@ -350,11 +350,13 @@ users:
 > `$_> helm install dictybase/load-identity --namespace dictybase`
 >           `--set arguments.identifier=todd@gmail.com`
 >           `--set arguments.provider=google`
->           `--set arguments.userId=4893`
+>           `--set arguments.email=doodle@hoddle.com`
 
 All three options are required and as usual it can also be fed through a yaml
 file. This loader **must be run** after loading the users. Repeat the above
-command for loading multiple identities.
+command for loading multiple identities. The `identifier` and `email` arguments
+should not be confused, one is provider identity and could be an email of
+id(orcid) and the email is the user email that is registered with dictybase.
 
 
 ### `HTTPs Ingress`
