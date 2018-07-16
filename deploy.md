@@ -525,7 +525,7 @@ Map the host names to ip address of minikube
 ![](images/userinput.png)
 > `$_> echo $(minikube ip) betaapi.dictybase.local | sudo tee -a /etc/hosts`   
 > `$_> echo $(minikube ip) betatest.dictybase.local | sudo tee -a /etc/hosts`   
-> `$_> echo $(minikube ip) betaauth.dictybase.local | sudo tee -a /etc/hosts`
+> `$_> echo $(minikube ip) betaauth.dictybase.local | sudo tee -a /etc/hosts`   
 > `$_> echo $(minikube ip) betatoken.dictybase.local | sudo tee -a /etc/hosts`
 
 The above will allow to access all services by using those hostnames. For example,   
