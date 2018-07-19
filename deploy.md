@@ -292,6 +292,16 @@ screen](https://user-images.githubusercontent.com/48740/35778408-739c043e-0983-1
 Nothing here.
 
 ### `Data loader`
+#### `User`
+* Start minio web interface, login using `accessKey` and `secretKey` and upload
+  the `users.tar.gz` under the import folder. Make sure the file is available
+  under `dictybase/import` folder.
+
+![](images/userinput.png)
+> `$_> helm install dictybase/load-users --namespace dictybase`
+>           `--set s3.accessKey=<minio-access-key>`
+>           `--set s3.secretKey=<minio-secret-key>`
+
 #### `Content`
 * Get an user id that will be used for loading content, preferably use of the curators id.
 * Install [jq](https://stedolan.github.io/jq/) and run the following to get
@@ -302,15 +312,6 @@ the user id. Then use that id to run the helm chart.
 
 > `helm install dictybase/content-loader --namespace dictybase --set arguments.user=4216`
 
-#### `User`
-* Start minio web interface, login using `accessKey` and `secretKey` and upload
-  the `users.tar.gz` under the import folder. Make sure the file is available
-  under `dictybase/import` folder.
-
-![](images/userinput.png)
-> `$_> helm install dictybase/load-users --namespace dictybase`
->           `--set s3.accessKey=<minio-access-key>`
->           `--set s3.secretKey=<minio-secret-key>`
 #### `Roles and Permissions`
 Create a yaml configuration file defining the roles and permissions of one or more users.
 ```yaml
@@ -342,7 +343,7 @@ users:
 ```
 
 ![](images/userinput.png)
-> `$_> helm install dictybase/assign-roles-permissions \`   
+> `$_> helm install dictybase/assign-roles-permissions --namespace dictybase \`   
 >       `--set arguments.config=$(base64 -w0 config.yaml)`
 
 #### `Identity`
