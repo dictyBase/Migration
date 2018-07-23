@@ -511,6 +511,12 @@ ingress:
         - path: /stockcenter
           serviceName: stock-center
           servicePort: stock-center
+        - path: /dictyaccess
+          serviceName: dictyaccess
+          servicePort: dictyaccess
+        - path: /
+          serviceName: frontpage
+          servicePort: frontpage
   tls: 
     - secretName: dictybase-local-tls
       hosts:
