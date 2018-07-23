@@ -548,9 +548,18 @@ your browser and confirm the security exception so that
 the browser does not reject those api call.
 
 ### `Frontend`
+The default image tag might not reflect the latest image. So, for developmental
+version set it up during install or upgrading the charts.
+`--set image.tag=dev --set image.pullPolicy=Always`
+
 #### `Dicty-Stock-Center`
 ![](images/userinput.png)
 > `$_> helm install dictybase/dicty-stock-center --namespace dictybase`   
 
 Access the application at `https://betatest.dictybase.local/stockcenter` 
+#### `dictyaccess`
+![](images/userinput.png)
+> `$_> helm install dictybase/dictyaccess --namespace dictybase`
+
+Access the application at `https://betatest.dictybase.local/dictyaccess` 
 
