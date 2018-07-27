@@ -563,3 +563,9 @@ Access the application at `https://betatest.dictybase.local/stockcenter`
 
 Access the application at `https://betatest.dictybase.local/dictyaccess` 
 
+#### `frontpage`
+![](images/userinput.png)
+> `$_> helm install dictybase/dicty-frontpage --namespace dictybase`
+
+Access the application at `https://betatest.dictybase.local
+
