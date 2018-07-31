@@ -6,6 +6,7 @@ Table of Contents
       * [Minikube](#minikube)
       * [kubectl](#kubectl)
       * [helm](#helm)
+      * [kubeless](#kubeless)
     * [Deploying applications](#deploying-applications)
       * [Backends](#backends)
         * [PostgreSQL ](#postgresql)
@@ -24,8 +25,8 @@ Table of Contents
         * [Notes](#notes-1)
       * [Data generator ](#data-generator)
       * [Data loader ](#data-loader)
-        * [Content ](#content-1)
         * [User ](#user-1)
+        * [Content ](#content-1)
         * [Roles and Permissions ](#roles-and-permissions)
         * [Identity ](#identity-1)
       * [HTTPs Ingress ](#https-ingress)
@@ -37,6 +38,10 @@ Table of Contents
         * [Ingress](#ingress)
       * [Frontend ](#frontend)
         * [Dicty-Stock-Center ](#dicty-stock-center)
+        * [dictyaccess ](#dictyaccess)
+        * [frontpage ](#frontpage)
+      * [Faas ](#faas)
+        * [Nodejs based ](#nodejs-based)
   * [Table of Contents](#table-of-contents-1)
 
 Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc)
@@ -84,6 +89,19 @@ Command line package manager for kubernetes cluster.
 
 ![](images/userinput.png)
 >`$_> helm repo add dictybase https://dictybase-docker.github.io/kubernetes-charts`
+
+### kubeless
+A kubernetes native serverless framework to build application with
+[Faas](https://en.wikipedia.org/wiki/Function_as_a_service).
+> **version: v1.0.0-alpha.7
+* Install kubeless
+  [binary](](https://github.com/kubeless/kubeless/releases/tag/v1.0.0-alpha.7)
+  for your OS and place it under your path.
+* Install kubeless(non RBAC) in your cluster.   
+
+![](images/userinput.png)
+> `$_> kubectl create ns kubeless`   
+> `$_> kubectl create -f https://github.com/kubeless/kubeless/releases/download/v1.0.0-alpha.7/kubeless-non-rbac-v1.0.0-alpha.7.yaml`
 
 ## Deploying applications
 ### Backends
@@ -441,6 +459,7 @@ spec:
   - betatoken.dictybase.local
   - betaauth.dictybase.local
   - betaapi.dictybase.local
+  - betafunc.dictybase.local
 ```
 Create a `Certificate` resource.   
 ![](images/userinput.png)
@@ -535,7 +554,8 @@ Map the host names to ip address of minikube
 > `$_> echo $(minikube ip) betaapi.dictybase.local | sudo tee -a /etc/hosts`   
 > `$_> echo $(minikube ip) betatest.dictybase.local | sudo tee -a /etc/hosts`   
 > `$_> echo $(minikube ip) betaauth.dictybase.local | sudo tee -a /etc/hosts`   
-> `$_> echo $(minikube ip) betatoken.dictybase.local | sudo tee -a /etc/hosts`
+> `$_> echo $(minikube ip) betatoken.dictybase.local | sudo tee -a /etc/hosts`   
+> `$_> echo $(minikube ip) betafunc.dictybase.local | sudo tee -a /etc/hosts`   
 
 The above will allow to access all services by using those hostnames. For example,   
 `https://betaapi.dictybase.local/users`   
@@ -567,5 +587,20 @@ Access the application at `https://betatest.dictybase.local/dictyaccess`
 ![](images/userinput.png)
 > `$_> helm install dictybase/dicty-frontpage --namespace dictybase`
 
-Access the application at `https://betatest.dictybase.local
+Access the application at `https://betatest.dictybase.local`
+
+### `Faas`
+The following configurations are
+needed for correctly accessing the function through
+`https://betafunc.dictybase.local`
+* Add the hostname and update the [certificate](#issuer-and-certificate)
+  resource.
+* Add the hostname mapping to the hosts file`(/etc/hosts)`
+* Make sure the correct tls secret being used for creating for ingress
+  mapping(http trigger) of functions. In our case the name of tls secret is
+  `dictybase-local-tls`.
+#### `Nodejs based`
+Clone the repository https://github.com/dictybase-playground/kubeless-nodefn.   
+Go to each folder and follow the instructions for deploying serverless function
+with kubeless into local(minikube) cluster. 
 
