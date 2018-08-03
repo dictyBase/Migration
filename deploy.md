@@ -15,6 +15,7 @@ Table of Contents
         * [Arangodb ](#arangodb)
         * [Nats ](#nats)
         * [Object storage(S3 compatible) ](#object-storages3-compatible)
+        * [Redis ](#redis)
       * [Schema loader ](#schema-loader)
         * [Notes](#notes)
       * [API services ](#api-services)
@@ -42,6 +43,7 @@ Table of Contents
         * [frontpage ](#frontpage)
       * [Faas ](#faas)
         * [Nodejs based ](#nodejs-based)
+        * [Golang based ](#golang-based)
   * [Table of Contents](#table-of-contents-1)
 
 Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc)
@@ -628,4 +630,5 @@ with kubeless into local(minikube) cluster.
 Clone the repository https://github.com/dictybase-playground/kubeless-gofn.   
 Go to each folder and follow the instructions for deploying serverless function
 with kubeless into local(minikube) cluster. 
+
 
