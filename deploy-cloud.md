@@ -47,4 +47,4 @@ kubectl create clusterrolebinding dictyadmin \
   [here](https://github.com/nats-io/nats-operator/blob/master/example/deployment-rbac.yaml).
   The `clusterrolebinding` should use the name `default`.
 * Install nginx controller in gke.
-
+* For deploying kubeless functions covert the service to NodePort.

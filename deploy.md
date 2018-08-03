@@ -208,6 +208,25 @@ secretKey: ITISASECRET
 ![](images/userinput.png)
 > `$_> helm install kubernetes-charts/minio -f config.yaml -n minio --namespace dictybase`
 
+#### `Redis`
+Make a yaml configuration file
+```yaml
+usePassword: false
+master:
+  persistence:
+    enabled: true
+    path: /bitnami/redis/data
+    accessModes:
+    - ReadWriteOnce
+    size: 5Gi
+slave:
+  service:
+    type: ClusterIP
+```
+
+![](images/userinput.png)
+> `$_> helm install kubernetes-charts/redis -f config.yaml -n redis --namespace dictybase`
+
 
 ### `Schema loader`
 
