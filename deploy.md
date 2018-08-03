@@ -209,6 +209,8 @@ secretKey: ITISASECRET
 > `$_> helm install kubernetes-charts/minio -f config.yaml -n minio --namespace dictybase`
 
 #### `Redis`
+[Redis](https://redis.io) will be used for caching entries.
+
 Make a yaml configuration file
 ```yaml
 usePassword: false
@@ -620,6 +622,10 @@ needed for correctly accessing the function through
   `dictybase-local-tls`.
 #### `Nodejs based`
 Clone the repository https://github.com/dictybase-playground/kubeless-nodefn.   
+Go to each folder and follow the instructions for deploying serverless function
+with kubeless into local(minikube) cluster. 
+#### `Golang based`
+Clone the repository https://github.com/dictybase-playground/kubeless-gofn.   
 Go to each folder and follow the instructions for deploying serverless function
 with kubeless into local(minikube) cluster. 
 
