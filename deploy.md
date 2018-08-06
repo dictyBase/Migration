@@ -556,6 +556,9 @@ ingress:
         - path: /dictyaccess
           serviceName: dictyaccess
           servicePort: dictyaccess
+        - path: /gene
+          serviceName: genomepage
+          servicePort: genomepage
         - path: /
           serviceName: frontpage
           servicePort: frontpage
