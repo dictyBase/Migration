@@ -196,6 +196,17 @@ defaultBucket:
 # you can use it to login from the web interface and manage files
 accessKey: ANYTHINGYOUWANT
 secretKey: ITISASECRET
+## ingress defintion
+ingress:
+ enabled: true
+ annotations:
+    kubernetes.io/ingress.class: nginx
+ hosts:
+    - betastorage.dictybase.local
+ tls:
+    - secretName: dictybase-local-tls
+      hosts:
+       - betastorage.dictybase.local
 ```
 
 * You could read about all configuration parameters by running   
@@ -404,8 +415,9 @@ id(orcid) and the email is the user email that is registered with dictybase.
 ### `HTTPs Ingress`
 [Ingress](https://kubernetes.io/docs/concepts/services-networking/ingress/#what-is-ingress)
 manages external access to services in kubernetes cluster. For minikube, we are
-going to map four hosts `https://betatest.dictybase.local`,
-`http://betaapi.dictybase.local` `https://betatoken.dictybase.local` and
+going to map six hosts `https://betatest.dictybase.local`,
+`https://betaapi.dictybase.local` `https://betatoken.dictybase.local` 
+`https://betafunc.dictybase.local`, `https://betastorage.dictybase.local` and
 `https://betaauth.dictybase.local` to various HTTP services. So,
 `https://betatest.dictybase.local` will be mapped to frontend,
 `https://betaapi.dictybase.local` will be mapped to various services such as
@@ -583,6 +595,7 @@ Map the host names to ip address of minikube
 > `$_> echo $(minikube ip) betaauth.dictybase.local | sudo tee -a /etc/hosts`   
 > `$_> echo $(minikube ip) betatoken.dictybase.local | sudo tee -a /etc/hosts`   
 > `$_> echo $(minikube ip) betafunc.dictybase.local | sudo tee -a /etc/hosts`   
+> `$_> echo $(minikube ip) betastorage.dictybase.local | sudo tee -a /etc/hosts`   
 
 The above will allow to access all services by using those hostnames. For example,   
 `https://betaapi.dictybase.local/users`   
