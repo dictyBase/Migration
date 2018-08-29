@@ -483,6 +483,7 @@ spec:
   - betaauth.dictybase.local
   - betaapi.dictybase.local
   - betafunc.dictybase.local
+  - betastorage.dictybase.local
 ```
 Create a `Certificate` resource.   
 ![](images/userinput.png)
