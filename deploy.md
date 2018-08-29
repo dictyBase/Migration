@@ -355,14 +355,19 @@ Nothing here.
 >           `--set s3.secretKey=<minio-secret-key>`
 
 #### `Content`
-* Get an user id that will be used for loading content, preferably use of the curators id.
-* Install [jq](https://stedolan.github.io/jq/) and run the following to get
-the user id. Then use that id to run the helm chart.   
-
-![](images/userinput.png)
-> `curl --silent http://betaapi.dictybase.local/users\?filter\=email\=@pfey | jq '.data[0].id'`
-
-> `helm install dictybase/content-loader --namespace dictybase --set arguments.user=4216`
+Create a yaml configuration file for loading content.
+```yaml
+arguments:
+  access: "xxxxxxxxxx"
+  secret: "XXXXXXxxxxxxxx"
+  path: frontpageV1
+  namespace: dfp
+  email: "email@email.com"
+image:
+  tag: latest
+  pullPolicy: Always
+```
+> `helm install dictybase/content-loader --namespace dictybase -f config.yaml`
 
 #### `Roles and Permissions`
 Create a yaml configuration file defining the roles and permissions of one or more users.
