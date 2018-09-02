@@ -634,6 +634,22 @@ Access the application at `https://betatest.dictybase.local/dictyaccess`
 > `$_> helm install dictybase/dicty-frontpage --namespace dictybase`
 
 Access the application at `https://betatest.dictybase.local`
+##### `download section`
+To setup files for download section, download initial archive from an undisclosed
+location and upload it to `downloads` bucket in s3 storage.
+
+![](images/userinput.png)
+> `$_> unzip archive`   
+
+Assuming the name of local storage is `locals3`   
+![](images/userinput.png)
+> `$_> mc --insecure mb locals3/downloads`   
+> `$_> mc --insecure cp --recursive 5786 locals3/downloads`   
+
+Upload the rest of the folders that are present in the archive.   Also make
+sure the download configuration is present in correct github
+[repository](https://github.com/dictyBase/migration-data/tree/master/downloads).
+
 
 ### `Faas`
 The following configurations are
