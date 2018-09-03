@@ -48,3 +48,69 @@ kubectl create clusterrolebinding dictyadmin \
   The `clusterrolebinding` should use the name `default`.
 * Install nginx controller in gke.
 * For deploying kubeless functions covert the service to NodePort.
+* Create another certificate resource for minio storage. The existing
+  certificate is no longer getting renewed for new dns names because of some
+  previous errors. Hopefully, this will not be the case for production.
+```yaml
+apiVersion: certmanager.k8s.io/v1alpha1
+kind: Issuer
+metadata:
+  name: dictystorage-staging
+  namespace: dictybase
+spec:
+  acme:
+    # The ACME server URL
+    server: https://acme-v02.api.letsencrypt.org/directory
+    # Email address used for ACME registration
+    email: dictybasebot@gmail.com
+    # Name of a secret used to store the ACME account private key
+    privateKeySecretRef:
+      name: dictystorage-staging
+    # Enable the HTTP-01 challenge provider
+    http01: {}
+```
+```yaml
+apiVersion: certmanager.k8s.io/v1alpha1
+kind: Certificate
+metadata:
+  name: dictystorage-staging-org
+  namespace: dictybase
+spec:
+  secretName: dictystorage-staging-org-tls
+  issuerRef:
+    kind: Issuer
+    name: dictystorage-staging
+  dnsNames:
+  - betastorage.dictybase.org
+  acme:
+    config:
+    - http01:
+        ingressClass: nginx
+      domains:
+      - betastorage.dictybase.org
+```
+* Use a separate ingress for minio
+```yaml
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/proxy-body-size: 550M
+  labels:
+    app: minio
+  name: minio
+  namespace: dictybase
+spec:
+  rules:
+  - host: betastorage.dictybase.org
+    http:
+      paths:
+      - backend:
+          serviceName: minio
+          servicePort: 9000
+  tls:
+  - hosts:
+    - betastorage.dictybase.org
+    secretName: dictystorage-staging-org-tls
+```
