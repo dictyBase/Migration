@@ -178,6 +178,8 @@ Arangodb backend is currently used by following api services.
 > `$_> helm install dictybase/nats --namespace dictybase`   
 
 #### `Object storage(S3 compatible)`
+> version (1.6.0)   
+
 * Make a yaml configuration file 
 ```yaml
 mode: standalone
@@ -213,14 +215,14 @@ ingress:
 * You could read about all configuration parameters by running   
 
 ![](images/userinput.png)
-> `$_> helm inspect kubernetes-charts/minio`
+> `$_> helm inspect kubernetes-charts/minio --version 1.6.0`
 
 * or go [here](https://hub.kubeapps.com/charts/stable/minio)
 
 * Install the chart
 
 ![](images/userinput.png)
-> `$_> helm install kubernetes-charts/minio -f config.yaml -n minio --namespace dictybase`
+> `$_> helm install kubernetes-charts/minio --version 1.6.0 -f config.yaml -n minio --namespace dictybase`
 
 #### `Redis`
 [Redis](https://redis.io) will be used for caching entries.
