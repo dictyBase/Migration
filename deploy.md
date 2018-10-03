@@ -666,8 +666,8 @@ needed for correctly accessing the function through
 #### `Nodejs based`
 Clone the repository https://github.com/dictybase-playground/kubeless-nodefn.   
 Go to each folder and follow the instructions for deploying serverless functions
-with kubeless into your local(minikube) cluster. Currently there are *six* 
-functions that need to be deployed (the `geneids` and `uniprot` folders have two each.
+with kubeless into your local(minikube) cluster. Currently there are **six** 
+functions that need to be deployed (the `geneids` and `uniprot` folders have two each).
 
 Note: make sure that you are using the latest version of `genefn` by running 
 `kubeless function update genefn ...` (example is in its documentation).
