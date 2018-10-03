@@ -665,11 +665,15 @@ needed for correctly accessing the function through
   `dictybase-local-tls`.
 #### `Nodejs based`
 Clone the repository https://github.com/dictybase-playground/kubeless-nodefn.   
-Go to each folder and follow the instructions for deploying serverless function
-with kubeless into local(minikube) cluster. 
+Go to each folder and follow the instructions for deploying serverless functions
+with kubeless into your local(minikube) cluster. Currently there are *six* 
+functions that need to be deployed (the `geneids` and `uniprot` folders have two each.
+
+Note: make sure that you are using the latest version of `genefn` by running 
+`kubeless function update genefn ...` (example is in its documentation).
 #### `Golang based`
 Clone the repository https://github.com/dictybase-playground/kubeless-gofn.   
-Go to each folder and follow the instructions for deploying serverless function
-with kubeless into local(minikube) cluster. 
+Go to each folder and follow the instructions for deploying serverless functions
+with kubeless into your local(minikube) cluster. 
 
 
