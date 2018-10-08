@@ -41,6 +41,7 @@ Table of Contents
         * [Dicty-Stock-Center ](#dicty-stock-center)
         * [dictyaccess ](#dictyaccess)
         * [frontpage ](#frontpage)
+        * [genomepage ](#genomepage)
       * [Faas ](#faas)
         * [Nodejs based ](#nodejs-based)
         * [Golang based ](#golang-based)
@@ -636,6 +637,22 @@ Access the application at `https://betatest.dictybase.local/dictyaccess`
 > `$_> helm install dictybase/dicty-frontpage --namespace dictybase`
 
 Access the application at `https://betatest.dictybase.local`
+
+#### `genomepage`
+![](images/userinput.png)
+> `$_> helm install dictybase/genomepage --namespace dictybase`
+
+Starting with version `2.0.0` of the application, the following Kubeless functions need to be deployed as well:
+
+- [genefn](https://github.com/dictybase-playground/kubeless-nodefn/tree/master/gene)
+- [genecachefn](https://github.com/dictybase-playground/kubeless-nodefn/tree/master/geneids)
+- [uniprotcachefn](https://github.com/dictybase-playground/kubeless-nodefn/tree/master/uniprot)
+
+**Important**: make sure you are using the latest version of `genefn`. Follow the documentation on each of these
+pages in order to deploy them.
+
+Access the application at `https://betatest.dictybase.local/gene/DDB_G0283267` (as one example)
+
 ##### `download section`
 To setup files for download section, download initial archive from an undisclosed
 location and upload it to `downloads` bucket in s3 storage.
@@ -666,11 +683,8 @@ needed for correctly accessing the function through
 #### `Nodejs based`
 Clone the repository https://github.com/dictybase-playground/kubeless-nodefn.   
 Go to each folder and follow the instructions for deploying serverless functions
-with kubeless into your local(minikube) cluster. Currently there are **six** 
-functions that need to be deployed (the `geneids` and `uniprot` folders have two each).
+with kubeless into your local(minikube) cluster.
 
-Note: make sure that you are using the latest version of `genefn` by running 
-`kubeless function update genefn ...` (example is in its documentation).
 #### `Golang based`
 Clone the repository https://github.com/dictybase-playground/kubeless-gofn.   
 Go to each folder and follow the instructions for deploying serverless functions
