@@ -18,6 +18,7 @@ Table of Contents
         * [Redis ](#redis)
       * [Schema loader ](#schema-loader)
         * [Notes](#notes)
+      * [Database creation](#database-creation)
       * [API services ](#api-services)
         * [Content ](#content)
         * [User ](#user)
@@ -264,12 +265,26 @@ passwords:
 ```
 ![](images/userinput.png)
 > `$_> helm install dictybase/arango-schema --namespace dictybase \`   
->                   `--set passwordFile=$(base64 -w0 passwords.yaml)`   
+>                   `--set passwordFile=$(base64 -w0 passwords.yaml)`
 
 #### Notes
 * You might have to run the same chart if there’s a change in database or new
   database/schema being added.
 
+### `Database creation`
+You will need to create a new database for each API service. The [arangoadmin](https://github.com/dictybase-docker/arangoadmin/tree/master/charts) repository contains Helm charts for doing so.
+
+You can create multiple ArangoDB databases by creating a YAML file and passing that through the Helm chart.
+```yaml
+database:
+  names:
+    - order
+    - stock
+  user: george
+  password: costanza
+  grant: rw
+```
+> `$_> helm install dictybase/arango-create-database --namespace dictybase -f db.yaml`
 
 ### `API services`
 
