@@ -186,11 +186,11 @@ Arangodb backend is currently used by following api services.
 ```yaml
 mode: standalone
 persistence:
-	enabled: true
-	# the size is configurable
-	size: 6Gi 
+  enabled: true
+  # the size is configurable
+  size: 6Gi 
 service:
-	type: NodePort
+  type: NodePort
 defaultBucket:
   enabled: true
   name: dictybase
@@ -214,17 +214,18 @@ ingress:
        - betastorage.dictybase.local
 ```
 
+* Note: if not using Minikube, you will need to add `storageClass: [YOUR-DEFAULT-STORAGE-CLASS]` in the `persistence` field.
 * You could read about all configuration parameters by running   
 
 ![](images/userinput.png)
-> `$_> helm inspect kubernetes-charts/minio --version 1.6.0`
+> `$_> helm inspect kubernetes-charts/minio --version 1.6.2`
 
 * or go [here](https://hub.kubeapps.com/charts/stable/minio)
 
 * Install the chart
 
 ![](images/userinput.png)
-> `$_> helm install kubernetes-charts/minio --version 1.6.0 -f config.yaml -n minio --namespace dictybase`
+> `$_> helm install kubernetes-charts/minio --version 1.6.2 -f config.yaml -n minio --namespace dictybase`
 
 #### `Redis`
 [Redis](https://redis.io) will be used for caching entries.
@@ -245,7 +246,7 @@ slave:
 ```
 
 ![](images/userinput.png)
-> `$_> helm install kubernetes-charts/redis -f config.yaml -n redis --namespace dictybase`
+> `$_> helm install kubernetes-charts/redis --version 3.7.3 -f config.yaml -n redis --namespace dictybase`
 
 
 ### `Schema loader`
