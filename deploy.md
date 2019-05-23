@@ -257,21 +257,6 @@ slave:
 ![](images/userinput.png)
 > `$_> helm install dictybase/dictyuser-schema --namespace dictybase`
 
-
-**Now to load arangodb schema, first create the following yaml file,**
-
-```yaml
-passwords:
-  - itisbetweenus
-```
-![](images/userinput.png)
-> `$_> helm install dictybase/arango-schema --namespace dictybase \`   
->                   `--set passwordFile=$(base64 -w0 passwords.yaml)`
-
-#### Notes
-* You might have to run the same chart if there’s a change in database or new
-  database/schema being added.
-
 ### `Database creation`
 You will need to create a new database for each API service. The [arangoadmin](https://github.com/dictybase-docker/arangoadmin/tree/master/charts) repository contains Helm charts for doing so.
 
@@ -279,6 +264,7 @@ You can create multiple ArangoDB databases by creating a YAML file and passing t
 ```yaml
 database:
   names:
+    - auth
     - order
     - stock
   user: george
