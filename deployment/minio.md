@@ -7,7 +7,7 @@ The following features will be enabled(used)
 + Default bucket
 + Ingress enabled for web access
 
-Yaml configuration file for helm
+Yaml configuration file for helm (using `eric` as an example for the dev domain)
 ```yaml
 mode: standalone
 persistence:
@@ -32,11 +32,11 @@ ingress:
     kubernetes.io/ingress.class: nginx
     nginx.ingress.kubernetes.io/proxy-body-size: 500M 
  hosts:
-    - betastorage.dictybase.local
+    - ericstorage.dictybase.dev # change this
  tls:
-    - secretName: dictybase-local-tls
+    - secretName: dicty-eric-dev-tls # change accordingly
       hosts:
-       - betastorage.dictybase.local
+       - ericstorage.dictybase.dev # change this
 
 ```
 
