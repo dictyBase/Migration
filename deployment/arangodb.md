@@ -14,7 +14,26 @@ If you are doing a fresh install into the cluster, you can use Helm charts.
 >`$_>  helm install dictybase/arangodb --namespace dictybase`
 
 ## Upgrade Existing Database
-These details are coming soon.
+If you need to upgrade an existing database in the cluster, it is advised to use `kubectl`. Use their [official
+manifests](https://raw.githubusercontent.com/arangodb/kube-arangodb/0.3.8/manifests/arango-deployment.yaml), but 
+make sure to replace the namespace as necessary. In this example, we use a customized version (available in this
+directory) that uses the `dictybase` namespace.
+
+Using Helm to upgrade requires deleting the previous deployment. With `kubectl` you just need to
+apply the desired upgrade. See official [README](https://github.com/arangodb/kube-arangodb/blob/master/README.md).
+
+- Install [kube-arangodb]
+![](userinput.png)
+> `$_> kubectl apply -f https://raw.githubusercontent.com/arangodb/kube-arangodb/0.3.8/manifests/arango-crd.yaml`
+> `$_> kubectl apply -f arango-deployment.yaml`
+
+- Get our latest chart
+![](userinput.png)
+>`$_>  helm repo update`
+
+Upgrade our database
+![](userinput.png)
+>`$_>  helm upgrade [RELEASE NAME] dictybase/arangodb --namespace dictybase`
 
 ## Create new databases
 
