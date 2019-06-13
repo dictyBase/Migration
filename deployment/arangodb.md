@@ -38,6 +38,8 @@ Next, install the operator for `ArangoDeployment` while making sure to disable d
 ![](userinput.png)
 >`$_>  helm install dictybase/arangodb --namespace dictybase`
 
+To see what you can customize (i.e. storage class, etc.), check out the [README](https://github.com/dictybase-docker/kubernetes-charts/tree/master/arangodb).
+
 ## Upgrade Existing Database
 At some point you will need to upgrade your existing database in the cluster. 
 Since we initially installed with Helm charts, we will upgrade the same way.
@@ -101,6 +103,8 @@ Repeat as necessary.
 
 ![](userinput.png)
 >`$_>  helm upgrade [RELEASE NAME] dictybase/arangodb --namespace dictybase`
+
+To see what you can customize (i.e. storage class, etc.), check out the [README](https://github.com/dictybase-docker/kubernetes-charts/tree/master/arangodb).
 
 ## Create new databases
 
