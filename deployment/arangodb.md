@@ -7,6 +7,7 @@ If you are doing a fresh install into the cluster, you can use Helm charts.
 
 ![](userinput.png)
 > `$_> helm install https://github.com/arangodb/kube-arangodb/releases/download/0.3.8/kube-arangodb-crd.tgz`
+
 > `$_> helm install https://github.com/arangodb/kube-arangodb/releases/download/0.3.8/kube-arangodb.tgz \`
 >                        `--set=DeploymentReplication.Create=false --namespace dictybase`
 
@@ -28,6 +29,7 @@ apply the desired upgrade. See official [README](https://github.com/arangodb/kub
 
 ![](userinput.png)
 > `$_> kubectl apply -f https://raw.githubusercontent.com/arangodb/kube-arangodb/0.3.8/manifests/arango-crd.yaml`
+
 > `$_> kubectl apply -f arango-deployment.yaml`
 
 - Get our latest chart
