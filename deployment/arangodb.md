@@ -36,16 +36,16 @@ First, install the custom resources required by the operators.
 Next, install the operator for `ArangoDeployment` while making sure to disable deployment replication.
 
 ![](userinput.png)
-> `$_> helm install https://github.com/arangodb/kube-arangodb/releases/download/0.3.11/kube-arangodb.tgz \`
+> `$_> helm install https://github.com/arangodb/kube-arangodb/releases/download/0.3.11/kube-arangodb.tgz `
 >                        `--set=DeploymentReplication.Create=false --namespace dictybase`
 
 #### Install our database
 
 ![](userinput.png)
->`$_>  helm install dictybase/arangodb --namespace dictybase --set arangodb.single.storageClass=fast`
+>`$_>  helm install dictybase/arangodb --namespace dictybase --set arangodb.dbservers.storageClass=fast --set arangodb.single.storage=50Gi`
 
 It is recommended to set a custom storage class with SSD (see above for info on how to create this) 
-and pass it in. To see what else you can customize, check out the chart [README](https://github.com/dictybase-docker/kubernetes-charts/tree/master/arangodb).
+and a custom amount of storage. To see what else you can customize, check out the chart [README](https://github.com/dictybase-docker/kubernetes-charts/tree/master/arangodb).
 
 ## Upgrade Existing Database
 At some point you will need to upgrade your existing database in the cluster. 
@@ -80,7 +80,7 @@ If wanting to upgrade to several releases ahead, it is advised to upgrade increm
 
 #### Upgrade kube-arangodb
 
-Upgrade the existing CRD.
+Upgrade the existing CRD (optional).
 
 ![](userinput.png)
 > `$_> helm upgrade [RELEASE NAME] https://github.com/arangodb/kube-arangodb/releases/download/[VERSION]/kube-arangodb-crd.tgz`
@@ -93,7 +93,7 @@ Find and delete the existing deployment (as mentioned above).
 Next, install the operator for `ArangoDeployment` while making sure to disable deployment replication.
 
 ![](userinput.png)
-> `$_> helm install https://github.com/arangodb/kube-arangodb/releases/download/[VERSION]/kube-arangodb.tgz \`
+> `$_> helm install https://github.com/arangodb/kube-arangodb/releases/download/[VERSION]/kube-arangodb.tgz `
 >                        `--set=DeploymentReplication.Create=false --namespace dictybase`
 
 Verify that everything is working as expected, then proceed to the next version. 
