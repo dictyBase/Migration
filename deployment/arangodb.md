@@ -16,29 +16,36 @@ when creating a new role, read the error message and verify that the user email 
 one that you used to create this `cluster-admin`. Be especially mindful that the capitalization is the 
 same for both (i.e. `testuser@gmail.com` and `TestUser@gmail.com` are **not** the same).
 
-## Fresh Install
-If you are doing a fresh install into the cluster, you need to install two Helm charts. For this example,
-we are going to start by deploying version `0.3.8`.
+Also, if you want to use a custom storage class (i.e. SSD), you need to make sure you have created 
+one first. There is an [example](./storageclass.yaml) in this folder.
 
-#### Install [kube-arangodb](https://github.com/arangodb/kube-arangodb/blob/0.3.8/docs/Manual/Deployment/Kubernetes/Helm.md)
+To create this, use `kubectl apply -f storageclass.yaml`.
+
+## Fresh Install
+If you are doing a fresh install into the cluster, you need to install two Helm charts. It is recommended 
+to use `0.3.11` to start. This version has newly deprecated fields, and our [ArangoDB database chart](https://github.com/dictybase-docker/kubernetes-charts/tree/master/arangodb) 
+(`0.0.5`) was designed to reflect these changes.
+
+#### Install [kube-arangodb](https://github.com/arangodb/kube-arangodb/blob/0.3.11/docs/Manual/Deployment/Kubernetes/Helm.md)
 
 First, install the custom resources required by the operators.
 
 ![](userinput.png)
-> `$_> helm install https://github.com/arangodb/kube-arangodb/releases/download/0.3.8/kube-arangodb-crd.tgz`
+> `$_> helm install https://github.com/arangodb/kube-arangodb/releases/download/0.3.11/kube-arangodb-crd.tgz`
 
 Next, install the operator for `ArangoDeployment` while making sure to disable deployment replication.
 
 ![](userinput.png)
-> `$_> helm install https://github.com/arangodb/kube-arangodb/releases/download/0.3.8/kube-arangodb.tgz \`
+> `$_> helm install https://github.com/arangodb/kube-arangodb/releases/download/0.3.11/kube-arangodb.tgz \`
 >                        `--set=DeploymentReplication.Create=false --namespace dictybase`
 
 #### Install our database
 
 ![](userinput.png)
->`$_>  helm install dictybase/arangodb --namespace dictybase`
+>`$_>  helm install dictybase/arangodb --namespace dictybase --set arangodb.single.storageClass=fast`
 
-To see what you can customize (i.e. storage class, etc.), check out the [README](https://github.com/dictybase-docker/kubernetes-charts/tree/master/arangodb).
+It is recommended to set a custom storage class with SSD (see above for info on how to create this) 
+and pass it in. To see what else you can customize, check out the chart [README](https://github.com/dictybase-docker/kubernetes-charts/tree/master/arangodb).
 
 ## Upgrade Existing Database
 At some point you will need to upgrade your existing database in the cluster. 
@@ -69,14 +76,14 @@ helm delete vetoed-ladybird
 
 but **not delete `steely-mule`**. See official [README](https://github.com/arangodb/kube-arangodb/blob/master/README.md) for more information.
 
-Next, pick an intermediary release to upgrade to. We will select `0.3.10`.
+If wanting to upgrade to several releases ahead, it is advised to upgrade incrementally (i.e. `0.3.8` to `0.3.10` to `0.3.11`, etc.).
 
-#### Install [kube-arangodb](https://github.com/arangodb/kube-arangodb/blob/0.3.10/docs/Manual/Deployment/Kubernetes/Helm.md)
+#### Upgrade kube-arangodb
 
 Upgrade the existing CRD.
 
 ![](userinput.png)
-> `$_> helm upgrade [RELEASE NAME] https://github.com/arangodb/kube-arangodb/releases/download/0.3.10/kube-arangodb-crd.tgz`
+> `$_> helm upgrade [RELEASE NAME] https://github.com/arangodb/kube-arangodb/releases/download/[VERSION]/kube-arangodb-crd.tgz`
 
 Find and delete the existing deployment (as mentioned above).
 
@@ -86,7 +93,7 @@ Find and delete the existing deployment (as mentioned above).
 Next, install the operator for `ArangoDeployment` while making sure to disable deployment replication.
 
 ![](userinput.png)
-> `$_> helm install https://github.com/arangodb/kube-arangodb/releases/download/0.3.10/kube-arangodb.tgz \`
+> `$_> helm install https://github.com/arangodb/kube-arangodb/releases/download/[VERSION]/kube-arangodb.tgz \`
 >                        `--set=DeploymentReplication.Create=false --namespace dictybase`
 
 Verify that everything is working as expected, then proceed to the next version. 
@@ -104,7 +111,8 @@ Repeat as necessary.
 ![](userinput.png)
 >`$_>  helm upgrade [RELEASE NAME] dictybase/arangodb --namespace dictybase`
 
-To see what you can customize (i.e. storage class, etc.), check out the [README](https://github.com/dictybase-docker/kubernetes-charts/tree/master/arangodb).
+**NOTE:** You can increase storage space of the database but you cannot decrease it (PVC cannot be shrinked). 
+If you want to increase space, you must also restart the pod: `kubectl delete pod [POD NAME] -n dictybase`
 
 ## Create new databases
 
