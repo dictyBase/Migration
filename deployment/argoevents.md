@@ -11,17 +11,23 @@ Events documentation can be found [here](https://argoproj.github.io/argo-events/
 
 #### Helm Chart
 
-Add `argoproj` repository
+- Create namespaces
+
+![](userinput.png)
+> `$_> kubectl create namespace argo`
+> `$_> kubectl create namespace argo-events`
+
+- Add `argoproj` repository
 
 ![](userinput.png)
 > `$_> helm repo add argo https://argoproj.github.io/argo-helm`
 
-Install `argo` chart
+- Install `argo` chart
 
 ![](userinput.png)
 > `$_> helm install argo/argo --namespace argo`
 
-Install `argo-events` chart
+- Install `argo-events` chart
 
 ![](userinput.png)
 > `$_> helm install argo/argo-events --namespace argo-events`
