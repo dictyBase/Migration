@@ -1,7 +1,7 @@
 *gliffy
-*png
 .env
 html/
 node_modules/
 .python-version
 !userinput.png
+.DS_Store
