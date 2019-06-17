@@ -3,18 +3,20 @@
 Here we will go through the process of setting up Argo Events with a GitHub 
 webhook in your cluster.
 
-## Adding Argo and Argo Events
+## Initial Setup
 
 Make sure your account has the ability to create new clusterroles. See the 
 [arangodb](./arangodb.md) guide for more information. Also the official Argo 
 Events documentation can be found [here](https://argoproj.github.io/argo-events/).
 
-#### Helm Chart
+### Install Helm Charts
 
-- Create namespaces
+- First create namespaces
 
 ![](userinput.png)
 > `$_> kubectl create namespace argo`
+
+![](userinput.png)
 > `$_> kubectl create namespace argo-events`
 
 - Add `argoproj` repository
@@ -32,10 +34,12 @@ Events documentation can be found [here](https://argoproj.github.io/argo-events/
 ![](userinput.png)
 > `$_> helm install argo/argo-events --namespace argo-events`
 
-#### Generate Issuer and Certificate
+### Generate Issuer and Certificate
 
 You will need to create a new issuer and certificate for this namespace. 
 Make sure you have `cert-manager` set up per [these instructions](./certificate.md).
+
+These are required in order to set up Ingress (our next step).
 
 __Issuer__
 ```yaml
@@ -87,9 +91,12 @@ spec:
 > `$_> kubectl apply -f certificate.yaml`
 
 
-#### Enable Ingress
+### Enable Ingress
 
-Make ingress yaml file (`ingress-gh.yaml`)
+Ingress is necessary in order to get the service URL that exposes the gateway 
+server and makes it reachable from GitHub.
+
+- Make ingress yaml file (`ingress-gh.yaml`)
 
 ```yaml
 apiVersion: extensions/v1beta1
@@ -107,7 +114,7 @@ spec:
       - backend:
           serviceName: github-gateway-svc
           servicePort: 12000
-        path: /
+        path: /github
   tls:
   - hosts:
     - ericargo.dictybase.dev
@@ -117,48 +124,66 @@ spec:
 ![](userinput.png)
 >`$_> kubectl apply -f ingress-gh.yaml -n argo-events`
 
-#### Enable GitHub Webhooks
+### Enable GitHub Webhooks
 
 Go to the GitHub repository of the project you want to use webhooks on, then 
 click the Settings tab. In here, click on the Webhooks tab and then "Add webhook".
 
 Here is an example of what your settings could look like.
 
-![](webhook-example.png)
+![](./images/webhook-example.png)
 
 Make sure content type is `application/json`.
 
-For the secret, a helpful way to generate a new one is by using this command in 
-the terminal: `ruby -rsecurerandom -e 'puts SecureRandom.hex(20)'`
+You have to create the secret yourself. A helpful way to generate a new one is 
+by using this command in the terminal: 
 
-Make note of this secret key -- you will need it shortly.
+`ruby -rsecurerandom -e 'puts SecureRandom.hex(20)'`
 
-Also make note of the webhook ID. You can find this by clicking on the webhook 
-once it has been created (it will be found at the end of the URL (i.e. `117799556`))
+**Important:** Make note of this secret key -- you will need it shortly.
 
-#### Generate personal access token
+**Also** make note of the webhook ID. You can find this by clicking on the webhook 
+once it has been created (it will be found at the end of the URL (i.e. `117799556`)). 
+This is required for use in the event source config later on.
 
-Now you need to generate a personal access token from GitHub. Go to your personal 
-[settings page](https://github.com/settings/tokens). Click "Generate new token" 
-then fill out the Note and select your desired scopes. Once complete, click 
-"Generate token" at the bottom. **IMPORTANT: copy this token immediately.** You 
-will need this for the next section.
+### Generate GitHub personal access token (apiToken)
 
-#### Generate secret
+Now you need to generate a personal access token from GitHub. Go to your  
+[personal settings page](https://github.com/settings/tokens). Click "Generate 
+new token" then fill out the Note and select your desired scopes. Once complete, 
+click "Generate token" at the bottom. **IMPORTANT: copy this token immediately.** 
+You will need this for the next section.
+
+### Generate Kubernetes secret
 
 You need to create a [Kubernetes secret](https://kubernetes.io/docs/concepts/configuration/secret/) 
-with both your webhook token and personal access token. It is preferable to 
+with both your webhook secret and personal access token. It is preferable to 
 generate this via the command line. I ran into issues when using a YAML file 
 where somehow foreign characters were being passed in, thereby creating 
 verification problems.
 
 ![](userinput.png)
->`$_> kubectl create secret generic github-access --from-literal=token=YOUR_TOKEN_HERE `
->                        `--from-literal=secret=YOUR_SECRET_HERE -n argo-events`
+>`$_> kubectl create secret generic github-access --from-literal=apiToken=YOUR_TOKEN_HERE `
+>                        `--from-literal=webHookSecret=YOUR_SECRET_HERE -n argo-events`
 
-#### Deploy the gateway
+## Argo Events Deployment Process
 
-Create a new yaml file (`github-gateway.yaml`).
+Three pieces are required for Argo Events and they need to be deployed in this 
+exact order.
+
+### Deploy the gateway
+
+A gateway consumes events from event sources, transforms them into the 
+[cloudevents specification](https://github.com/cloudevents/spec) compliant events 
+and dispatches them to sensors.
+
+One gateway can have multiple sensors, as denoted by the `watchers` key at the 
+bottom of the config file.
+
+The [official documentation](https://argoproj.github.io/argo-events/gateway/) has 
+a diagram that shows the process from client to server.
+
+- Create a new yaml file (`github-gateway.yaml`).
 
 ```yaml
 apiVersion: argoproj.io/v1alpha1
@@ -213,9 +238,19 @@ spec:
 ![](userinput.png)
 >`$_> kubectl apply -f github-gateway.yaml -n argo-events`
 
-#### Deploy the event source
+### Deploy the event source
 
-Create a new yaml file (`github-event-source.yaml`).
+Event sources are config maps that are interpreted by the gateway as a source 
+for events producing the entity.
+
+In this file, you will need to specify the webhook ID, GitHub repository, the 
+actual hook endpoint/port and the tokens from your K8s secret.
+
+You can include multiple events in the same config file. In the below example, 
+we have one event named `example`. You can easily add another by adding a new 
+key under `data`, the same way that `example` is listed.
+
+- Create a new yaml file (`github-event-source.yaml`).
 
 ```yaml
 apiVersion: v1
@@ -227,57 +262,58 @@ metadata:
     argo-events-event-source-version: v0.10
 data:
   example: |-
-    # id of the webhook
+    # ID of the GitHub webhook
+    # this needs to match the one you generated
     id: 123
-    # owner of the repo
     owner: "dictybase"
-    # repository name
     repository: "test-repo"
     # Github will send events to the following port and endpoint
     hook:
-     # endpoint to listen to events on
      endpoint: "/push"
-     # port to run internal HTTP server on
      port: "12000"
-     # url the gateway will use to register at Github.
-     # This url must be reachable from outside the cluster.
-     # The gateway pod is backed by the service defined in the gateway spec. So get the URL for that service Github can reach to.
+     # url the gateway will use to register at GitHub
      url: "https://ericargo.dictybase.dev"
-    # type of events to listen to.
-    # following listens to everything, hence *
-    # You can find more info on https://developer.github.com/v3/activity/events/types/
+    # type of events to listen to
     events:
     - "*"
-    # apiToken refers to K8s secret that stores the github api token
+    # apiToken refers to K8s secret that stores the github personal access token
     apiToken:
       # Name of the K8s secret that contains the access token
       name: github-access
-      # Key within the K8s secret whose corresponding value (must be base64 encoded) is access token
-      key: token
-    # webHookSecret refers to K8s secret that stores the github hook secret
+      # Corresponding key in the K8s secret
+      key: apiToken
+    # webHookSecret refers to K8s secret that stores the webhook secret
     webHookSecret:
-      # Name of the K8s secret that contains the hook secret
       name: github-access
-      # Key within the K8s secret whose corresponding value (must be base64 encoded) is hook secret
-      key: secret
-    # type of the connection between gateway and Github
+      key: webHookSecret
+    # type of connection between gateway and github
     insecure: false
-    # Determines if notifications are sent when the webhook is triggered
+    # determines if notifications are sent when the webhook is triggered
     active: true
-    # The media type used to serialize the payloads
     contentType: "json"
 ```
 
 ![](userinput.png)
 >`$_> kubectl apply -f github-event-source.yaml -n argo-events`
 
-#### Deploy the sensor
+### Deploy the sensor
 
-Next you need to deploy a sensor. This example is very simple -- it just uses the 
-Docker Whalesay demo container to display the action pulled from the triggered 
-GitHub webhook. This will need to be heavily updated for any real use cases.
+Sensors define a set of event dependencies (inputs) and triggers (outputs). 
 
-Create a new yaml file (`github-sensor.yaml`).
+An event dependency is the event the sensor is waiting for. It is defined as 
+"gateway-name:event-source-name". Based on the config file we used for the event 
+source, our dependency would be `github-gateway:example`.
+
+Triggers are executed once the event dependencies are resolved.
+
+Each sensor can have multiple events defined. The [documentation](https://argoproj.github.io/argo-events/sensor/) 
+has a nice diagram showing the workflow.
+
+The following example is very simple -- it just uses the Docker Whalesay demo 
+container to display the action pulled from the triggered GitHub webhook. This 
+will need to be heavily updated for any real use cases.
+
+- Create a new yaml file (`github-sensor.yaml`).
 
 ```yaml
 apiVersion: argoproj.io/v1alpha1
@@ -323,6 +359,7 @@ spec:
                 parameters:
                 - name: message
                   # this is the value that should be overridden
+                  # based on the resourceParameters at the bottom
                   value: no message
               templates:
               - name: whalesay
