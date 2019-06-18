@@ -112,7 +112,7 @@ spec:
       paths:
       - backend:
           serviceName: github-gateway-svc
-          servicePort: 12000
+          servicePort: 12000 # need to explicitly define this
         path: /github
   tls:
   - hosts:
@@ -177,7 +177,8 @@ A gateway consumes events from event sources, transforms them into the
 and dispatches them to sensors.
 
 One gateway can have multiple sensors, as denoted by the `watchers` key at the 
-bottom of the config file.
+bottom of the config file. Because of this, one gateway can be used for multiple 
+repositories.
 
 The [official documentation](https://argoproj.github.io/argo-events/gateway/) has 
 a diagram that shows the process from client to server.
@@ -202,7 +203,7 @@ spec:
   eventProtocol:
     type: "HTTP"
     http:
-      port: "9300"
+      port: "9300" # same as processorPort
   template:
     metadata:
       name: "github-gateway"
@@ -228,7 +229,7 @@ spec:
       ports:
         - port: 12000
           targetPort: 12000
-      type: LoadBalancer
+      type: NodePort
   watchers:
     sensors:
       - name: "github-sensor"
@@ -249,6 +250,11 @@ You can include multiple events in the same config file. In the below example,
 we have one event named `example`. You can easily add another by adding a new 
 key under `data`, the same way that `example` is listed.
 
+Inside `data.hook`, the service needs to be mapped to the Ingress that was set 
+up earlier in this documentation. It is preferred to name the `endpoint` based 
+on the name of the repository you are connected to. Multiple subpaths can be 
+defined under this endpoint.
+
 - Create a new yaml file (`github-event-source.yaml`).
 
 ```yaml
@@ -268,7 +274,8 @@ data:
     repository: "test-repo"
     # Github will send events to the following port and endpoint
     hook:
-     endpoint: "/github/push"
+     endpoint: "/github/test-repo"
+     # Same as gateway service
      port: "12000"
      # url the gateway will use to register at GitHub
      url: "https://ericargo.dictybase.dev"
@@ -370,3 +377,5 @@ You can browse usable GitHub Webhook events [here](https://developer.github.com/
 
 For an example of a webhook payload response, check the webhook settings page of the 
 repository you are using.
+
+[Argo Workflow documentation](https://github.com/argoproj/argo/blob/master/examples/README.md)
