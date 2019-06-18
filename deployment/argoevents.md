@@ -351,7 +351,7 @@ spec:
         kind: Workflow
         source:
           url:
-            path: "https://gist.githubusercontent.com/wildlifehexagon/6af9db7a0537b3e40962cb34adbb5edd/raw/63965625fecc821e5144e035bfe503ff57877910/gh-test.yaml"
+            path: "https://raw.githubusercontent.com/dictybase-playground/argo-test/master/config.yaml"
             verifycert: false
       resourceParameters:
         - src:
