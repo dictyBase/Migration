@@ -36,10 +36,9 @@ Events documentation can be found [here](https://argoproj.github.io/argo-events/
 
 ### Generate Issuer and Certificate
 
-You will need to create a new issuer and certificate for this namespace. 
-Make sure you have `cert-manager` set up per [these instructions](./certificate.md).
-
-These are required in order to set up Ingress (our next step).
+You will need to create a new issuer and certificate -- these are required in 
+order to set up Ingress (our next step). Make sure you have `cert-manager` set 
+up per [these instructions](./certificate.md).
 
 __Issuer__
 ```yaml
@@ -269,7 +268,7 @@ data:
     repository: "test-repo"
     # Github will send events to the following port and endpoint
     hook:
-     endpoint: "/push"
+     endpoint: "/github/push"
      port: "12000"
      # url the gateway will use to register at GitHub
      url: "https://ericargo.dictybase.dev"
@@ -309,9 +308,12 @@ Triggers are executed once the event dependencies are resolved.
 Each sensor can have multiple events defined. The [documentation](https://argoproj.github.io/argo-events/sensor/) 
 has a nice diagram showing the workflow.
 
-The following example is very simple -- it just uses the Docker Whalesay demo 
-container to display the action pulled from the triggered GitHub webhook. This 
-will need to be heavily updated for any real use cases.
+The following example is very simple. We have set up a URL trigger that uses 
+a [YAML config file](https://gist.githubusercontent.com/wildlifehexagon/6af9db7a0537b3e40962cb34adbb5edd/raw/63965625fecc821e5144e035bfe503ff57877910/gh-test.yaml) 
+which in turn points to a Docker container. An environmental variable is passed 
+to the Dockerfile with the contents of our webhook JSON response. The only 
+purpose of this Dockerfile is to print the JSON to the console, but it shows 
+how this can be set up with more complex use cases.
 
 - Create a new yaml file (`github-sensor.yaml`).
 
@@ -348,32 +350,13 @@ spec:
         version: v1alpha1
         kind: Workflow
         source:
-          inline: |
-            apiVersion: argoproj.io/v1alpha1
-            kind: Workflow
-            metadata:
-              generateName: github-
-            spec:
-              entrypoint: whalesay
-              arguments:
-                parameters:
-                - name: message
-                  # this is the value that should be overridden
-                  # based on the resourceParameters at the bottom
-                  value: no message
-              templates:
-              - name: whalesay
-                inputs:
-                  parameters:
-                  - name: message
-                container:
-                  image: docker/whalesay:latest
-                  command: [cowsay]
-                  args: ["{{inputs.parameters.message}}"]
+          url:
+            path: "https://gist.githubusercontent.com/wildlifehexagon/6af9db7a0537b3e40962cb34adbb5edd/raw/63965625fecc821e5144e035bfe503ff57877910/gh-test.yaml"
+            verifycert: false
       resourceParameters:
         - src:
             event: "github-gateway:example"
-            path: "action"
+            # path: "action" # use this key if you only want certain values
           dest: spec.arguments.parameters.0.value
 ```
 
