@@ -5,7 +5,7 @@ Install the CustomResourceDefinition resources separately
 
 ![](userinput.png)
 > `$_> kubectl apply \`   
->  `  -f https://raw.githubusercontent.com/jetstack/cert-manager/release-0.8/deploy/manifests/00-crds.yaml`
+>  `-f https://raw.githubusercontent.com/jetstack/cert-manager/release-0.8/deploy/manifests/00-crds.yaml`
 
 > `$_> kubectl create namespace cert-manager`
 
@@ -22,7 +22,7 @@ Install the CustomResourceDefinition resources separately
 Each developer gets their own subdomain at
 [dictybase.dev](https://dictybase.dev). This template will serve as a guide
 used for all developers. Here, `eric` will be used as an example.
-Two resources have to be created `issuer` and `certificate`.
+Two resources have to be created: `issuer` and `certificate`.
 ****
 
 __Issuer__
@@ -31,7 +31,7 @@ apiVersion: certmanager.k8s.io/v1alpha1
 kind: Issuer
 metadata:
   # change the developer name accordingly
-  name: dictybase-eric-dev # chang
+  name: dictybase-eric-dev
   namespace: dictybase
 spec:
   acme:

@@ -57,17 +57,17 @@ development.The generated data is generally loaded in batch.
 * Make sure you have added the correct repositories. If not, add them with
   `helm repo add` command.
 
-![](images/userinput.png)
+![](./userinput.png)
 > `$_> helm repo list`   
 
 * Check for available dictybase charts   
 
-![](images/userinput.png)
+![](./userinput.png)
 > `$_> helm search -l dicty`   
 
 * Update repositories   
 
-![](images/userinput.png)
+![](./userinput.png)
 > `$_> helm repo update`   
 
 
