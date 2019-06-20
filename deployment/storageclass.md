@@ -17,7 +17,10 @@ parameters:
 EOF
 ```
 
-Verify by running `kubectl get sc`
+Verify by running 
+```shell 
+$_> kubectl get sc
+```
 
 ##### Note
 This storage class will be used globally by all of our applications, so if
