@@ -15,3 +15,9 @@ It is expected to print an email of the account.
 >      `--user=[email from the previous command]`
 
 
+##### Note   
+The email address is case sensitive, be mindful about that (i.e.
+`testuser@gmail.com` and `TestUser@gmail.com` are **not** the same). If you get
+a "forbidden" error with any mainifest with `RBAC` make sure to use the correct
+case for your authenticated gcloud account.
+
