@@ -4,7 +4,7 @@ To add and manipulate kubernetes
 the account that execute `kubectl` binary must have cluster
 administrative permission.
 
-* Extract the active authenticated gcloud account.
+* Extract the active and authenticated gcloud account information.
 It is expected to print an email of the account.
 >`$_>  gcloud config list account --format "value(core.account)"`   
 

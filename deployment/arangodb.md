@@ -1,25 +1,9 @@
 # ArangoDB
-
-First of all, make sure that you have set up a cluster admin role for the current executing user.
-To get the email of the current user: `gcloud info | grep Account`.
-
-Now create the clusterrolebinding.
-
-```
-kubectl create clusterrolebinding dictyadmin \
-    --clusterrole=cluster-admin \
-    --user=youremail@email.org
-```
-
-This should allow you to easily install future manifests. *However,* if you get a "forbidden" error
-when creating a new role, read the error message and verify that the user email address is the same 
-one that you used to create this `cluster-admin`. Be especially mindful that the capitalization is the 
-same for both (i.e. `testuser@gmail.com` and `TestUser@gmail.com` are **not** the same).
-
-Also, if you want to use a custom storage class (i.e. SSD), you need to make sure you have created 
-one first. There is an [example](./storageclass.yaml) in this folder.
-
-To create this, use `kubectl apply -f storageclass.yaml`.
+## Prerequisites
+* Have a `configured(kubectl access)`
+  [GKE](https://cloud.google.com/kubernetes-engine/) access.
+* [Setup](/admin.md) cluster admin access.
+* [Setup](/storageclass.md) custom storage to use `ssd`.
 
 ## Fresh Install
 If you are doing a fresh install into the cluster, you need to install two Helm charts. It is recommended 
