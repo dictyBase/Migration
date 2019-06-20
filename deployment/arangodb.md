@@ -2,8 +2,8 @@
 ## Prerequisites
 * Have a `configured(kubectl access)`
   [GKE](https://cloud.google.com/kubernetes-engine/) access.
-* [Setup](/admin.md) cluster admin access.
-* [Setup](/storageclass.md) custom storage class to use `ssd` disk.
+* [Setup](admin.md) cluster admin access.
+* [Setup](storageclass.md) custom storage class to use `ssd` disk.
 * This guide assumes only one arangodb server instance for each cluster.
 
 ## Fresh Install
@@ -25,7 +25,7 @@ In the second step we are disable deployment replication. For details look
 >         `--set arangodb.dbservers.storageClass=fast \ `   
 >         ` --set arangodb.single.storage=50Gi`
 
-Here we have use the custom [storage class](/storageclass.md) and have also
+Here we have use the custom [storage class](storageclass.md) and have also
 setup the storage space. Arangodb version `3.3.23` is also get install by
 default. To see what else you can customize, check out the chart
 [README](https://github.com/dictybase-docker/kubernetes-charts/tree/master/arangodb).
@@ -64,14 +64,16 @@ advised to upgrade incrementally (i.e. `0.3.8` to `0.3.10` to `0.3.11`, etc.).
 
 ### Upgrade CRD and install new Deployment
 Upgrade the existing CRD (optional).
-> `$_> helm upgrade [RELEASE NAME] https://github.com/arangodb/kube-arangodb/releases/download/[VERSION]/kube-arangodb-crd.tgz`
+> `$_> helm upgrade [RELEASE NAME] \`    
+>   `https://github.com/arangodb/kube-arangodb/releases/download/[VERSION]/kube-arangodb-crd.tgz`
 
 Find and delete the existing deployment (as mentioned above).
 > `$_> helm delete [RELEASE NAME]`
 
 Next, install the operator for `ArangoDeployment` while making sure to disable deployment replication.
-> `$_> helm install https://github.com/arangodb/kube-arangodb/releases/download/[VERSION]/kube-arangodb.tgz `
->                        `--set=DeploymentReplication.Create=false --namespace dictybase`
+> `$_> helm install \`       
+>      `https://github.com/arangodb/kube-arangodb/releases/download/[VERSION]/kube-arangodb.tgz `    
+>      `                  `--set=DeploymentReplication.Create=false --namespace dictybase`
 
 Verify that everything is working as expected, then proceed to the next version. 
 Repeat as necessary.
