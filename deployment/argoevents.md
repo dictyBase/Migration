@@ -3,11 +3,10 @@
 Here we will go through the process of setting up Argo Events with a GitHub 
 webhook in your cluster.
 
-## Initial Setup
-
-Make sure your account has the ability to create new clusterroles. See the 
-[arangodb](./arangodb.md) guide for more information. Also the official Argo 
-Events documentation can be found [here](https://argoproj.github.io/argo-events/).
+## Prerequisites
+* Have a `configured (kubectl access)`
+  [GKE](https://cloud.google.com/kubernetes-engine/) access.
+* [Setup](admin.md) cluster admin access.
 
 ### Install Helm Charts
 
@@ -33,6 +32,15 @@ Events documentation can be found [here](https://argoproj.github.io/argo-events/
 
 ![](userinput.png)
 > `$_> helm install argo/argo-events --namespace argo-events`
+
+#### Create cluster role for Argo Events service account
+
+The `argo` Helm chart installs everything needed; however, its service account 
+needs to have additional permissions. Run the following to do so:
+
+>`$_>  kubectl create clusterrolebinding argo-events \ `    
+>         `--clusterrole=cluster-admin \ `   
+>         `--serviceaccount=argo-events:default`
 
 ### Generate Issuer and Certificate
 
@@ -63,7 +71,6 @@ spec:
 ![](userinput.png)
 > `$_> kubectl apply -f issuer.yml`
 
-****
 __Certificate__
 ```yaml
 apiVersion: certmanager.k8s.io/v1alpha1
@@ -198,7 +205,7 @@ metadata:
     argo-events-gateway-version: v0.10
 spec:
   type: "github"
-  eventSource: "github-event-source"
+  eventSource: "github-event-source" # matches name of event source you will create next
   processorPort: "9330"
   eventProtocol:
     type: "HTTP"
@@ -229,10 +236,10 @@ spec:
       ports:
         - port: 12000
           targetPort: 12000
-      type: NodePort
+      type: NodePort # make sure not to use LoadBalancer
   watchers:
     sensors:
-      - name: "github-sensor"
+      - name: "github-sensor" # matches name of sensor you create after event-source
 ```
 
 ![](userinput.png)
@@ -373,9 +380,9 @@ spec:
 Now you can test this out by creating issues, leaving comments, etc. inside of 
 the GitHub repository you set up the webhook for.
 
-You can browse usable GitHub Webhook events [here](https://developer.github.com/webhooks/).
+#### Helpful links
 
-For an example of a webhook payload response, check the webhook settings page of the 
-repository you are using.
-
-[Argo Workflow documentation](https://github.com/argoproj/argo/blob/master/examples/README.md)
+- [GitHub Webhook events documentation](https://developer.github.com/webhooks/)
+- [GitHub Webhook Push event payload](https://developer.github.com/v3/activity/events/types/#pushevent)
+- [Argo Workflow documentation](https://github.com/argoproj/argo/blob/master/examples/README.md)
+- [Argo Events documentation](https://argoproj.github.io/argo-events/)
