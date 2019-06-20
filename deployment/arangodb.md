@@ -108,5 +108,10 @@ database:
 ```
 >`$_> helm install dictybase/arango-create-database --namespace dictybase -f new-db.yaml`    
 
-Just add more database names in the `names` parameters, existing one will be
-skipped and new ones will be created.
+**Note:** this chart is capable of creating both databases and users in one shot. 
+If the user `george` in this example does not exist, this chart will create the 
+user and grant them `rw` permissions for the databases listed. If the user does 
+exist, this will update their grant privileges to `rw` or whatever you specify.
+
+You can add more database names in the `names` parameters as necessary. Existing 
+ones will be skipped and new ones will be created.
