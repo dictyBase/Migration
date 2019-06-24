@@ -1,14 +1,24 @@
-# Argo Events
+Here we will go through the process of setting up Argo Events in a cluster. Our 
+goals in using these tools are twofold:
 
-Here we will go through the process of setting up Argo Events with a GitHub 
-webhook in your cluster.
+1) Connect Argo Events (webhooks) to capture triggers from our source code 
+repositories (i.e. commits).
+
+2) Connect Argo Events to capture `POST` and `PUT` requests to a Minio bucket -- 
+anything that creates a new file or updates existing files.
 
 ## Prerequisites
 * Have a `configured (kubectl access)`
   [GKE](https://cloud.google.com/kubernetes-engine/) access.
 * [Setup](admin.md) cluster admin access.
+* [Cert-Manager](certificate.md) installed.
+* [Minio](minio.md) installed.
 
-### Install Helm Charts
+## Helm Charts Installation
+
+The official Argo helm charts will do an installation with all of the necessary 
+custom resource definitions, configmaps and controllers required to run both Argo 
+and Argo Events.
 
 - First create namespaces
 
@@ -26,27 +36,26 @@ webhook in your cluster.
 - Install `argo` chart
 
 ![](userinput.png)
-> `$_> helm install argo/argo --namespace argo`
+> `$_> helm install argo/argo --version 0.4.0 --namespace argo`
 
 - Install `argo-events` chart
 
 ![](userinput.png)
-> `$_> helm install argo/argo-events --namespace argo-events`
+> `$_> helm install argo/argo-events --version 0.4.2 --namespace argo-events`
 
-#### Create cluster role for Argo Events service account
+### Create cluster role for Argo Events service account
 
 The `argo` Helm chart installs everything needed; however, its service account 
 needs to have additional permissions. Run the following to do so:
 
->`$_>  kubectl create clusterrolebinding argo-events \ `    
->         `--clusterrole=cluster-admin \ `   
+>`$_>  kubectl create clusterrolebinding argo-events \ `     
+>         `--clusterrole=cluster-admin \ `     
 >         `--serviceaccount=argo-events:default`
 
-### Generate Issuer and Certificate
+## Issuer and Certificate
 
 You will need to create a new issuer and certificate -- these are required in 
-order to set up Ingress (our next step). Make sure you have `cert-manager` set 
-up per [these instructions](./certificate.md).
+order to set up Ingress (our next step).
 
 __Issuer__
 ```yaml
@@ -96,6 +105,148 @@ spec:
 ![](userinput.png)
 > `$_> kubectl apply -f certificate.yaml`
 
+## Understanding Argo Events
+
+Three pieces are required for Argo Events and they need to be deployed in this 
+exact order.
+
+### Gateways
+
+Gateways are responsible for consuming events from event sources and then 
+dispatching them to sensors. There are [many types](https://argoproj.github.io/argo-events/gateway/#core-gateways) 
+of gateways. Each gateway has two components, a client and a server, and these 
+use gRPC to communicate. The server consumes events and streams them to the client, 
+which transforms the events and dispatches them to sensors.
+
+<p align="center">
+  <img src="https://github.com/argoproj/argo-events/blob/master/docs/assets/gateways.png?raw=true" alt="Gateway"/>
+</p>
+
+One gateway can have multiple sensors, as denoted by the `watchers` key at the 
+bottom of its config file.
+
+```yaml
+  watchers:
+    sensors:
+      - name: "github-sensor"
+      # insert any other sensors here
+```
+
+Because of this, only one gateway is needed for each use case. Since we have two 
+use cases (GitHub webhooks and Minio notifications), we will need to create two 
+gateways (one for each).
+
+### Event Sources
+
+Event sources are config maps that are interpreted by the gateway.
+
+Each event source has its own type of configuration. For GitHub webhooks, you 
+would need to specify the webhook ID, GitHub repository, the actual hook 
+endpoint/port and the tokens from the K8s secret. For Minio, you would need to 
+provide the s3 service endpoint, bucket name, events and the keys from the K8s
+secret.
+
+Here's a fragment example of how to create a GitHub event source with name `dicty-stock-center`. This same template would need to be used and customized 
+for every repository we want to connect.
+
+```yaml
+  dicty-stock-center: |-
+    id: 99999
+    owner: "dictyBase"
+    repository: "Dicty-Stock-Center"
+    hook:
+     endpoint: "/github/dicty-stock-center"
+     port: "12000"
+     url: "https://ericargo.dictybase.dev"
+    events:
+    - "push"
+    apiToken:
+      name: github-tokens
+      key: apiToken
+    webHookSecret:
+      name: github-tokens
+      key: webHookSecret
+    insecure: false
+    active: true
+    contentType: "json"
+```
+
+You can include multiple events in the same config file. Just use the same 
+template but change the name accordingly (i.e. `dicty-frontpage`, etc).
+
+For a comparison, here's how you would define an event source for Minio:
+
+```yaml
+  minio-example: |-
+    bucket:
+      name: input
+    # s3 service endpoint
+    endpoint: minio.dictybase:9000
+    events:
+     - s3:ObjectCreated:Put
+     - s3:ObjectCreated:Post
+    # no filter needed
+    filter:
+      prefix: ""
+      suffix: ""
+    insecure: true
+    accessKey:
+      key: accesskey
+      name: minio
+    secretKey:
+      key: secretkey
+      name: minio
+```
+
+### Sensors
+
+Sensors define a set of event dependencies (inputs) and triggers (outputs). 
+Triggers are executed once the event dependencies are resolved.
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/argoproj/argo-events/master/docs/assets/sensor.png?raw=true" alt="Sensor"/>
+</p>
+
+An event dependency is the event the sensor is waiting for. It is defined as 
+`gateway-name:event-source-name`. For example, if you created an `event-source` 
+with the name `dicty-stock-center`, the event dependency name would be 
+`github-gateway:dicty-stock-center`.
+
+Each sensor can have multiple events defined. First you would need to list their 
+names under the `spec.dependencies` key like so:
+
+```yaml
+  dependencies:
+    - name: "github-gateway:dicty-stock-center"
+    - name: "github-gateway:dicty-frontpage"
+```
+
+You would also need to update the `resourceParameters` key to link the events 
+and the values you want to grab from them. A brief GitHub example that grabs the 
+head commit URL from the webhook response of two different repositories:
+
+```yaml
+      resourceParameters:
+        - src:
+            event: "github-gateway:dicty-stock-center"
+            path: "head_commit.url"
+            # value:
+          dest: spec.arguments.parameters.0.value
+        - src:
+            event: "github-gateway:dicty-frontpage"
+            path: "head_commit.url"
+            # value:
+          dest: spec.arguments.parameters.0.value
+```
+
+For the triggers, you have to set up an [Argo Workflow](https://argoproj.github.io/docs/argo/examples/readme.html).
+
+There are more full examples of these in the GitHub and Minio sections below.
+
+## GitHub Setup
+
+In order to integrate GitHub webhooks with Argo Events, we will need to enable 
+Ingress, create a personal access token and set up all of our wanted webhooks.
 
 ### Enable Ingress
 
@@ -127,9 +278,6 @@ spec:
     secretName: argo-eric-dev-tls
 ```
 
-![](userinput.png)
->`$_> kubectl apply -f ingress-gh.yaml -n argo-events`
-
 ### Enable GitHub Webhooks
 
 There are two ways to create a personal access token -- either through the command 
@@ -143,11 +291,12 @@ terminal:
 
 `ruby -rsecurerandom -e 'puts SecureRandom.hex(20)'`
 
-**Important:** Make note of this secret key -- you will need it shortly.
+**Important:** Make note of this secret key -- you will need it to create an 
+event source.
 
-Create a JSON file with the desired configuration for the webhook. The URL value 
-should be the webhook endpoint you will use later when creating an event source. 
-Our standard format is to use `/github/:repo-name`.
+Create a JSON file (say `payload.json`) with the desired configuration for the 
+webhook. The URL value should be the webhook endpoint you will use later when 
+creating an event source. Our standard format is to use `/github/:repo-name`.
 
 ```json
 {
@@ -166,14 +315,16 @@ Our standard format is to use `/github/:repo-name`.
 Now `POST` this using [curl](https://curl.haxx.se/).
 
 ![](userinput.png)
->`$_> curl -X POST -H "Content-Type: application/json" -u YOUR_USERNAME_HERE `
->         `-d @payload.json https://api.github.com/repos/:owner/:repo/hooks`
+>`$_> curl -X POST -H "Content-Type: application/json" -u YOUR_USERNAME_HERE \`     
+> `-d @payload.json https://api.github.com/repos/:owner/:repo/hooks`
 
 **Note:** if you have [two-factor authentication](https://help.github.com/en/articles/securing-your-account-with-two-factor-authentication-2fa) 
-enabled, you will also need to include your 2FA code with `--header "x-github-otp: YOUR_CODE_HERE"`
+enabled, you will also need to include your 2FA code with the following:
 
-You will be prompted for your account password, then if successful you will 
-receive a response like this:
+`--header "x-github-otp: YOUR_CODE_HERE"`
+
+After using the `curl` command above, you will be prompted for your account 
+password. If successful you will receive a response like this:
 
 ```json
 {
@@ -207,12 +358,16 @@ is needed for generating a Kubernetes secret very soon.
 
 ### Generate GitHub personal access token (apiToken)
 
+If you already have a personal access token that you want to use, you can skip 
+this part. However, it may be preferable to generate a new token specifically for 
+Argo usage.
+
 There are two ways to create a personal access token -- either through the command 
 line or on [GitHub](https://github.com/settings/tokens). In this guide, we will 
 use the command line.
 
-Create a JSON file with, at minimum, the `scopes` and `note` for this token. See 
-[here](https://developer.github.com/v3/oauth_authorizations/#create-a-new-authorization) 
+Create a JSON file (say `token.json`) with, at minimum, the `scopes` and `note` 
+for this token. See [here](https://developer.github.com/v3/oauth_authorizations/#create-a-new-authorization) 
 for more information on available parameters.
 ```json
 {
@@ -226,14 +381,16 @@ for more information on available parameters.
 Now `POST` this using [curl](https://curl.haxx.se/).
 
 ![](userinput.png)
->`$_> curl -X POST -H "Content-Type: application/json" -u YOUR_USERNAME_HERE `
->         `-d @token.json https://api.github.com/authorizations`
+>`$_> curl -X POST -H "Content-Type: application/json" -u YOUR_USERNAME_HERE \`     
+> `-d @token.json https://api.github.com/authorizations`
 
 **Note:** if you have two-factor authentication enabled, you will also need to 
-include your 2FA code with `--header "x-github-otp: YOUR_CODE_HERE"`
+include your 2FA code with the following:
 
-You will be prompted for your account password, then you will receive a response 
-like this:
+`--header "x-github-otp: YOUR_CODE_HERE"`
+
+After using the `curl` command above, you will be prompted for your account 
+password. If successful you will receive a response like this:
 
 ```json
 {
@@ -270,26 +427,11 @@ where somehow foreign characters were being passed in, thereby creating
 verification problems.
 
 ![](userinput.png)
->`$_> kubectl create secret generic github-access --from-literal=apiToken=YOUR_TOKEN_HERE `
->                        `--from-literal=webHookSecret=YOUR_SECRET_HERE -n argo-events`
+>`$_> kubectl create secret generic github-access \`     
+> `--from-literal=apiToken=YOUR_TOKEN_HERE \`     
+> `--from-literal=webHookSecret=YOUR_SECRET_HERE -n argo-events`
 
-## Argo Events Deployment Process
-
-Three pieces are required for Argo Events and they need to be deployed in this 
-exact order.
-
-### Deploy the gateway
-
-A gateway consumes events from event sources, transforms them into the 
-[cloudevents specification](https://github.com/cloudevents/spec) compliant events 
-and dispatches them to sensors.
-
-One gateway can have multiple sensors, as denoted by the `watchers` key at the 
-bottom of the config file. Because of this, one gateway can be used for multiple 
-repositories.
-
-The [official documentation](https://argoproj.github.io/argo-events/gateway/) has 
-a diagram that shows the process from client to server.
+### Gateway
 
 - Create a new yaml file (`github-gateway.yaml`).
 
@@ -299,19 +441,17 @@ kind: Gateway
 metadata:
   name: github-gateway
   labels:
-    # gateway controller with instanceId "argo-events" will process this gateway
     gateways.argoproj.io/gateway-controller-instanceid: argo-events
-    # gateway controller will use this label to match with its own version
-    # do not remove
     argo-events-gateway-version: v0.10
 spec:
   type: "github"
-  eventSource: "github-event-source" # matches name of event source you will create next
+  # eventSource matches name of event source you will create next
+  eventSource: "github-event-source"
   processorPort: "9330"
   eventProtocol:
     type: "HTTP"
     http:
-      port: "9300" # same as processorPort
+      port: "9300"
   template:
     metadata:
       name: "github-gateway"
@@ -337,31 +477,33 @@ spec:
       ports:
         - port: 12000
           targetPort: 12000
-      type: NodePort # make sure not to use LoadBalancer
+      type: NodePort
   watchers:
     sensors:
-      - name: "github-sensor" # matches name of sensor you create after event-source
+      # each name should match the corresponding sensor you create later
+      - name: "github-sensor"
 ```
 
 ![](userinput.png)
 >`$_> kubectl apply -f github-gateway.yaml -n argo-events`
 
-### Deploy the event source
-
-Event sources are config maps that are interpreted by the gateway as a source 
-for events producing the entity.
-
-In this file, you will need to specify the webhook ID, GitHub repository, the 
-actual hook endpoint/port and the tokens from your K8s secret.
-
-You can include multiple events in the same config file. In the below example, 
-we have one event named `example`. You can easily add another by adding a new 
-key under `data`, the same way that `example` is listed.
+### Event Source
 
 Inside `data.hook`, the service needs to be mapped to the Ingress that was set 
-up earlier in this documentation. It is preferred to name the `endpoint` based 
-on the name of the repository you are connected to. Multiple subpaths can be 
-defined under this endpoint.
+up earlier . It is preferred to name the `endpoint` based on the name of the 
+repository you are connected to. Multiple subpaths can be defined under this 
+endpoint.
+
+Some important notes:
+
+- `id` is the ID of the webhook you created
+- `hook.port` needs to be the same as the gateway service
+- `hook.url` is the URL the gateway uses to register at GitHub
+- `apiToken` and `webHookSecret` both need their name and key from the K8s secret
+- `insecure` is the type of connection between the gateway and GitHub
+- `active` determines if notifications are sent when a webhook is triggered
+
+This example will create two events.
 
 - Create a new yaml file (`github-event-source.yaml`).
 
@@ -371,38 +513,44 @@ kind: ConfigMap
 metadata:
   name: github-event-source
   labels:
-    # do not remove
     argo-events-event-source-version: v0.10
 data:
-  example: |-
-    # ID of the GitHub webhook
-    # this needs to match the one you generated
-    id: 123
+  dicty-stock-center: |-
+    id: 123456
     owner: "dictybase"
-    repository: "test-repo"
-    # Github will send events to the following port and endpoint
+    repository: "dicty-stock-center"
     hook:
-     endpoint: "/github/test-repo"
-     # Same as gateway service
+     endpoint: "/github/dicty-stock-center"
      port: "12000"
-     # url the gateway will use to register at GitHub
      url: "https://ericargo.dictybase.dev"
-    # type of events to listen to
     events:
-    - "*"
-    # apiToken refers to K8s secret that stores the github personal access token
+    - "push"
     apiToken:
-      # Name of the K8s secret that contains the access token
       name: github-access
-      # Corresponding key in the K8s secret
       key: apiToken
-    # webHookSecret refers to K8s secret that stores the webhook secret
     webHookSecret:
       name: github-access
       key: webHookSecret
-    # type of connection between gateway and github
     insecure: false
-    # determines if notifications are sent when the webhook is triggered
+    active: true
+    contentType: "json"
+  dicty-frontpage: |-
+    id: 123789
+    owner: "dictybase"
+    repository: "dicty-frontpage"
+    hook:
+     endpoint: "/github/dicty-frontpage"
+     port: "12000"
+     url: "https://ericargo.dictybase.dev"
+    events:
+    - "push"
+    apiToken:
+      name: github-access
+      key: apiToken
+    webHookSecret:
+      name: github-access
+      key: webHookSecret
+    insecure: false
     active: true
     contentType: "json"
 ```
@@ -410,25 +558,14 @@ data:
 ![](userinput.png)
 >`$_> kubectl apply -f github-event-source.yaml -n argo-events`
 
-### Deploy the sensor
-
-Sensors define a set of event dependencies (inputs) and triggers (outputs). 
-
-An event dependency is the event the sensor is waiting for. It is defined as 
-"gateway-name:event-source-name". Based on the config file we used for the event 
-source, our dependency would be `github-gateway:example`.
-
-Triggers are executed once the event dependencies are resolved.
-
-Each sensor can have multiple events defined. The [documentation](https://argoproj.github.io/argo-events/sensor/) 
-has a nice diagram showing the workflow.
+### Sensor
 
 The following example is very simple. We have set up a URL trigger that uses 
-a [YAML config file](https://gist.githubusercontent.com/wildlifehexagon/6af9db7a0537b3e40962cb34adbb5edd/raw/63965625fecc821e5144e035bfe503ff57877910/gh-test.yaml) 
+a [YAML config file](https://raw.githubusercontent.com/dictybase-playground/argo-test/master/config.yaml) 
 which in turn points to a Docker container. An environmental variable is passed 
 to the Dockerfile with the contents of our webhook JSON response. The only 
 purpose of this Dockerfile is to print the JSON to the console, but it shows 
-how this can be set up with more complex use cases.
+how this can be set up to later work with more complex use cases.
 
 - Create a new yaml file (`github-sensor.yaml`).
 
@@ -438,10 +575,7 @@ kind: Sensor
 metadata:
   name: github-sensor
   labels:
-    # sensor controller with instanceId "argo-events" will process this sensor
     sensors.argoproj.io/sensor-controller-instanceid: argo-events
-    # sensor controller will use this label to match with its own version
-    # do not remove
     argo-events-sensor-version: v0.10
 spec:
   template:
@@ -452,8 +586,8 @@ spec:
           imagePullPolicy: Always
       serviceAccountName: argo-events-sa
   dependencies:
-    # name matching event sensor
-    - name: "github-gateway:example"
+    - name: "github-gateway:dicty-stock-center"
+    - name: "github-gateway:dicty-frontpage"
   eventProtocol:
     type: "HTTP"
     http:
@@ -470,8 +604,10 @@ spec:
             verifycert: false
       resourceParameters:
         - src:
-            event: "github-gateway:example"
-            # path: "action" # use this key if you only want certain values
+            event: "github-gateway:dicty-stock-center"
+          dest: spec.arguments.parameters.0.value
+        - src:
+            event: "github-gateway:dicty-frontpage"
           dest: spec.arguments.parameters.0.value
 ```
 
@@ -481,9 +617,7 @@ spec:
 Now you can test this out by creating issues, leaving comments, etc. inside of 
 the GitHub repository you set up the webhook for.
 
-#### Helpful links
+#### Helpful Links
 
 - [GitHub Webhook events documentation](https://developer.github.com/webhooks/)
 - [GitHub Webhook Push event payload](https://developer.github.com/v3/activity/events/types/#pushevent)
-- [Argo Workflow documentation](https://github.com/argoproj/argo/blob/master/examples/README.md)
-- [Argo Events documentation](https://argoproj.github.io/argo-events/)
