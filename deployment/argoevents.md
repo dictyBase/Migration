@@ -132,33 +132,134 @@ spec:
 
 ### Enable GitHub Webhooks
 
-Go to the GitHub repository of the project you want to use webhooks on, then 
-click the Settings tab. In here, click on the Webhooks tab and then "Add webhook".
+There are two ways to create a personal access token -- either through the command 
+line or on GitHub. This guide will use the command line to create a webhook.
 
-Here is an example of what your settings could look like.
+First, create a secret key. This can be anything you want, and it is important 
+to keep track of this since it will be needed when creating an event source.
 
-![](./images/webhook-example.png)
-
-Make sure content type is `application/json`.
-
-You have to create the secret yourself. A helpful way to generate a new one is 
-by using this command in the terminal: 
+A helpful way to generate a secret key is by using the following command in the 
+terminal:
 
 `ruby -rsecurerandom -e 'puts SecureRandom.hex(20)'`
 
 **Important:** Make note of this secret key -- you will need it shortly.
 
-**Also** make note of the webhook ID. You can find this by clicking on the webhook 
-once it has been created (it will be found at the end of the URL (i.e. `117799556`)). 
-This is required for use in the event source config later on.
+Create a JSON file with the desired configuration for the webhook. The URL value 
+should be the webhook endpoint you will use later when creating an event source. 
+Our standard format is to use `/github/:repo-name`.
+
+```json
+{
+  "name": "web",
+  "active": true,
+  "events": ["push"],
+  "config": {
+    "url": "https://ericargo.dictybase.dev/github/dicty-stock-center",
+    "content_type": "json",
+    "insecure_ssl": "0",
+    "secret": "YOUR_SECRET_HERE"
+  }
+}
+```
+
+Now `POST` this using [curl](https://curl.haxx.se/).
+
+![](userinput.png)
+>`$_> curl -X POST -H "Content-Type: application/json" -u YOUR_USERNAME_HERE `
+>         `-d @payload.json https://api.github.com/repos/:owner/:repo/hooks`
+
+**Note:** if you have [two-factor authentication](https://help.github.com/en/articles/securing-your-account-with-two-factor-authentication-2fa) 
+enabled, you will also need to include your 2FA code with `--header "x-github-otp: YOUR_CODE_HERE"`
+
+You will be prompted for your account password, then if successful you will 
+receive a response like this:
+
+```json
+{
+  "type": "Repository",
+  "id": 12345678,
+  "name": "web",
+  "active": true,
+  "events": [
+    "push",
+  ],
+  "config": {
+    "content_type": "json",
+    "insecure_ssl": "0",
+    "url": "https://example.com/webhook"
+  },
+  "updated_at": "2019-06-03T00:57:16Z",
+  "created_at": "2019-06-03T00:57:16Z",
+  "url": "https://api.github.com/repos/octocat/Hello-World/hooks/12345678",
+  "test_url": "https://api.github.com/repos/octocat/Hello-World/hooks/12345678/test",
+  "ping_url": "https://api.github.com/repos/octocat/Hello-World/hooks/12345678/pings",
+  "last_response": {
+    "code": null,
+    "status": "unused",
+    "message": null
+  }
+}
+```
+
+**IMPORTANT: copy the `id` value immediately.** This is your webhook ID, and it 
+is needed for generating a Kubernetes secret very soon.
 
 ### Generate GitHub personal access token (apiToken)
 
-Now you need to generate a personal access token from GitHub. Go to your  
-[personal settings page](https://github.com/settings/tokens). Click "Generate 
-new token" then fill out the Note and select your desired scopes. Once complete, 
-click "Generate token" at the bottom. **IMPORTANT: copy this token immediately.** 
-You will need this for the next section.
+There are two ways to create a personal access token -- either through the command 
+line or on [GitHub](https://github.com/settings/tokens). In this guide, we will 
+use the command line.
+
+Create a JSON file with, at minimum, the `scopes` and `note` for this token. See 
+[here](https://developer.github.com/v3/oauth_authorizations/#create-a-new-authorization) 
+for more information on available parameters.
+```json
+{
+  "scopes": [
+    "repo"
+  ],
+  "note": "argo events"
+}
+```
+
+Now `POST` this using [curl](https://curl.haxx.se/).
+
+![](userinput.png)
+>`$_> curl -X POST -H "Content-Type: application/json" -u YOUR_USERNAME_HERE `
+>         `-d @token.json https://api.github.com/authorizations`
+
+**Note:** if you have two-factor authentication enabled, you will also need to 
+include your 2FA code with `--header "x-github-otp: YOUR_CODE_HERE"`
+
+You will be prompted for your account password, then you will receive a response 
+like this:
+
+```json
+{
+  "id": 1,
+  "url": "https://api.github.com/authorizations/1",
+  "scopes": [
+    "public_repo"
+  ],
+  "token": "abcdefgh12345678",
+  "token_last_eight": "12345678",
+  "hashed_token": "25f94a2a5c7fbaf499c665bc73d67c1c87e496da8985131633ee0a95819db2e8",
+  "app": {
+    "url": "http://my-github-app.com",
+    "name": "my github app",
+    "client_id": "abcde12345fghij67890"
+  },
+  "note": "optional note",
+  "note_url": "http://optional/note/url",
+  "updated_at": "2011-09-06T20:39:23Z",
+  "created_at": "2011-09-06T17:26:27Z",
+  "fingerprint": ""
+}
+```
+
+**IMPORTANT: copy the `token` value immediately.** You will need this for the next 
+section.
 
 ### Generate Kubernetes secret
 
