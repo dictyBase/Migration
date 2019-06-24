@@ -621,3 +621,158 @@ the GitHub repository you set up the webhook for.
 
 - [GitHub Webhook events documentation](https://developer.github.com/webhooks/)
 - [GitHub Webhook Push event payload](https://developer.github.com/v3/activity/events/types/#pushevent)
+
+## Minio Setup
+
+This will show how to capture `POST` and `PUT` requests to a Minio bucket.
+
+### Kubernetes Secret
+
+This guide asssumes that your installation of Minio is in the `dictybase` namespace. 
+You will need to copy over your `minio` secret from the `dictybase` namespace.
+
+![](userinput.png)
+>`$_> kubectl get secret minio -n dictybase --export -o yaml | \`     
+> `kubectl apply -n argo-events -f -`
+
+### Gateway
+
+Here we will follow the official Argo Events example that uses `artifact`.
+
+- Create a new yaml file (`artifact-gateway.yaml`).
+
+```yaml
+apiVersion: argoproj.io/v1alpha1
+kind: Gateway
+metadata:
+  name: artifact-gateway
+  labels:
+    gateways.argoproj.io/gateway-controller-instanceid: argo-events
+    argo-events-gateway-version: v0.10
+spec:
+  processorPort: "9330"
+  eventProtocol:
+    type: "HTTP"
+    http:
+      port: "9300"
+  template:
+    metadata:
+      name: "artifact-gateway"
+      labels:
+        gateway-name: "artifact-gateway"
+    spec:
+      containers:
+        - name: "gateway-client"
+          image: "argoproj/gateway-client"
+          imagePullPolicy: "Always"
+          command: ["/bin/gateway-client"]
+        - name: "artifact-events"
+          image: "argoproj/artifact-gateway"
+          imagePullPolicy: "Always"
+          command: ["/bin/artifact-gateway"]
+      serviceAccountName: "argo-events-sa"
+  eventSource: "artifact-event-source"
+  eventVersion: "1.0"
+  type: "artifact"
+  watchers:
+    sensors:
+      - name: "artifact-sensor"
+```
+
+![](userinput.png)
+>`$_> kubectl apply -f artifact-gateway.yaml -n argo-events`
+
+### Event Source
+
+`bucket.name` refers to the bucket you want to listen to events for. The `endpoint` 
+is the cluster IP for the running Minio instance. In this example, we are connecting 
+to `minio` service in the `dictybase` namespace on port `9000`. Writing out the port 
+as `minio.dictybase` causes an error.
+
+`events` is an array of the [bucket notifications](https://docs.min.io/docs/minio-bucket-notification-guide.html) 
+to subscribe to.
+
+`filter` can listen to specific types of files. Otherwise just pass empty strings.
+
+`accessKey` and `secretKey` need to the location of the corresponding K8s secret.
+
+- Create a new yaml file (`artifact-event-source.yaml`).
+
+```yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: artifact-event-source
+  labels:
+    argo-events-event-source-version: v0.10
+data:
+  minio-example: |-
+    bucket:
+      name: input
+    endpoint: minio.dictybase:9000
+    events:
+     - s3:ObjectCreated:Put
+     - s3:ObjectCreated:Post
+    filter:
+      prefix: ""
+      suffix: ""
+    insecure: true
+    accessKey:
+      key: accesskey
+      name: minio
+    secretKey:
+      key: secretkey
+      name: minio
+```
+
+![](userinput.png)
+>`$_> kubectl apply -f artifact-event-source.yaml -n argo-events`
+
+### Sensor
+
+- Create a new yaml file (`artifact-sensor.yaml`).
+
+```yaml
+apiVersion: argoproj.io/v1alpha1
+kind: Sensor
+metadata:
+  name: artifact-sensor
+  labels:
+    sensors.argoproj.io/sensor-controller-instanceid: argo-events
+    argo-events-sensor-version: v0.10
+spec:
+  template:
+    spec:
+      containers:
+        - name: "sensor"
+          image: "argoproj/sensor"
+          imagePullPolicy: Always
+      serviceAccountName: argo-events-sa
+  dependencies:
+    - name: "artifact-gateway:minio-example"
+  eventProtocol:
+    type: "HTTP"
+    http:
+      port: "9300"
+  triggers:
+    - template:
+        name: github-workflow-trigger
+        group: argoproj.io
+        version: v1alpha1
+        kind: Workflow
+        source:
+          url:
+            path: YAML_FILE_HERE...
+            verifycert: false
+      resourceParameters:
+        - src:
+            event: "artifact-gateway:minio-example"
+          dest: spec.arguments.parameters.0.value
+```
+
+![](userinput.png)
+>`$_> kubectl apply -f artifact-sensor.yaml -n argo-events`
+
+#### Helpful Links
+
+[Event Message Structure](https://docs.aws.amazon.com/AmazonS3/latest/dev/notification-content-structure.html)
