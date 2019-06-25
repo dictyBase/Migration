@@ -47,7 +47,7 @@ anything that creates a new file or updates existing files.
 
 ## Helm Charts Installation
 
-The official Argo helm charts will do an installation with all of the necessary 
+The official Argo Helm charts will do an installation with all of the necessary 
 custom resource definitions, configmaps and controllers required to run both Argo 
 and Argo Events.
 
@@ -84,7 +84,7 @@ for the service account if necessary.
 ## Issuer and Certificate
 
 You will need to create a new issuer and certificate -- these are required in 
-order to set up Ingress (our next step).
+order to set up Ingress (needed for GitHub webhooks).
 
 __Issuer__
 ```yaml
@@ -135,6 +135,9 @@ spec:
 > `$_> kubectl apply -f certificate.yaml`
 
 ## Understanding Argo Events
+
+This section is here to provide an overview of how Argo Events work and how the 
+different pieces are connected.
 
 Three pieces are required for Argo Events and they need to be deployed in this 
 exact order.
@@ -202,7 +205,7 @@ names under the `spec.dependencies` key like so:
 
 It should be noted that the default behavior of `dependencies` is an **AND** operation. 
 If you want to change the behavior so workflows are triggered based on individual 
-events resolving (like we do with GitHub webhhooks), you will need to create a 
+events resolving (like we do with GitHub webhooks), you will need to create a 
 `circuit` (more on that soon) based on `dependencyGroups`.
 
 It is recommended to set up a `dependencyGroup` for each `dependency` you wish to 
@@ -219,7 +222,7 @@ repository needs its own trigger to pass its own unique data to the Argo workflo
         - "github-gateway:dicty-frontpage"
 ```
 
-_Note:_ the `name` values cannot contain hyphens.
+_Note: the `name` values cannot contain hyphens._
 
 After this, set up the `circuit`, which is an arbitrary boolean logic applied to the 
 dependency groups. In this example we want the event to be triggered when either 
@@ -375,7 +378,9 @@ password. If successful you will receive a response like this:
 ```
 
 **IMPORTANT: copy the `id` value immediately.** This is your webhook ID, and it 
-is needed for generating a Kubernetes secret very soon.
+is needed for generating a Kubernetes secret very soon. For ease of use, it is 
+suggested to use the same secret key for all of your webhooks, that way you can 
+use the same K8s secret throughout your event sensor configmap.
 
 You will need to do this for **every** webhook you want to set up. It is advisable 
 to have a script automate this process.
