@@ -254,21 +254,56 @@ names under the `spec.dependencies` key like so:
     - name: "github-gateway:dicty-frontpage"
 ```
 
-You would also need to update the `resourceParameters` key to link the events 
-and the values you want to grab from them. A brief GitHub example that grabs the 
-head commit URL from the webhook response of two different repositories:
+It should be noted that the default behavior of `dependencies` is an `AND` operation. 
+If you want to change the behavior so workflows are triggered based on individual 
+events resolving, you will need to create a `circuit` based on `dependencyGroups`.
+
+It is recommended to set up a `dependencyGroup` for each `dependency` you wish to 
+monitor. An example:
 
 ```yaml
+    - name: "dictystockcenter"
+      dependencies:
+        - "github-gateway:dicty-stock-center"
+    - name: "dictyfrontpage"
+      dependencies:
+        - "github-gateway:dicty-frontpage"
+```
+
+Note that the `name` cannot contain hyphens.
+
+After this, set up the `circuit`, which is an arbitrary boolean logic applied to the 
+dependency groups. In this example we want the event to be triggered when either 
+`dictystockcenter` OR `dictyfrontpage` happens.
+
+```yaml
+  circuit: "dictystockcenter || dictyfrontpage"
+```
+
+You will then need to create a `template` for each `dependencyGroup` with the 
+following format:
+
+```yaml
+    - template:
+        when:
+          all:
+            - "dictyfrontpage"
+        name: github-frontpage-workflow-trigger
+        group: argoproj.io
+        version: v1alpha1
+        kind: Workflow
+        source:
+          url:
+            path: "https://raw.githubusercontent.com/dictybase-playground/argo-test/master/config.yaml"
+            verifycert: false
       resourceParameters:
         - src:
-            event: "github-gateway:dicty-stock-center"
-            path: "head_commit.url"
-          dest: spec.arguments.parameters.0.value
-        - src:
             event: "github-gateway:dicty-frontpage"
-            path: "head_commit.url"
           dest: spec.arguments.parameters.0.value
 ```
+
+In the above, the trigger is fired `when all` of the `dictyfrontpage` events are 
+resolved. A more detailed example of the GitHub Sensor is [found later in this document](#sensor).
 
 For the triggers, you have to set up an [Argo Workflow](https://argoproj.github.io/docs/argo/examples/readme.html). 
 There are [many types of ways](https://argoproj.github.io/argo-events/trigger/) 
@@ -604,6 +639,24 @@ to the Dockerfile with the contents of our webhook JSON response. The only
 purpose of this Dockerfile is to print the JSON to the console, but it shows 
 how this can be set up to later work with more complex use cases.
 
+This example is set up for two repositories -- `dicty-stock-center` and `dicty-frontpage`. 
+For each repo, you need to go through the following process:
+
+1) Add the event as a dependency. Remember, the name format is `gateway-name:event-source-name`.
+2) Create a new `dependencyGroup` for that individual repo. Note that you cannot 
+use hyphens in the `name` value (hence why this uses `dictystockcenter` instead of 
+`dicty-stock-center`).
+3) Update the `circuit` value to include this new group name. The `circuit` is 
+set up so the workflow is triggered when the circuit resolves to true. In this case, 
+when there is a new commit to either of the `dicty-stock-center` or `dicty-frontpage` repos, 
+the circuit is true.
+4) Add a new `template` for that particular group. Follow the format below and 
+modify accordingly. In this example, we trigger the workflow `when all` of the 
+`dictyfrontpage` events are resolved. Same with `dictystockcenter`.
+
+This will have to be done with every repo we need to monitor, so this will ultimately 
+be a very large config file.
+
 - Create a new yaml file (`github-sensor.yaml`).
 
 ```yaml
@@ -625,13 +678,40 @@ spec:
   dependencies:
     - name: "github-gateway:dicty-stock-center"
     - name: "github-gateway:dicty-frontpage"
+  dependencyGroups:
+    - name: "dictystockcenter"
+      dependencies:
+        - "github-gateway:dicty-stock-center"
+    - name: "dictyfrontpage"
+      dependencies:
+        - "github-gateway:dicty-frontpage"
+  circuit: "dictystockcenter || dictyfrontpage"
   eventProtocol:
     type: "HTTP"
     http:
       port: "9300"
   triggers:
     - template:
-        name: github-workflow-trigger
+        when:
+          all:
+            - "dictyfrontpage"
+        name: github-frontpage-workflow-trigger
+        group: argoproj.io
+        version: v1alpha1
+        kind: Workflow
+        source:
+          url:
+            path: "https://raw.githubusercontent.com/dictybase-playground/argo-test/master/config.yaml"
+            verifycert: false
+      resourceParameters:
+        - src:
+            event: "github-gateway:dicty-frontpage"
+          dest: spec.arguments.parameters.0.value
+    - template:
+        when:
+          all:
+            - "dictystockcenter"
+        name: github-dictystockcenter-workflow-trigger
         group: argoproj.io
         version: v1alpha1
         kind: Workflow
@@ -642,9 +722,6 @@ spec:
       resourceParameters:
         - src:
             event: "github-gateway:dicty-stock-center"
-          dest: spec.arguments.parameters.0.value
-        - src:
-            event: "github-gateway:dicty-frontpage"
           dest: spec.arguments.parameters.0.value
 ```
 
