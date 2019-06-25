@@ -3,7 +3,7 @@ Table of Contents
 
   * [Prerequisites](#prerequisites)
   * [Helm Charts Installation](#helm-charts-installation)
-      * [Create cluster role for Argo Events service account](#create-cluster-role-for-argo-events-service-account)
+      * [Cluster Roles](#cluster-roles)
   * [Issuer and Certificate](#issuer-and-certificate)
   * [Understanding Argo Events](#understanding-argo-events)
       * [Gateways](#gateways)
@@ -74,14 +74,12 @@ and Argo Events.
 ![](userinput.png)
 > `$_> helm install argo/argo-events --version 0.4.2 --namespace argo-events`
 
-### Create cluster role for Argo Events service account
+### Cluster Roles
 
 The `argo` Helm chart installs everything needed; however, its service account 
-needs to have additional permissions. Run the following to do so:
-
->`$_>  kubectl create clusterrolebinding argo-events \ `     
->         `--clusterrole=cluster-admin \ `     
->         `--serviceaccount=argo-events:default`
+may need to have additional permissions. If the workflow is not working as 
+expected, check the `gateway` logs and [create a role](https://kubernetes.io/docs/reference/access-authn-authz/rbac/#command-line-utilities) 
+for the service account if necessary.
 
 ## Issuer and Certificate
 
@@ -143,107 +141,55 @@ exact order.
 
 ### Gateways
 
-Gateways are responsible for consuming events from event sources and then 
-dispatching them to sensors. There are [many types](https://argoproj.github.io/argo-events/gateway/#core-gateways) 
+[Gateways](https://argoproj.github.io/argo-events/gateway/) are responsible 
+for consuming events from event sources and then dispatching them to sensors. 
+There are [many types](https://argoproj.github.io/argo-events/gateway/#core-gateways) 
 of gateways. Each gateway has two components, a client and a server, and these 
 use gRPC to communicate. The server consumes events and streams them to the client, 
 which transforms the events and dispatches them to sensors.
 
-<p align="center">
-  <img src="https://github.com/argoproj/argo-events/blob/master/docs/assets/gateways.png?raw=true" alt="Gateway"/>
-</p>
-
-One gateway can have multiple sensors, as denoted by the `watchers` key at the 
-bottom of its config file.
-
-```yaml
-  watchers:
-    sensors:
-      - name: "github-sensor"
-      # insert any other sensors here
-```
+Each gateway is aware of and connected to both the event source and the sensor. 
+One gateway can have multiple sensors but only one event source.
 
 Because of this, only one gateway is needed for each use case. Since we have two 
 use cases (GitHub webhooks and Minio notifications), we will need to create two 
 gateways (one for each).
 
+For examples, check the [GitHub](#gateway) and [Minio](#gateway-1) sections.
+
 ### Event Sources
 
-Event sources are config maps that are interpreted by the gateway.
+Event sources are config maps that are interpreted by the gateway. The config maps 
+themselves contain no references to the gateway or sensor -- they are specific 
+to the types of events to monitor.
 
 Each event source has its own type of configuration. For GitHub webhooks, you 
-would need to specify the webhook ID, GitHub repository, the actual hook 
-endpoint/port and the tokens from the K8s secret. For Minio, you would need to 
-provide the s3 service endpoint, bucket name, events and the keys from the K8s
-secret.
-
-Here's a fragment example of how to create a GitHub event source with name 
-`dicty-stock-center`. This same template would need to be used and customized 
-for every repository we want to connect.
-
-```yaml
-  dicty-stock-center: |-
-    id: 99999
-    owner: "dictyBase"
-    repository: "Dicty-Stock-Center"
-    hook:
-     endpoint: "/github/dicty-stock-center"
-     port: "12000"
-     url: "https://ericargo.dictybase.dev"
-    events:
-    - "push"
-    apiToken:
-      name: github-tokens
-      key: apiToken
-    webHookSecret:
-      name: github-tokens
-      key: webHookSecret
-    insecure: false
-    active: true
-    contentType: "json"
-```
-
-You can include multiple events in the same config file. Just use the same 
-template but change the name accordingly (i.e. `dicty-frontpage`, etc).
-
-For a comparison, here's how you would define an event source for Minio:
-
-```yaml
-  minio-example: |-
-    bucket:
-      name: input
-    endpoint: minio.dictybase:9000
-    events:
-     - s3:ObjectCreated:Put
-     - s3:ObjectCreated:Post
-    filter:
-      prefix: ""
-      suffix: ""
-    insecure: true
-    accessKey:
-      key: accesskey
-      name: minio
-    secretKey:
-      key: secretkey
-      name: minio
-```
+would need to specify the webhook ID, GitHub repository, the hook endpoint/port 
+and the tokens from the K8s secret. For Minio, you would need to provide the s3 
+service endpoint, bucket name, events and the keys from the K8s secret.
 
 There should be only one event source for each type of event (i.e. one configmap 
 for all GitHub webhooks, and a separate configmap for Minio notifications).
 
+For examples, check the [GitHub](#event-source) and [Minio](#event-source-1) sections.
+
 ### Sensors
 
-Sensors define a set of event dependencies (inputs) and triggers (outputs). 
-Triggers are executed once the event dependencies are resolved.
+[Sensors](https://argoproj.github.io/argo-events/sensor/) define a set of event 
+dependencies (inputs) and triggers (outputs). Triggers are executed once the 
+event dependencies are resolved.
 
-<p align="center">
-  <img src="https://raw.githubusercontent.com/argoproj/argo-events/master/docs/assets/sensor.png?raw=true" alt="Sensor"/>
-</p>
+For a more detailed description of how sensors work, read [this section](https://argoproj.github.io/argo-events/sensor/#how-it-works) 
+of the docs.
 
-An event dependency is the event the sensor is waiting for. It is defined as 
-`gateway-name:event-source-name`. For example, if you created a GitHub `event-source` 
-with the name `dicty-stock-center`, the event dependency name would be 
-`github-gateway:dicty-stock-center`.
+In the rest of this section, we will go through our more complex use case of 
+working with multiple GitHub webhooks.
+
+Sensors are aware of both the gateway and event source through the use of event 
+dependencies. An event dependency is the event the sensor is waiting for. 
+It is defined as `gateway-name:event-source-name`. For example, if you created 
+a GitHub `event-source` with the name `dicty-stock-center`, the event dependency 
+name would be `github-gateway:dicty-stock-center`.
 
 Each sensor can have multiple events defined. First you would need to list their 
 names under the `spec.dependencies` key like so:
@@ -254,12 +200,14 @@ names under the `spec.dependencies` key like so:
     - name: "github-gateway:dicty-frontpage"
 ```
 
-It should be noted that the default behavior of `dependencies` is an `AND` operation. 
+It should be noted that the default behavior of `dependencies` is an **AND** operation. 
 If you want to change the behavior so workflows are triggered based on individual 
-events resolving, you will need to create a `circuit` based on `dependencyGroups`.
+events resolving (like we do with GitHub webhhooks), you will need to create a 
+`circuit` (more on that soon) based on `dependencyGroups`.
 
 It is recommended to set up a `dependencyGroup` for each `dependency` you wish to 
-monitor. An example:
+monitor. In the following example, we are using only one dependency per group because each 
+repository needs its own trigger to pass its own unique data to the Argo workflow.
 
 ```yaml
   dependencyGroups:
@@ -271,11 +219,11 @@ monitor. An example:
         - "github-gateway:dicty-frontpage"
 ```
 
-Note that the `name` cannot contain hyphens.
+_Note:_ the `name` values cannot contain hyphens.
 
 After this, set up the `circuit`, which is an arbitrary boolean logic applied to the 
 dependency groups. In this example we want the event to be triggered when either 
-`dictystockcenter` OR `dictyfrontpage` happens.
+`dictystockcenter` **OR** `dictyfrontpage` happens.
 
 ```yaml
   circuit: "dictystockcenter || dictyfrontpage"
@@ -308,11 +256,13 @@ In the above, the trigger is fired `when all` of the `dictyfrontpage` events are
 resolved. A more detailed example of the GitHub Sensor is [found later in this document](#sensor).
 
 For the triggers, you have to set up an [Argo Workflow](https://argoproj.github.io/docs/argo/examples/readme.html). 
-There are [many types of ways](https://argoproj.github.io/argo-events/trigger/) 
+There are [many ways](https://argoproj.github.io/argo-events/trigger/) 
 to trigger a workflow, but in this guide we will be using the `URL` method (linking 
 to an Argo Workflow YAML hosted elsewhere).
 
-There are more full examples of these in the GitHub and Minio sections below.
+There are more full examples of these in the [GitHub](#sensor) and [Minio](#sensor-1) 
+sections below. The Minio example is considerably easier to follow since it does 
+not require the use of a `circuit`.
 
 ## GitHub Setup
 
@@ -427,7 +377,8 @@ password. If successful you will receive a response like this:
 **IMPORTANT: copy the `id` value immediately.** This is your webhook ID, and it 
 is needed for generating a Kubernetes secret very soon.
 
-You will need to do this for **every** webhook you want to set up.
+You will need to do this for **every** webhook you want to set up. It is advisable 
+to have a script automate this process.
 
 ### GitHub personal access token (apiToken)
 
@@ -518,7 +469,7 @@ metadata:
     argo-events-gateway-version: v0.10
 spec:
   type: "github"
-  # eventSource matches name of event source you will create next
+  # eventSource matches name of event source
   eventSource: "github-event-source"
   processorPort: "9330"
   eventProtocol:
@@ -553,7 +504,7 @@ spec:
       type: NodePort
   watchers:
     sensors:
-      # each name should match the corresponding sensor you create later
+      # each name should match the corresponding sensor
       - name: "github-sensor"
 ```
 
@@ -634,7 +585,7 @@ data:
 
 ### Sensor
 
-The following example is very simple. We have set up a URL trigger that uses 
+The following example is very basic. We have set up a URL trigger that uses 
 a [YAML config file](https://raw.githubusercontent.com/dictybase-playground/argo-test/master/config.yaml) 
 which in turn points to a Docker container. An environmental variable is passed 
 to the Dockerfile with the contents of our webhook JSON response. The only 
@@ -650,8 +601,8 @@ use hyphens in the `name` value (hence why this uses `dictystockcenter` instead 
 `dicty-stock-center`).
 3) Update the `circuit` value to include this new group name. The `circuit` is 
 set up so the workflow is triggered when the circuit resolves to true. In this case, 
-when there is a new commit to either of the `dicty-stock-center` or `dicty-frontpage` repos, 
-the circuit is true.
+when there is a new commit to either of the `dicty-stock-center` or `dicty-frontpage` 
+repos, the circuit is true.
 4) Add a new `template` for that particular group. Follow the format below and 
 modify accordingly. In this example, we trigger the workflow `when all` of the 
 `dictyfrontpage` events are resolved. Same with `dictystockcenter`.
