@@ -10,10 +10,10 @@ Table of Contents
       * [Event Sources](#event-sources)
       * [Sensors](#sensors)
   * [GitHub Setup](#github-setup)
-      * [Enable Ingress](#enable-ingress)
-      * [Enable GitHub Webhooks](#enable-github-webhooks)
-      * [Generate GitHub personal access token (apiToken)](#generate-github-personal-access-token-apitoken)
-      * [Generate Kubernetes secret](#generate-kubernetes-secret)
+      * [Ingress](#enable-ingress)
+      * [GitHub Webhooks](#enable-github-webhooks)
+      * [GitHub personal access token (apiToken)](#generate-github-personal-access-token-apitoken)
+      * [Kubernetes secret](#generate-kubernetes-secret)
       * [Gateway](#gateway)
       * [Event Source](#event-source)
       * [Sensor](#sensor)
@@ -26,6 +26,8 @@ Table of Contents
         * [Helpful Links](#helpful-links-1)
 
 Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc)
+
+---
 
 Here we will go through the process of setting up Argo Events in a cluster. Our 
 goals in using these tools are twofold:
@@ -175,7 +177,8 @@ endpoint/port and the tokens from the K8s secret. For Minio, you would need to
 provide the s3 service endpoint, bucket name, events and the keys from the K8s
 secret.
 
-Here's a fragment example of how to create a GitHub event source with name `dicty-stock-center`. This same template would need to be used and customized 
+Here's a fragment example of how to create a GitHub event source with name 
+`dicty-stock-center`. This same template would need to be used and customized 
 for every repository we want to connect.
 
 ```yaml
@@ -209,12 +212,10 @@ For a comparison, here's how you would define an event source for Minio:
   minio-example: |-
     bucket:
       name: input
-    # s3 service endpoint
     endpoint: minio.dictybase:9000
     events:
      - s3:ObjectCreated:Put
      - s3:ObjectCreated:Post
-    # no filter needed
     filter:
       prefix: ""
       suffix: ""
@@ -227,6 +228,9 @@ For a comparison, here's how you would define an event source for Minio:
       name: minio
 ```
 
+There should be only one event source for each type of event (i.e. one configmap 
+for all GitHub webhooks, and a separate configmap for Minio notifications).
+
 ### Sensors
 
 Sensors define a set of event dependencies (inputs) and triggers (outputs). 
@@ -237,7 +241,7 @@ Triggers are executed once the event dependencies are resolved.
 </p>
 
 An event dependency is the event the sensor is waiting for. It is defined as 
-`gateway-name:event-source-name`. For example, if you created an `event-source` 
+`gateway-name:event-source-name`. For example, if you created a GitHub `event-source` 
 with the name `dicty-stock-center`, the event dependency name would be 
 `github-gateway:dicty-stock-center`.
 
@@ -259,16 +263,17 @@ head commit URL from the webhook response of two different repositories:
         - src:
             event: "github-gateway:dicty-stock-center"
             path: "head_commit.url"
-            # value:
           dest: spec.arguments.parameters.0.value
         - src:
             event: "github-gateway:dicty-frontpage"
             path: "head_commit.url"
-            # value:
           dest: spec.arguments.parameters.0.value
 ```
 
-For the triggers, you have to set up an [Argo Workflow](https://argoproj.github.io/docs/argo/examples/readme.html).
+For the triggers, you have to set up an [Argo Workflow](https://argoproj.github.io/docs/argo/examples/readme.html). 
+There are [many types of ways](https://argoproj.github.io/argo-events/trigger/) 
+to trigger a workflow, but in this guide we will be using the `URL` method (linking 
+to an Argo Workflow YAML hosted elsewhere).
 
 There are more full examples of these in the GitHub and Minio sections below.
 
@@ -277,7 +282,7 @@ There are more full examples of these in the GitHub and Minio sections below.
 In order to integrate GitHub webhooks with Argo Events, we will need to enable 
 Ingress, create a personal access token and set up all of our wanted webhooks.
 
-### Enable Ingress
+### Ingress
 
 Ingress is necessary in order to get the service URL that exposes the gateway 
 server and makes it reachable from GitHub.
@@ -307,7 +312,7 @@ spec:
     secretName: argo-eric-dev-tls
 ```
 
-### Enable GitHub Webhooks
+### GitHub Webhooks
 
 There are two ways to create a personal access token -- either through the command 
 line or on GitHub. This guide will use the command line to create a webhook.
@@ -385,11 +390,13 @@ password. If successful you will receive a response like this:
 **IMPORTANT: copy the `id` value immediately.** This is your webhook ID, and it 
 is needed for generating a Kubernetes secret very soon.
 
-### Generate GitHub personal access token (apiToken)
+You will need to do this for **every** webhook you want to set up.
 
-If you already have a personal access token that you want to use, you can skip 
-this part. However, it may be preferable to generate a new token specifically for 
-Argo usage.
+### GitHub personal access token (apiToken)
+
+**You only need to do this once.** If you already have a personal access token 
+that you want to use, you can skip this part. However, it may be preferable to 
+generate a new token specifically for Argo usage.
 
 There are two ways to create a personal access token -- either through the command 
 line or on [GitHub](https://github.com/settings/tokens). In this guide, we will 
@@ -447,7 +454,7 @@ password. If successful you will receive a response like this:
 **IMPORTANT: copy the `token` value immediately.** You will need this for the next 
 section.
 
-### Generate Kubernetes secret
+### Kubernetes secret
 
 You need to create a [Kubernetes secret](https://kubernetes.io/docs/concepts/configuration/secret/) 
 with both your webhook secret and personal access token. It is preferable to 
@@ -526,13 +533,14 @@ endpoint.
 Some important notes:
 
 - `id` is the ID of the webhook you created
-- `hook.port` needs to be the same as the gateway service
+- `hook.port` needs to be the same as the gateway service port
 - `hook.url` is the URL the gateway uses to register at GitHub
 - `apiToken` and `webHookSecret` both need their name and key from the K8s secret
 - `insecure` is the type of connection between the gateway and GitHub
 - `active` determines if notifications are sent when a webhook is triggered
 
-This example will create two events.
+This example will create two events. You can add as many as you like by following 
+the format used for the `dicty-stock-center` and `dicty-frontpage` examples.
 
 - Create a new yaml file (`github-event-source.yaml`).
 
@@ -643,9 +651,6 @@ spec:
 ![](userinput.png)
 >`$_> kubectl apply -f github-sensor.yaml -n argo-events`
 
-Now you can test this out by creating issues, leaving comments, etc. inside of 
-the GitHub repository you set up the webhook for.
-
 #### Helpful Links
 
 - [GitHub Webhook events documentation](https://developer.github.com/webhooks/)
@@ -723,7 +728,7 @@ to subscribe to.
 
 `filter` can listen to specific types of files. Otherwise just pass empty strings.
 
-`accessKey` and `secretKey` need to the location of the corresponding K8s secret.
+`accessKey` and `secretKey` need to match the location of the corresponding K8s secret.
 
 - Create a new yaml file (`artifact-event-source.yaml`).
 
@@ -804,4 +809,4 @@ spec:
 
 #### Helpful Links
 
-[Event Message Structure](https://docs.aws.amazon.com/AmazonS3/latest/dev/notification-content-structure.html)
+[Minio Event Message Structure](https://docs.aws.amazon.com/AmazonS3/latest/dev/notification-content-structure.html)
