@@ -262,6 +262,7 @@ It is recommended to set up a `dependencyGroup` for each `dependency` you wish t
 monitor. An example:
 
 ```yaml
+  dependencyGroups:
     - name: "dictystockcenter"
       dependencies:
         - "github-gateway:dicty-stock-center"
@@ -284,6 +285,7 @@ You will then need to create a `template` for each `dependencyGroup` with the
 following format:
 
 ```yaml
+  triggers:
     - template:
         when:
           all:
