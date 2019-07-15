@@ -66,6 +66,7 @@
 14) Install frontend web apps
     - dicty-stock-center
     - dicty-frontpage
+        - add files for download section to minio
     - genomepage
     - dictyaccess
     - publication
