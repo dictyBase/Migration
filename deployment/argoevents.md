@@ -2,9 +2,11 @@ Table of Contents
 =================
 
   * [Prerequisites](#prerequisites)
-  * [Helm Charts Installation](#helm-charts-installation)
-      * [Cluster Roles](#cluster-roles)
+  * [Initial Steps](#initial-steps)
   * [Issuer and Certificate](#issuer-and-certificate)
+  * [Helm Charts Installation](#helm-charts-installation)
+      * [Installing Argo](#installing-argo)
+      * [Installing Argo Events](#installing-argo-events)
   * [Understanding Argo Events](#understanding-argo-events)
       * [Gateways](#gateways)
       * [Event Sources](#event-sources)
@@ -14,10 +16,7 @@ Table of Contents
       * [GitHub Webhooks](#github-webhooks)
       * [GitHub personal access token (apiToken)](#github-personal-access-token-apitoken)
       * [Kubernetes secret](#kubernetes-secret)
-      * [Gateway](#gateway)
-      * [Event Source](#event-source)
-      * [Sensor](#sensor)
-        * [Helpful Links](#helpful-links)
+      * [Argo Pipeline](#argo-pipeline)
   * [Minio Setup](#minio-setup)
       * [Kubernetes Secret](#kubernetes-secret)
       * [Gateway](#gateway-1)
@@ -39,52 +38,25 @@ repositories (i.e. commits).
 anything that creates a new file or updates existing files.
 
 ## Prerequisites
-* Have a `configured (kubectl access)`
-  [GKE](https://cloud.google.com/kubernetes-engine/) access.
-* [Setup](admin.md) cluster admin access.
+* `Configured (kubectl access)` [GKE](https://cloud.google.com/kubernetes-engine/) access.
+* [Cluster admin](admin.md) access.
 * [Cert-Manager](certificate.md) installed.
 * [Minio](minio.md) installed.
 
-## Helm Charts Installation
+## Initial Steps
 
-The official Argo Helm charts will do an installation with all of the necessary 
-custom resource definitions, configmaps and controllers required to run both Argo 
-and Argo Events.
+- First create a namespace
 
-- First create namespaces
-
-![](userinput.png)
 > `$_> kubectl create namespace argo`
-
-![](userinput.png)
-> `$_> kubectl create namespace argo-events`
 
 - Add `argoproj` repository
 
-![](userinput.png)
 > `$_> helm repo add argo https://argoproj.github.io/argo-helm`
-
-- Install `argo` chart
-
-![](userinput.png)
-> `$_> helm install argo/argo --version 0.4.0 --namespace argo`
-
-- Install `argo-events` chart
-
-![](userinput.png)
-> `$_> helm install argo/argo-events --version 0.4.2 --namespace argo-events`
-
-### Cluster Roles
-
-The `argo` Helm chart installs everything needed; however, its service account 
-may need to have additional permissions. If the workflow is not working as 
-expected, check the `gateway` logs and [create a role](https://kubernetes.io/docs/reference/access-authn-authz/rbac/#command-line-utilities) 
-for the service account if necessary.
 
 ## Issuer and Certificate
 
 You will need to create a new issuer and certificate -- these are required in 
-order to set up Ingress (needed for GitHub webhooks).
+order to set up Ingress (needed for GitHub webhooks and displaying Argo UI).
 
 __Issuer__
 ```yaml
@@ -92,7 +64,7 @@ apiVersion: certmanager.k8s.io/v1alpha1
 kind: Issuer
 metadata:
   name: argo-eric-dev
-  namespace: argo-events
+  namespace: argo
 spec:
   acme:
     # The ACME server URL
@@ -115,7 +87,7 @@ apiVersion: certmanager.k8s.io/v1alpha1
 kind: Certificate
 metadata:
   name: dictyargo-eric-dev
-  namespace: argo-events
+  namespace: argo
 spec:
   secretName: argo-eric-dev-tls
   issuerRef:
@@ -133,6 +105,157 @@ spec:
 
 ![](userinput.png)
 > `$_> kubectl apply -f certificate.yaml`
+
+## Helm Charts Installation
+
+The official Argo Helm charts will do an installation with all of the necessary 
+custom resource definitions, configmaps and controllers required to run both Argo 
+and Argo Events.
+
+### Installing Argo
+
+- Create secret for Minio in `argo` namespace
+
+![](userinput.png)
+> `$_> kubectl create secret generic minio-access \`      
+> `--from-literal=accesskey=YOUR_ACCESSKEY_HERE... \`     
+> `--from-literal=secretkey=YOUR_SECRETKEY_HERE... -n argo`
+
+- Create RBAC
+
+```yaml
+# Role specifications are taken from here
+# https://github.com/argoproj/argo/blob/master/manifests/namespace-install.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: argo-workflow
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: argo-workflow-role
+rules:
+  - apiGroups:
+      - ""
+    resources:
+      - pods
+      - pods/exec
+    verbs:
+      - create
+      - get
+      - list
+      - watch
+      - update
+      - patch
+      - delete
+  - apiGroups:
+      - ""
+    resources:
+      - configmaps
+    verbs:
+      - get
+      - watch
+      - list
+  - apiGroups:
+      - ""
+    resources:
+      - persistentvolumeclaims
+    verbs:
+      - create
+      - delete
+  - apiGroups:
+      - ""
+    resources:
+      - secrets
+    verbs:
+      - create
+      - get
+      - watch
+      - list
+  - apiGroups:
+      - argoproj.io
+    resources:
+      - workflows
+      - workflows/finalizers
+    verbs:
+      - get
+      - list
+      - watch
+      - update
+      - patch
+      - delete
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: argo-binding
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: argo-workflow-role
+subjects:
+  - kind: ServiceAccount
+    name: argo-workflow
+```
+
+![](userinput.png)
+> `$_> kubectl apply -f argo-rbac.yaml -n argo`    
+
+- Create custom config for `argo` chart with file name of say, `argo-dev.yaml`
+
+```yaml
+init:
+  serviceAccount: argo-workflow
+controller:
+  workflowNamespaces:
+    - argo
+images:
+  tag: v2.3.0
+ui:
+  ingress:
+    enabled: true
+    annotations:
+      kubernetes.io/ingress.class: nginx
+    hosts:
+      - ericargo.dictybase.dev
+    tls:
+      - secretName: argo-eric-dev-tls # same tls you created earlier
+        hosts:
+          - ericargo.dictybase.dev
+# Influences the creation of the ConfigMap for the workflow-controller itself.
+useDefaultArtifactRepo: true
+artifactRepository:
+  # archiveLogs will archive the main container logs as an artifact
+  archiveLogs: false
+  s3:
+    # Note the `key` attribute is not the actual secret, it's the PATH to
+    # the contents in the associated secret, as defined by the `name` attribute.
+    accessKeySecret:
+      name: minio-access
+      key: accesskey
+    secretKeySecret:
+      name: minio-access
+      key: secretkey
+    insecure: false
+    bucket: argo
+    endpoint: ericstorage.dictybase.dev
+```
+
+- Install `argo` chart with this config
+
+![](userinput.png)
+> `$_> helm install argo/argo --version 0.4.0 -f argo-dev.yaml --namespace argo`
+
+### Installing Argo Events
+
+- Install `argo-events` chart
+
+![](userinput.png)
+> `$_> helm install argo/argo-events --version 0.4.2 --namespace argo --set namespace=argo`
+
+**Note:** make sure to set the namespace as defined above, as it is not enough to just install 
+this in the `argo` namespace.
 
 ## Understanding Argo Events
 
@@ -286,7 +409,7 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: nginx
   name: github-gateway-svc
-  namespace: argo-events
+  namespace: argo
 spec:
   rules:
   - host: ericargo.dictybase.dev
@@ -458,238 +581,19 @@ verification problems.
 ![](userinput.png)
 >`$_> kubectl create secret generic github-access \`     
 > `--from-literal=apiToken=YOUR_TOKEN_HERE \`     
-> `--from-literal=webHookSecret=YOUR_SECRET_HERE -n argo-events`
+> `--from-literal=webHookSecret=YOUR_SECRET_HERE -n argo`
 
-### Gateway
+### Argo Pipeline
 
-- Create a new yaml file (`github-gateway.yaml`).
+There is a Helm chart containing the necessary GitHub gateway, event source and 
+sensor. See its [values](https://github.com/dictybase-docker/kubernetes-charts/blob/master/argo-pipeline/values.yaml) 
+file for what to customize when installing.
 
-```yaml
-apiVersion: argoproj.io/v1alpha1
-kind: Gateway
-metadata:
-  name: github-gateway
-  labels:
-    gateways.argoproj.io/gateway-controller-instanceid: argo-events
-    argo-events-gateway-version: v0.10
-spec:
-  type: "github"
-  # eventSource matches name of event source
-  eventSource: "github-event-source"
-  processorPort: "9330"
-  eventProtocol:
-    type: "HTTP"
-    http:
-      port: "9300"
-  template:
-    metadata:
-      name: "github-gateway"
-      labels:
-        gateway-name: "github-gateway"
-    spec:
-      containers:
-        - name: "gateway-client"
-          image: "argoproj/gateway-client"
-          imagePullPolicy: "Always"
-          command: ["/bin/gateway-client"]
-        - name: "github-events"
-          image: "argoproj/github-gateway"
-          imagePullPolicy: "Always"
-          command: ["/bin/github-gateway"]
-      serviceAccountName: "argo-events-sa"
-  service:
-    metadata:
-      name: github-gateway-svc
-    spec:
-      selector:
-        gateway-name: "github-gateway"
-      ports:
-        - port: 12000
-          targetPort: 12000
-      type: NodePort
-  watchers:
-    sensors:
-      # each name should match the corresponding sensor
-      - name: "github-sensor"
-```
+At minimum, you will need to provide a list of webhooks (defined by `hooks`), as well as 
+lists of all applicable `frontend`, `backend` and `backendNoTests` repositories.
 
 ![](userinput.png)
->`$_> kubectl apply -f github-gateway.yaml -n argo-events`
-
-### Event Source
-
-Inside `data.hook`, the service needs to be mapped to the Ingress that was set 
-up earlier . It is preferred to name the `endpoint` based on the name of the 
-repository you are connected to. Multiple subpaths can be defined under this 
-endpoint.
-
-Some important notes:
-
-- `id` is the ID of the webhook you created
-- `hook.port` needs to be the same as the gateway service port
-- `hook.url` is the URL the gateway uses to register at GitHub
-- `apiToken` and `webHookSecret` both need their name and key from the K8s secret
-- `insecure` is the type of connection between the gateway and GitHub
-- `active` determines if notifications are sent when a webhook is triggered
-
-This example will create two events. You can add as many as you like by following 
-the format used for the `dicty-stock-center` and `dicty-frontpage` examples.
-
-- Create a new yaml file (`github-event-source.yaml`).
-
-```yaml
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: github-event-source
-  labels:
-    argo-events-event-source-version: v0.10
-data:
-  dicty-stock-center: |-
-    id: 123456
-    owner: "dictybase"
-    repository: "dicty-stock-center"
-    hook:
-     endpoint: "/github/dicty-stock-center"
-     port: "12000"
-     url: "https://ericargo.dictybase.dev"
-    events:
-    - "push"
-    apiToken:
-      name: github-access
-      key: apiToken
-    webHookSecret:
-      name: github-access
-      key: webHookSecret
-    insecure: false
-    active: true
-    contentType: "json"
-  dicty-frontpage: |-
-    id: 123789
-    owner: "dictybase"
-    repository: "dicty-frontpage"
-    hook:
-     endpoint: "/github/dicty-frontpage"
-     port: "12000"
-     url: "https://ericargo.dictybase.dev"
-    events:
-    - "push"
-    apiToken:
-      name: github-access
-      key: apiToken
-    webHookSecret:
-      name: github-access
-      key: webHookSecret
-    insecure: false
-    active: true
-    contentType: "json"
-```
-
-![](userinput.png)
->`$_> kubectl apply -f github-event-source.yaml -n argo-events`
-
-### Sensor
-
-The following example is very basic. We have set up a URL trigger that uses 
-a [YAML config file](https://raw.githubusercontent.com/dictybase-playground/argo-test/master/config.yaml) 
-which in turn points to a Docker container. An environmental variable is passed 
-to the Dockerfile with the contents of our webhook JSON response. The only 
-purpose of this Dockerfile is to print the JSON to the console, but it shows 
-how this can be set up to later work with more complex use cases.
-
-This example is set up for two repositories -- `dicty-stock-center` and `dicty-frontpage`. 
-For each repo, you need to go through the following process:
-
-1) Add the event as a dependency. Remember, the name format is `gateway-name:event-source-name`.
-2) Create a new `dependencyGroup` for that individual repo. Note that you cannot 
-use hyphens in the `name` value (hence why this uses `dictystockcenter` instead of 
-`dicty-stock-center`).
-3) Update the `circuit` value to include this new group name. The `circuit` is 
-set up so the workflow is triggered when the circuit resolves to true. In this case, 
-when there is a new commit to either of the `dicty-stock-center` or `dicty-frontpage` 
-repos, the circuit is true.
-4) Add a new `template` for that particular group. Follow the format below and 
-modify accordingly. In this example, we trigger the workflow `when all` of the 
-`dictyfrontpage` events are resolved. Same with `dictystockcenter`.
-
-This will have to be done with every repo we need to monitor, so this will ultimately 
-be a very large config file.
-
-- Create a new yaml file (`github-sensor.yaml`).
-
-```yaml
-apiVersion: argoproj.io/v1alpha1
-kind: Sensor
-metadata:
-  name: github-sensor
-  labels:
-    sensors.argoproj.io/sensor-controller-instanceid: argo-events
-    argo-events-sensor-version: v0.10
-spec:
-  template:
-    spec:
-      containers:
-        - name: "sensor"
-          image: "argoproj/sensor"
-          imagePullPolicy: Always
-      serviceAccountName: argo-events-sa
-  dependencies:
-    - name: "github-gateway:dicty-stock-center"
-    - name: "github-gateway:dicty-frontpage"
-  dependencyGroups:
-    - name: "dictystockcenter"
-      dependencies:
-        - "github-gateway:dicty-stock-center"
-    - name: "dictyfrontpage"
-      dependencies:
-        - "github-gateway:dicty-frontpage"
-  circuit: "dictystockcenter || dictyfrontpage"
-  eventProtocol:
-    type: "HTTP"
-    http:
-      port: "9300"
-  triggers:
-    - template:
-        when:
-          all:
-            - "dictyfrontpage"
-        name: github-frontpage-workflow-trigger
-        group: argoproj.io
-        version: v1alpha1
-        kind: Workflow
-        source:
-          url:
-            path: "https://raw.githubusercontent.com/dictybase-playground/argo-test/master/config.yaml"
-            verifycert: false
-      resourceParameters:
-        - src:
-            event: "github-gateway:dicty-frontpage"
-          dest: spec.arguments.parameters.0.value
-    - template:
-        when:
-          all:
-            - "dictystockcenter"
-        name: github-dictystockcenter-workflow-trigger
-        group: argoproj.io
-        version: v1alpha1
-        kind: Workflow
-        source:
-          url:
-            path: "https://raw.githubusercontent.com/dictybase-playground/argo-test/master/config.yaml"
-            verifycert: false
-      resourceParameters:
-        - src:
-            event: "github-gateway:dicty-stock-center"
-          dest: spec.arguments.parameters.0.value
-```
-
-![](userinput.png)
->`$_> kubectl apply -f github-sensor.yaml -n argo-events`
-
-#### Helpful Links
-
-- [GitHub Webhook events documentation](https://developer.github.com/webhooks/)
-- [GitHub Webhook Push event payload](https://developer.github.com/v3/activity/events/types/#pushevent)
+>`$_> helm install dictybase/argo-pipeline --namespace argo`
 
 ## Minio Setup
 
@@ -697,12 +601,10 @@ This will show how to capture `POST` and `PUT` requests to a Minio bucket.
 
 ### Kubernetes Secret
 
-This guide asssumes that your installation of Minio is in the `dictybase` namespace. 
-You will need to copy over your `minio` secret from the `dictybase` namespace.
+This guide asssumes that your installation of Minio is in the `dictybase` namespace and 
+that you have already created a `minio-access` secret in the `argo` namespace.
 
-![](userinput.png)
->`$_> kubectl get secret minio -n dictybase --export -o yaml | \`     
-> `kubectl apply -n argo-events -f -`
+See [above](#installing-argo).
 
 ### Gateway
 
@@ -749,7 +651,7 @@ spec:
 ```
 
 ![](userinput.png)
->`$_> kubectl apply -f artifact-gateway.yaml -n argo-events`
+>`$_> kubectl apply -f artifact-gateway.yaml -n argo`
 
 ### Event Source
 
@@ -788,14 +690,14 @@ data:
     insecure: true
     accessKey:
       key: accesskey
-      name: minio
+      name: minio-access
     secretKey:
       key: secretkey
-      name: minio
+      name: minio-access
 ```
 
 ![](userinput.png)
->`$_> kubectl apply -f artifact-event-source.yaml -n argo-events`
+>`$_> kubectl apply -f artifact-event-source.yaml -n argo`
 
 ### Sensor
 
@@ -840,7 +742,7 @@ spec:
 ```
 
 ![](userinput.png)
->`$_> kubectl apply -f artifact-sensor.yaml -n argo-events`
+>`$_> kubectl apply -f artifact-sensor.yaml -n argo`
 
 #### Helpful Links
 
