@@ -2,7 +2,7 @@
 [Ingress](https://kubernetes.io/docs/concepts/services-networking/ingress/#what-is-ingress)
 manages external access to services in kubernetes cluster. To configure ingress access we need to install
 * nginx-controller
-* cert-manager for https access
+* [cert-manager](certificate.md) for https access
 * ingress manifests for opening up services
 
 ## Install nginx controller 
