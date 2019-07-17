@@ -18,8 +18,7 @@
 7. [Install Ingress](ingress.md)
    - install nginx-controller
    - install cert-manager
-   - create issuer
-   - create certificate
+   - create issuer and certificate
    - install dictybase-auth-ingress
    - install dictybase-ingress
 8. [Install Minio](minio.md)
@@ -31,16 +30,15 @@
 10. [Install Argo](argoevents.md)
     - create argo namespace
     - add argo helm repo
-    - create issuer
-    - create certificate
+    - create issuer and certificate
     - create minio secret
-    - apply argo workflow rbac
-    - install argo w/ custom values
-    - install argo-events (same namespace)
-    - create github gateway ingress
     - create github secret
     - create slack secret
     - create docker secret
+    - create github gateway ingress
+    - apply argo workflow rbac
+    - install argo w/ custom values
+    - install argo-events (same namespace)
     - install argo-pipeline
 11. Install API services
     - content-api-server
