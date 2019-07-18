@@ -501,7 +501,8 @@ For ease of use, it is suggested to use the same secret key for all of your webh
 that way you can use the same K8s secret throughout your event sensor configmap.
 
 You will need to do this for **every** webhook you want to set up. It is advisable
-to have a script automate this process.
+to have a script automate this process. There is a Golang script to create multiple
+webhooks at once [here](https://github.com/dictybase-playground/argo-scripts).
 
 ### Kubernetes secret
 
