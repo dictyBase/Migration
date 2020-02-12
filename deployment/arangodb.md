@@ -19,7 +19,7 @@ Install two charts, a `CRD` and `deployment controller`.
 In the second step we are disabling deployment replication. For details look
 [here](https://github.com/arangodb/kube-arangodb/blob/0.3.11/docs/Manual/Deployment/Kubernetes/Helm.md)
 
-### Install arangodb server
+### Install arangodb server (single deployment)
 >`$_>  helm repo update`    
 >`$_>  helm install dictybase/arangodb --namespace dictybase \ `    
 >         `--set arangodb.dbservers.storageClass=fast \ `   
@@ -31,6 +31,24 @@ default. To see what else you can customize, check out the chart
 [README](https://github.com/dictybase-docker/kubernetes-charts/tree/master/arangodb).
 
 ## Upgrade existing ArangoDB server
+### Upgrade server instance
+By default the chart will install the ArangoDB version `3.5.4`. To use another,
+pick a different version from
+[here](https://hub.docker.com/_/arangodb/?tab=tags)
+
+>`$_>  helm repo update`   
+>`$_>  helm upgrade [RELEASE NAME] dictybase/arangodb \`    
+>        `--set=image.tag=[VERSION] --namespace dictybase`
+
+##### Very important notes
+* Storage space of the database can only be increased, decreasing it is not 
+  possible (apparently PVC cannot be shrinked) The pod must be restarted to 
+  increase the storage.
+> $_> `kubectl delete pod [POD NAME] -n dictybase`
+* Use the helm chart directly to upgrade for patch versions (3.3.11 -> 3.3.23).
+  To upgrade the minor versions (3.3.23 -> 3.4.5), you should backup and restore
+  the database content in addition to the Helm chart upgrade process.
+
 ### Remove deployment (NOT CRD)
 To upgrade the operator to the latest version with Helm, you have to
 delete the previous deployment and then install the latest. **HOWEVER**:
@@ -45,8 +63,8 @@ list` output:
 ```
 % helm list
 NAME            	REVISION	UPDATED                 	STATUS  	CHART                               	APP VERSION	NAMESPACE
-steely-mule     	1       	Sun Mar 31 21:11:07 2019	DEPLOYED	kube-arangodb-crd-0.3.9             	           	default  
-vetoed-ladybird 	1       	Mon Apr  8 11:36:58 2019	DEPLOYED	kube-arangodb-0.3.10-preview        	           	default  
+steely-mule     	1       	Sun Mar 31 21:11:07 2019	DEPLOYED	kube-arangodb-crd-0.3.11             	           	default  
+vetoed-ladybird 	1       	Mon Apr  8 11:36:58 2019	DEPLOYED	kube-arangodb-0.3.11                	           	default  
 ```
 
 So here, you would have to enter
@@ -64,9 +82,6 @@ Upgrade the existing CRD (optional).
 > `$_> helm upgrade [RELEASE NAME] \`    
 >   `https://github.com/arangodb/kube-arangodb/releases/download/[VERSION]/kube-arangodb-crd.tgz`
 
-Find and delete the existing deployment (as mentioned above).
-> `$_> helm delete [RELEASE NAME]`
-
 Next, install the operator for `ArangoDeployment` while making sure to disable deployment replication.
 > `$_> helm install \`       
 >      `https://github.com/arangodb/kube-arangodb/releases/download/[VERSION]/kube-arangodb.tgz \`    
@@ -76,15 +91,15 @@ Verify that everything is working as expected, then proceed to the next version.
 Repeat as necessary.
 
 ### Upgrading to and beyond version 0.3.16
-Starting with version 0.3.16, a few changes were made to the official Helm charts. The upgrade 
+Starting with version `0.3.16`, a few changes were made to the official Helm charts. The upgrade 
 process remains as above, however it has some differences in naming conventions.
+
+First delete the existing deployment like above.
+> `$_> helm delete [RELEASE NAME]`
 
 Upgrade the existing CRD to 0.3.16. Note that the filename now includes the version number.
 > `$_> helm upgrade [RELEASE NAME] \`    
 >   `https://github.com/arangodb/kube-arangodb/releases/download/0.3.16/kube-arangodb-crd-0.3.16.tgz`
-
-Delete the existing deployment (same as before).
-> `$_> helm delete [RELEASE NAME]`
 
 Install the matching operator for `ArangoDeployment`. Note the new format for disabling deployment replication.
 > `$_> helm install \`       
@@ -96,24 +111,6 @@ patch versions.
 
 Using database version `3.5.4` with this deployment is fine. See the notes below on how to upgrade 
 the database version.
-
-### Upgrade server instance
-By default the chart will install the ArangoDB version `3.3.23`. To use another,
-pick a different version from
-[here](https://hub.docker.com/_/arangodb/?tab=tags)
-
->`$_>  helm repo update`   
->`$_>  helm upgrade [RELEASE NAME] dictybase/arangodb \`    
->        `--set=image.tag=[VERSION] --namespace dictybase`
-
-##### Very important notes
-* Storage space of the database can only be increased, decreasing it is not 
-  possible (apparently PVC cannot be shrinked) The pod must be restarted to 
-  increase the storage.
-> $_> `kubectl delete pod [POD NAME] -n dictybase`
-* Use the helm chart directly to upgrade for patch versions (3.3.11 -> 3.3.23).
-  To upgrade the minor versions (3.3.23 -> 3.4.5), you should backup and restore
-  the database content in addition to the Helm chart upgrade process.
 
 ## Create new databases(in existing server instance)
 ```yaml
