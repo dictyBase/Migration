@@ -89,7 +89,7 @@ Delete the existing deployment (same as before).
 Install the matching operator for `ArangoDeployment`. Note the new format for disabling deployment replication.
 > `$_> helm install \`       
 >      `https://github.com/arangodb/kube-arangodb/releases/download/[VERSION]/kube-arangodb-[VERSION].tgz \`    
->      `                  `--set operators.features.deploymentReplications=false --namespace dictybase`
+>      `--set operators.features.deploymentReplications=false --namespace dictybase`
 
 Release 0.3.16 is the last of that minor version. From there you can upgrade the same way to `0.4.0` and its 
 patch versions.
